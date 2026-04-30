@@ -29,11 +29,7 @@ const PEOPLE: Person[] = [
 ];
 
 const DEFAULT_SHOP: ShopItem[] = [
-  {
-    name: "Kiełbaski & karkówka",
-    who: "Tomek.",
-    done: false,
-  },
+  { name: "Kiełbaski & karkówka", who: "Tomek.", done: false},
   { name: "Pieczywo & bułki", who: "Iza", done: false },
   { name: "Piwo (zgrzewka)", who: "Piotrek", done: false },
   { name: "Wino & napoje", who: "Tomek", done: false },
@@ -45,12 +41,11 @@ const DEFAULT_SHOP: ShopItem[] = [
 
 const DEFAULT_GEAR: GearItem[] = [
   { name: "Talerzyki", who: "Krzysztof", done: false },
-  { name: "Wsiąść do pociągu", who: "Marta", done: false },
+  { name: "Warzywa i owoce", who: "Marta", done: false },
   { name: "Codenames", who: "Iza", done: false },
   { name: "Głośnik bluetooth", who: "Marcin", done: false },
   { name: "Przedłużacz", who: "Tomek", done: false },
-  {name: "Kijki do marshmallows", who: "Marta", done: false,
-  },
+  { name: "Kijki do marshmallows", who: "Marta", done: false },
 ];
 
 const PERSONAL_ITEMS = [
@@ -80,7 +75,6 @@ interface EventSettings {
   location: string;
   venue: string;
   venueAddress: string;
-  venuePhone: string;
 }
 
 const DEFAULT_SETTINGS: EventSettings = {
@@ -131,11 +125,11 @@ export default function App() {
 
   const [shopInput, setShopInput] = useState("");
   const [shopWho, setShopWho] = useState(
-    people[0]?.name || "Marek K.",
+    people[0]?.name || "Marcin",
   );
   const [gearInput, setGearInput] = useState("");
   const [gearWho, setGearWho] = useState(
-    people[0]?.name || "Marek K.",
+    people[0]?.name || "Tomek",
   );
 
   const [newPersonName, setNewPersonName] = useState("");
@@ -270,7 +264,7 @@ export default function App() {
           />
           <div className="relative">
             <div className="text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D6A4F] mb-2">
-              Wypad firmowy
+              Spotkanie integracyjne
             </div>
             <h1 className="text-[26px] font-semibold tracking-tight leading-tight mb-1">
               {settings.title}
