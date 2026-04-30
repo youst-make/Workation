@@ -357,7 +357,7 @@ export default function App() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass("av-p")}`}
                 >
-                  IZB
+                  ISB
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
@@ -384,8 +384,6 @@ export default function App() {
                   </div>
                 </div>
               </div>
-
-              <div className="h-px bg-[#E2DDD5] my-3"></div>
 
               {/* Car 2 */}
               <div className="flex items-center gap-3 py-2.5 border-b border-[#E2DDD5]">
