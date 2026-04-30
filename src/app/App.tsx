@@ -497,11 +497,6 @@ export default function App() {
                   label: "Adres",
                   value: settings.venueAddress,
                 },
-                {
-                  label: "Kontakt",
-                  value: settings.venuePhone,
-                  blue: true,
-                },
                 { label: "Check-in", value: "od 15:00" },
                 {
                   label: "Check-out",
@@ -796,6 +791,12 @@ export default function App() {
                     desc: "Rozlokowanie w pokojach, zwiedzanie obiektu",
                     dot: "bg-[#2D6A4F]",
                   },
+                  {
+                    time: "10:00 - 16:00",
+                    name: "Praca zadalna",
+                    desc: "Wirujące klawiatury",
+                    dot: "bg-[#2D6A4F]",
+                  }
                   {
                     time: "16:00",
                     name: "Grill & napoje",
@@ -1164,22 +1165,6 @@ export default function App() {
                       setSettings((prev) => ({
                         ...prev,
                         venueAddress: e.target.value,
-                      }))
-                    }
-                    className="w-full text-sm px-3 py-2 border border-[#E2DDD5] rounded-lg bg-[#F0EDE6] text-[#1A1814] outline-none focus:border-[#2D6A4F] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-[#7A7570] mb-1.5">
-                    Telefon kontaktowy
-                  </label>
-                  <input
-                    type="text"
-                    value={settings.venuePhone}
-                    onChange={(e) =>
-                      setSettings((prev) => ({
-                        ...prev,
-                        venuePhone: e.target.value,
                       }))
                     }
                     className="w-full text-sm px-3 py-2 border border-[#E2DDD5] rounded-lg bg-[#F0EDE6] text-[#1A1814] outline-none focus:border-[#2D6A4F] transition-colors"
