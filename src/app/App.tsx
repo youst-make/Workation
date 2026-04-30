@@ -44,14 +44,14 @@ const DEFAULT_SHOP: ShopItem[] = [
 ];
 
 const DEFAULT_GEAR: GearItem[] = [
-  { name: "Talerzyki", who: "Iza", done: false },
-  { name: "Wsiąść do pociągu", who: "Piotrek T.", done: false },
-  { name: "Codenames", who: "Kasia L.", done: false },
-  { name: "Głośnik bluetooth", who: "Bartek N.", done: false },
-  { name: "Przedłużacz", who: "Marek K.", done: false },
+  { name: "Talerzyki", who: "Krzysztof", done: false },
+  { name: "Wsiąść do pociągu", who: "Marta", done: false },
+  { name: "Codenames", who: "Iza", done: false },
+  { name: "Głośnik bluetooth", who: "Marcin", done: false },
+  { name: "Przedłużacz", who: "Tomek", done: false },
   {
     name: "Kijki do marshmallows",
-    who: "Julia W.",
+    who: "Marta",
     done: false,
   },
 ];
@@ -89,11 +89,11 @@ interface EventSettings {
 const DEFAULT_SETTINGS: EventSettings = {
   title: "Workation — Wieś Mazowiecka",
   subtitle: "Wypad integracyjny zespołu · piątek–sobota",
-  date: "9 maja 2025",
-  location: "Radość k. Garwolina",
-  venue: 'Agroturystyka "Pod Dębem"',
-  venueAddress: "ul. Polna 12, Radość k. Garwolina",
-  venuePhone: "+48 602 123 456",
+  date: "10 lipca 2026",
+  location: "Żulin",
+  venue: 'Stodoła Artystów',
+  venueAddress: "Żulin 1, 07-104",
+  venuePhone: "null",
 };
 
 export default function App() {
@@ -348,10 +348,10 @@ export default function App() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
-                    Marek K.
+                    Marcin
                   </div>
                   <div className="text-xs text-[#7A7570] mt-0.5">
-                    Volvo V60 · wyjazd Wola 14:00
+                    · wyjazd 08:00
                   </div>
                 </div>
                 <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#D8F3DC] text-[#2D6A4F] border border-[#B7E4C7] flex-shrink-0">
@@ -367,7 +367,7 @@ export default function App() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
-                    Ania S.
+                    Marta
                   </div>
                   <div className="text-xs text-[#7A7570] mt-0.5">
                     Pasażer → auto Marka
