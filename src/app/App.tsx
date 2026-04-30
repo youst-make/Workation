@@ -35,16 +35,16 @@ const DEFAULT_SHOP: ShopItem[] = [
     done: false,
   },
   { name: "Pieczywo & bułki", who: "Iza", done: false },
-  { name: "Piwo (zgrzewka)", who: "Piotrek T.", done: false },
-  { name: "Wino & napoje", who: "Julia W.", done: false },
-  { name: "Warzywa & sałatki", who: "Kasia L.", done: false },
-  { name: "Marshmallows", who: "Bartek N.", done: false },
-  { name: "Podpałka & węgiel", who: "Marek K.", done: false },
-  { name: "Papier toaletowy", who: "Julia W.", done: false },
+  { name: "Piwo (zgrzewka)", who: "Piotrek", done: false },
+  { name: "Wino & napoje", who: "Tomek", done: false },
+  { name: "Warzywa & sałatki", who: "Marta", done: false },
+  { name: "Marshmallows", who: "Justyna", done: false },
+  { name: "Podpałka & węgiel", who: "Krzysztof", done: false },
+  { name: "Napoje", who: "Marcin", done: false },
 ];
 
 const DEFAULT_GEAR: GearItem[] = [
-  { name: "Catan", who: "Iza", done: false },
+  { name: "Talerzyki", who: "Iza", done: false },
   { name: "Wsiąść do pociągu", who: "Piotrek T.", done: false },
   { name: "Codenames", who: "Kasia L.", done: false },
   { name: "Głośnik bluetooth", who: "Bartek N.", done: false },
