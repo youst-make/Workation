@@ -49,10 +49,7 @@ const DEFAULT_GEAR: GearItem[] = [
   { name: "Codenames", who: "Iza", done: false },
   { name: "Głośnik bluetooth", who: "Marcin", done: false },
   { name: "Przedłużacz", who: "Tomek", done: false },
-  {
-    name: "Kijki do marshmallows",
-    who: "Marta",
-    done: false,
+  {name: "Kijki do marshmallows", who: "Marta", done: false,
   },
 ];
 
@@ -87,13 +84,12 @@ interface EventSettings {
 }
 
 const DEFAULT_SETTINGS: EventSettings = {
-  title: "Workation — Wieś Mazowiecka",
-  subtitle: "Wypad integracyjny zespołu · piątek–sobota",
+  title: "Workation — Żulin",
+  subtitle: "Workation · Itegracja zespołu · piątek–sobota",
   date: "10 lipca 2026",
   location: "Żulin",
   venue: 'Stodoła Artystów',
   venueAddress: "Żulin 1, 07-104",
-  venuePhone: "null",
 };
 
 export default function App() {
@@ -312,9 +308,7 @@ export default function App() {
             { id: "rzeczy" as TabType, label: "🎒 Co zabrać" },
             { id: "plan" as TabType, label: "📋 Plan dnia" },
             { id: "zrzutka" as TabType, label: "💸 Zrzutka" },
-            {
-              id: "ustawienia" as TabType,
-              label: "⚙️ Ustawienia",
+            { id: "ustawienia" as TabType, label: "⚙️ Ustawienia",
             },
           ].map((tab) => (
             <button
@@ -344,7 +338,7 @@ export default function App() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass("av-g")}`}
                 >
-                  MK
+                  MA
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
@@ -363,14 +357,14 @@ export default function App() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass("av-p")}`}
                 >
-                  AS
+                  IZB
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
-                    Marta
+                    Iza
                   </div>
                   <div className="text-xs text-[#7A7570] mt-0.5">
-                    Pasażer → auto Marka
+                    Pasażer → auto Marcina
                   </div>
                 </div>
               </div>
@@ -379,14 +373,14 @@ export default function App() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass("av-b")}`}
                 >
-                  PT
+                  KW
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
-                    Piotrek T.
+                    Krzysztof
                   </div>
                   <div className="text-xs text-[#7A7570] mt-0.5">
-                    Pasażer → auto Marka
+                    Pasażer → auto Marcina
                   </div>
                 </div>
               </div>
@@ -398,14 +392,14 @@ export default function App() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass("av-c")}`}
                 >
-                  JW
+                  TS
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
-                    Julia W.
+                    Tomek
                   </div>
                   <div className="text-xs text-[#7A7570] mt-0.5">
-                    Toyota RAV4 · wyjazd Mokotów 14:30
+                    · wyjazd 08:30
                   </div>
                 </div>
                 <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#D8F3DC] text-[#2D6A4F] border border-[#B7E4C7] flex-shrink-0">
@@ -417,14 +411,14 @@ export default function App() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass("av-a")}`}
                 >
-                  BN
+                  MT
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
-                    Bartek N.
+                    Marta
                   </div>
                   <div className="text-xs text-[#7A7570] mt-0.5">
-                    Pasażer → auto Julii
+                    Pasażer → auto Tomka
                   </div>
                 </div>
               </div>
@@ -433,14 +427,14 @@ export default function App() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass("av-2")}`}
                 >
-                  KL
+                  JW
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">
-                    Kasia L.
+                    Justyna
                   </div>
                   <div className="text-xs text-[#7A7570] mt-0.5">
-                    Pasażer → auto Julii
+                    Pasażer → auto Tomka
                   </div>
                 </div>
               </div>
@@ -455,22 +449,10 @@ export default function App() {
                   label: "Start",
                   value: "Warszawa (Wola / Mokotów)",
                 },
-                { label: "Cel", value: "Radość k. Garwolina" },
-                {
-                  label: "Droga",
-                  value: "S17 → zjazd Garwolin",
-                },
+                { label: "Cel", value: "Żulin 1, 07-104" },
                 { label: "Czas jazdy", value: "~65 min" },
-                {
-                  label: "Szacowany przyjazd",
-                  value: "ok. 15:30–16:00",
-                  bold: true,
-                },
-                {
-                  label: "Adres",
-                  value: "ul. Polna 12, Radość",
-                  mono: true,
-                },
+                { label: "Szacowany przyjazd", value: "ok. 09:30–10:00"},
+                { label: "Adres", value: "Żulin 1, 07-104"},
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
@@ -555,13 +537,13 @@ export default function App() {
               {[
                 {
                   name: "Pokój 1 — duży (2 łóżka)",
-                  detail: "Marek K. · Piotrek T.",
+                  detail: "Marta · Iza · Justyna",
                   badge: "1 piętro",
                   badgeBlue: true,
                 },
                 {
                   name: "Pokój 2 — średni (2 łóżka)",
-                  detail: "Julia W. · Kasia L.",
+                  detail: "Krzysztof · Tomek · Marcin",
                   badge: "1 piętro",
                   badgeBlue: true,
                 },
@@ -803,13 +785,13 @@ export default function App() {
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#E2DDD5]"></div>
                 {[
                   {
-                    time: "14:00",
+                    time: "08:00",
                     name: "Zbiórka i wyjazd",
                     desc: "2 auta wyruszają z Warszawy",
                     dot: "bg-[#2D6A4F]",
                   },
                   {
-                    time: "15:30",
+                    time: "10:00",
                     name: "Przyjazd & check-in",
                     desc: "Rozlokowanie w pokojach, zwiedzanie obiektu",
                     dot: "bg-[#2D6A4F]",
@@ -870,7 +852,7 @@ export default function App() {
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#E2DDD5]"></div>
                 {[
                   {
-                    time: "9:00",
+                    time: "09:00",
                     name: "Wspólne śniadanie",
                     desc: "Jajecznica, pieczywo, kawa w ogrodzie",
                     dot: "bg-[#2D6A4F]",
@@ -878,7 +860,7 @@ export default function App() {
                   {
                     time: "10:30",
                     name: "Spacer / rowery",
-                    desc: "Opcjonalnie — okoliczne łąki i las",
+                    desc: "Opcjonalnie — okoliczne łąki i las oraz kleszcze",
                     dot: "bg-[#2D6A4F]",
                   },
                   {
@@ -973,10 +955,7 @@ export default function App() {
                 { name: "Grill & mięso", amount: "160 zł" },
                 { name: "Alko & napoje", amount: "120 zł" },
                 { name: "Paliwo (2 auta)", amount: "60 zł" },
-                {
-                  name: "Łącznie",
-                  amount: "820 zł",
-                  total: true,
+                { name: "Łącznie", amount: "820 zł", total: true,
                 },
               ].map((row, i, arr) => (
                 <div
@@ -1040,7 +1019,7 @@ export default function App() {
               {[
                 {
                   label: "Zbiera",
-                  value: "Marek K.",
+                  value: "Tomek",
                   bold: true,
                 },
                 {
@@ -1048,7 +1027,7 @@ export default function App() {
                   value: "PL 12 3456 7890 1234 5678 9012 3456",
                   mono: true,
                 },
-                { label: "Tytuł", value: "Workation maj 2025" },
+                { label: "Tytuł", value: "Workation lipiec 2026" },
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
