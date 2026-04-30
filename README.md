@@ -38,7 +38,3 @@ Aby hostować jako stronę:
 2. Wejdź w **Settings → Pages**
 3. Ustaw branch `main`, folder `/root`
 4. Gotowe — aplikacja dostępna pod `https://<user>.github.io/<repo>/workation.html`
-
----
-
-*Workation · Żulin · 10 lipca 2026*
