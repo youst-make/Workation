@@ -102,11 +102,10 @@ interface EventSettings {
 const DEFAULT_SETTINGS: EventSettings = {
   title: "Workation — Żulin",
   subtitle: "Wypad integracyjny: piątek–sobota",
-  date: "9 maja 2025",
+  date: "10 lipca 2026",
   location: "Żulin",
   venue: "",
   venueAddress: "Żulin 1",
-  venuePhone: "+48 602 123 456",
 };
 
 export default function App() {
@@ -683,8 +682,8 @@ export default function App() {
                   "Grill",
                   "Ognisko",
                   "WiFi",
-                  "Parking",
-                  "Kuchnia wspólna",
+                  "Czyste powietrze",
+                  "Doznania artystyczne",
                   "Duży ogród",
                 ].map((tag) => (
                   <span
@@ -1330,7 +1329,7 @@ export default function App() {
                   value: "PL 12 3456 7890 1234 5678 9012 3456",
                   mono: true,
                 },
-                { label: "Tytuł", value: "Workation Żulin 2025" },
+                { label: "Tytuł", value: "Workation Żulin 2026" },
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
