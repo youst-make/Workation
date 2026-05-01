@@ -371,12 +371,12 @@ export default function App() {
 
   const getAvatarClass = (av: string) => {
     const map: Record<string, string> = {
-      "av-g": "bg-gradient-to-br from-[#A5D6A7] to-[#81C784] text-[#1B5E20] border-3 border-[#66BB6A] shadow-md",
-      "av-a": "bg-gradient-to-br from-[#FFE082] to-[#FFD54F] text-[#F57C00] border-3 border-[#FFA000] shadow-md",
-      "av-b": "bg-gradient-to-br from-[#80DEEA] to-[#4DD0E1] text-[#006064] border-3 border-[#00ACC1] shadow-md",
-      "av-c": "bg-gradient-to-br from-[#FFAB91] to-[#FF8A65] text-[#BF360C] border-3 border-[#FF5722] shadow-md",
-      "av-p": "bg-gradient-to-br from-[#CE93D8] to-[#BA68C8] text-[#4A148C] border-3 border-[#AB47BC] shadow-md",
-      "av-2": "bg-gradient-to-br from-[#CFD8DC] to-[#B0BEC5] text-[#263238] border-3 border-[#78909C] shadow-md",
+      "av-g": "bg-gradient-to-br from-[#D4F1D4] to-[#B8E6B8] text-[#2E7D32] border-2 border-[#A5D6A7] shadow-sm",
+      "av-a": "bg-gradient-to-br from-[#FFF4D6] to-[#FFE9B3] text-[#F57C00] border-2 border-[#FFD54F] shadow-sm",
+      "av-b": "bg-gradient-to-br from-[#D1F2F9] to-[#B3E5FC] text-[#0277BD] border-2 border-[#81D4FA] shadow-sm",
+      "av-c": "bg-gradient-to-br from-[#FFE0D8] to-[#FFCCBC] text-[#D84315] border-2 border-[#FFAB91] shadow-sm",
+      "av-p": "bg-gradient-to-br from-[#EDD7F0] to-[#E1BEE7] text-[#6A1B9A] border-2 border-[#CE93D8] shadow-sm",
+      "av-2": "bg-gradient-to-br from-[#ECEFF1] to-[#CFD8DC] text-[#455A64] border-2 border-[#B0BEC5] shadow-sm",
     };
     return map[av] || map["av-2"];
   };
@@ -426,14 +426,14 @@ export default function App() {
             </div>
             <div className="flex flex-wrap gap-2.5">
               {[
-                { emoji: "📅", text: settings.date, color: "from-[#E1BEE7] to-[#CE93D8]" },
-                { emoji: "📍", text: settings.location, color: "from-[#B2EBF2] to-[#80DEEA]" },
-                settings.venue ? { emoji: "🏡", text: settings.venue, color: "from-[#C8E6C9] to-[#A5D6A7]" } : null,
-                { emoji: "👥", text: `${people.length} osób`, color: "from-[#FFECB3] to-[#FFE082]" },
+                { emoji: "📅", text: settings.date, color: "from-[#F3E5F5] to-[#E1BEE7]" },
+                { emoji: "📍", text: settings.location, color: "from-[#E0F7FA] to-[#B2EBF2]" },
+                settings.venue ? { emoji: "🏡", text: settings.venue, color: "from-[#E8F5E9] to-[#C8E6C9]" } : null,
+                { emoji: "👥", text: `${people.length} osób`, color: "from-[#FFF9E6] to-[#FFECB3]" },
               ].filter(Boolean).map((chip) => (
                 <div
                   key={chip.text}
-                  className={`text-[14px] font-semibold bg-gradient-to-r ${chip.color} rounded-full px-4 py-2 text-[#1A1A1A] shadow-md hover:scale-105 transition-transform`}
+                  className={`text-[14px] font-semibold bg-gradient-to-r ${chip.color} rounded-full px-4 py-2 text-[#424242] shadow-sm hover:scale-105 transition-transform`}
                 >
                   <span className="mr-1.5">{chip.emoji}</span>
                   {chip.text}
@@ -444,29 +444,29 @@ export default function App() {
         </div>
 
         {/* Navigation */}
-        <div className="flex gap-2.5 flex-wrap mb-6 bg-white rounded-3xl p-3 shadow-lg border-3 border-[#E1BEE7]">
+        <div className="flex gap-2.5 flex-wrap mb-6 bg-white rounded-3xl p-3 shadow-lg border-3 border-[#F3E5F5]">
           {[
             {
               id: "plan" as TabType,
               label: "📋 Plan dnia",
-              color: "from-[#FFECB3] to-[#FFE082]",
+              color: "from-[#FFF9E6] to-[#FFECB3]",
             },
             {
               id: "transport" as TabType,
               label: "🚗 Transport",
-              color: "from-[#B2EBF2] to-[#80DEEA]",
+              color: "from-[#E0F7FA] to-[#B2EBF2]",
             },
-            { id: "zrzutka" as TabType, label: "💸 Zrzutka", color: "from-[#C5E1A5] to-[#AED581]" },
-            { id: "zakupy" as TabType, label: "🛒 Zakupy", color: "from-[#FFCCBC] to-[#FFAB91]" },
-            { id: "rzeczy" as TabType, label: "🎒 Co zabrać", color: "from-[#E1BEE7] to-[#CE93D8]" },
-            { id: "nocleg" as TabType, label: "🏡 Nocleg", color: "from-[#C8E6C9] to-[#A5D6A7]" },
+            { id: "zrzutka" as TabType, label: "💸 Zrzutka", color: "from-[#E8F5E9] to-[#C8E6C9]" },
+            { id: "zakupy" as TabType, label: "🛒 Zakupy", color: "from-[#FFE0D8] to-[#FFCCBC]" },
+            { id: "rzeczy" as TabType, label: "🎒 Co zabrać", color: "from-[#F3E5F5] to-[#E1BEE7]" },
+            { id: "nocleg" as TabType, label: "🏡 Nocleg", color: "from-[#E8F5E9] to-[#C8E6C9]" },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`text-[14px] font-bold px-5 py-3 rounded-2xl transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? `bg-gradient-to-r ${tab.color} text-[#1A1A1A] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] scale-105`
+                  ? `bg-gradient-to-r ${tab.color} text-[#424242] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.05)] scale-105`
                   : "bg-white text-[#666] hover:bg-gray-50 hover:scale-102"
               }`}
             >
@@ -540,7 +540,7 @@ export default function App() {
                     </div>
                     <button
                       onClick={() => setEditingDriver(editingDriver === driverIdx ? null : driverIdx)}
-                      className="text-[12px] font-bold px-3 py-1.5 rounded-full bg-gradient-to-r from-[#80DEEA] to-[#4DD0E1] text-[#006064] border-2 border-[#00ACC1] flex-shrink-0 shadow-md hover:scale-105 transition-transform"
+                      className="text-[12px] font-bold px-3 py-1.5 rounded-full bg-gradient-to-r from-[#E0F7FA] to-[#B2EBF2] text-[#0277BD] border-2 border-[#B2EBF2] flex-shrink-0 shadow-sm hover:scale-105 transition-transform"
                     >
                       {editingDriver === driverIdx ? '✓ Zapisz' : '✎ Kierowca'}
                     </button>
@@ -801,7 +801,7 @@ export default function App() {
                 </select>
                 <button
                   onClick={addShopItem}
-                  className="text-[14px] font-black px-5 py-3 border-3 border-[#FF5722] rounded-2xl bg-gradient-to-r from-[#FFAB91] to-[#FF8A65] text-[#1A1A1A] cursor-pointer hover:shadow-lg hover:scale-105 transition-all whitespace-nowrap shadow-[4px_4px_0px_0px_rgba(255,87,34,0.3)]"
+                  className="text-[14px] font-bold px-5 py-3 border-2 border-[#FFCCBC] rounded-2xl bg-gradient-to-r from-[#FFE0D8] to-[#FFCCBC] text-[#D84315] cursor-pointer hover:shadow-md hover:scale-105 transition-all whitespace-nowrap shadow-sm"
                 >
                   ➕ Dodaj
                 </button>
@@ -942,7 +942,7 @@ export default function App() {
                   </select>
                   <button
                     onClick={addGear}
-                    className="text-[14px] font-black px-4 py-2.5 border-3 border-[#AB47BC] rounded-2xl bg-gradient-to-r from-[#CE93D8] to-[#BA68C8] text-[#1A1A1A] cursor-pointer hover:shadow-lg hover:scale-105 transition-all shadow-[4px_4px_0px_0px_rgba(171,71,188,0.3)]"
+                    className="text-[14px] font-bold px-4 py-2.5 border-2 border-[#E1BEE7] rounded-2xl bg-gradient-to-r from-[#F3E5F5] to-[#E1BEE7] text-[#6A1B9A] cursor-pointer hover:shadow-md hover:scale-105 transition-all shadow-sm"
                   >
                     ➕ Dodaj
                   </button>
@@ -1001,7 +1001,7 @@ export default function App() {
                 />
                 <button
                   onClick={addPersonalItem}
-                  className="w-full text-sm font-black px-4 py-2.5 border-3 border-[#9C27B0] rounded-2xl bg-gradient-to-r from-[#E1BEE7] to-[#CE93D8] text-[#1A1A1A] cursor-pointer hover:shadow-lg hover:scale-105 transition-all shadow-[4px_4px_0px_0px_rgba(156,39,176,0.3)]"
+                  className="w-full text-sm font-bold px-4 py-2.5 border-2 border-[#E1BEE7] rounded-2xl bg-gradient-to-r from-[#F3E5F5] to-[#E1BEE7] text-[#6A1B9A] cursor-pointer hover:shadow-md hover:scale-105 transition-all shadow-sm"
                 >
                   ➕ Dodaj
                 </button>
@@ -1312,10 +1312,10 @@ export default function App() {
                         )}
                       </div>
                       <span
-                        className={`text-[12px] font-bold px-3 py-1.5 rounded-full border-2 flex-shrink-0 shadow-md ${
+                        className={`text-[12px] font-bold px-3 py-1.5 rounded-full border-2 flex-shrink-0 shadow-sm ${
                           payStatus[i]
-                            ? "bg-gradient-to-r from-[#C5E1A5] to-[#AED581] text-[#33691E] border-[#9CCC65]"
-                            : "bg-gradient-to-r from-[#FFECB3] to-[#FFE082] text-[#F57C00] border-[#FFA000]"
+                            ? "bg-gradient-to-r from-[#E8F5E9] to-[#C8E6C9] text-[#2E7D32] border-[#A5D6A7]"
+                            : "bg-gradient-to-r from-[#FFF9E6] to-[#FFECB3] text-[#F57C00] border-[#FFE082]"
                         }`}
                       >
                         {payStatus[i] ? "✓ Opłacone" : "⏳ Do zapłaty"}

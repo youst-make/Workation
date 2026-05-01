@@ -9,6 +9,14 @@ Cały kod strony znajduje się w jednym pliku:
 
 ## 🎨 Jak zmienić kolory?
 
+### Paleta kolorów pastelowych używana w projekcie:
+- **Różowy:** `#FFF5F7` → `#F3E5F5`
+- **Fioletowy:** `#F5F0FF` → `#E1BEE7`
+- **Żółty:** `#FFF9E6` → `#FFECB3`
+- **Niebieski:** `#E0F7FA` → `#B2EBF2`
+- **Zielony:** `#E8F5E9` → `#C8E6C9`
+- **Koralowy:** `#FFE0D8` → `#FFCCBC`
+
 ### Tło strony (linia 385)
 ```tsx
 <div className="min-h-screen bg-gradient-to-br from-[#FFF5F7] via-[#F5F0FF] to-[#FFF9E6] ...">
@@ -17,15 +25,31 @@ Cały kod strony znajduje się w jednym pliku:
 - `via-[#F5F0FF]` - fioletowy pastel  
 - `to-[#FFF9E6]` - żółty pastel
 
-### Kolory zakładek (linia 439-444)
-Każda zakładka ma swój gradient:
+### Kolory zakładek (linia 439-450) - PASTELOWE
+Każda zakładka ma swój pastelowy gradient:
 ```tsx
-{ id: "plan", label: "📋 Plan dnia", color: "from-[#FFECB3] to-[#FFE082]" }
+{ id: "plan", label: "📋 Plan dnia", color: "from-[#FFF9E6] to-[#FFECB3]" }
+{ id: "transport", label: "🚗 Transport", color: "from-[#E0F7FA] to-[#B2EBF2]" }
+{ id: "zrzutka", label: "💸 Zrzutka", color: "from-[#E8F5E9] to-[#C8E6C9]" }
 ```
 
-### Kolory chipów w hero (linia 414-417)
+### Kolory chipów w hero (linia 414-417) - PASTELOWE
 ```tsx
-{ emoji: "📅", text: settings.date, color: "from-[#E1BEE7] to-[#CE93D8]" }
+{ emoji: "📅", text: settings.date, color: "from-[#F3E5F5] to-[#E1BEE7]" }
+{ emoji: "📍", text: settings.location, color: "from-[#E0F7FA] to-[#B2EBF2]" }
+{ emoji: "🏡", text: settings.venue, color: "from-[#E8F5E9] to-[#C8E6C9]" }
+{ emoji: "👥", text: people.length, color: "from-[#FFF9E6] to-[#FFECB3]" }
+```
+
+### Kolory avatarów (linia 374-381) - PASTELOWE
+```tsx
+const getAvatarClass = (av: string) => {
+  const map: Record<string, string> = {
+    "av-g": "bg-gradient-to-br from-[#D4F1D4] to-[#B8E6B8] ...",
+    "av-a": "bg-gradient-to-br from-[#FFF4D6] to-[#FFE9B3] ...",
+    // itd.
+  };
+}
 ```
 
 ## 📝 Jak edytować zawartość?
@@ -52,13 +76,13 @@ const PEOPLE: Person[] = [
 ];
 ```
 
-Kolory avatarów:
-- `av-g` - zielony
-- `av-a` - bursztynowy
-- `av-b` - niebieski
-- `av-c` - koralowy
-- `av-p` - fioletowy
-- `av-2` - szary
+Kolory avatarów (pastelowe):
+- `av-g` - zielony pastel (#D4F1D4 → #B8E6B8)
+- `av-a` - bursztynowy pastel (#FFF4D6 → #FFE9B3)
+- `av-b` - niebieski pastel (#D1F2F9 → #B3E5FC)
+- `av-c` - koralowy pastel (#FFE0D8 → #FFCCBC)
+- `av-p` - fioletowy pastel (#EDD7F0 → #E1BEE7)
+- `av-2` - szary pastel (#ECEFF1 → #CFD8DC)
 
 ### 3. Lista zakupów (linia 39-53)
 ```tsx
@@ -159,9 +183,25 @@ Edytuj `baseTotal` (linia 368) i rozpiskę (linia 1094-1101)
 
 ---
 
+## 🎨 Praca z Figma Design
+
+Jeśli chcesz:
+- Importować design z Figmy do tego projektu
+- Eksportować ten projekt do Figmy
+- Pracować wizualnie nad layoutem
+
+📖 **Zobacz:** `INSTRUKCJA_FIGMA.md` - szczegółowy przewodnik po integracji Figma ↔ Kod
+
+---
+
 **Potrzebujesz pomocy?** Szukaj w kodzie komentarzy oznaczonych jako:
 ```tsx
 {/* Transport Section */}
 {/* Plan Section */}
 {/* Zakupy Section */}
 ```
+
+## 📚 Dokumentacja
+
+- `INSTRUKCJA_EDYCJI.md` (ten plik) - jak edytować zawartość i kolory
+- `INSTRUKCJA_FIGMA.md` - jak pracować z Figma Design

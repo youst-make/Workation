@@ -1,11 +1,123 @@
+# 🏕️ Workation — Żulin
 
-  # Workation
+Aplikacja do organizacji wyjazdów integracyjnych z funkcjami:
+- 📋 Plan dnia (piątek + sobota)
+- 🚗 Organizacja transportu i kierowców
+- 💸 Zrzutka i podział kosztów
+- 🛒 Lista zakupów
+- 🎒 Checklista rzeczy do spakowania
+- 🏡 Informacje o noclegu
 
-  This is a code bundle for Workation. The original project is available at https://www.figma.com/design/pI9cUysEeHod4E6yTNEE0k/Workation.
+## 🎨 Design
 
-  ## Running the code
+Projekt wykorzystuje **pastelowy, nowoczesny design** z:
+- Kolorowymi gradientami
+- Ręcznie rysowanymi dekoracjami (doodles)
+- Responsywnymi kartami
+- Interaktywnymi animacjami
 
-  Run `npm i` to install the dependencies.
+## 📚 Dokumentacja
 
-  Run `npm run dev` to start the development server.
-  
+### Dla osób edytujących zawartość
+📖 **[INSTRUKCJA_EDYCJI.md](./INSTRUKCJA_EDYCJI.md)**
+- Jak zmienić tytuł, datę, lokalizację
+- Jak dodać/usunąć uczestników
+- Jak edytować plan dnia
+- Jak zmieniać koszty i budżet
+- Jak zmieniać kolory i style
+
+### Dla osób pracujących z Figma
+📖 **[INSTRUKCJA_FIGMA.md](./INSTRUKCJA_FIGMA.md)**
+- Jak importować design z Figmy do projektu
+- Jak eksportować projekt do Figmy
+- Workflow Figma ↔ Kod
+- Mapowanie stylów Figma → Tailwind CSS
+
+### Paleta kolorów
+🎨 **[PALETA_KOLOROW.md](./PALETA_KOLOROW.md)**
+- Wszystkie kolory pastelowe używane w projekcie
+- Kody hex i gradienty
+- Przykłady użycia w kodzie
+- Zasady doboru kolorów
+
+## 🚀 Szybki start
+
+### Główny plik z kodem
+```
+/src/app/App.tsx
+```
+
+### Edycja podstawowych danych (linia 98-106)
+```tsx
+const DEFAULT_SETTINGS: EventSettings = {
+  title: "Workation — Żulin",
+  subtitle: "Wypad integracyjny: piątek–sobota",
+  date: "9 maja 2025",
+  location: "Żulin",
+  venue: "",
+  venueAddress: "Żulin 1",
+  venuePhone: "+48 602 123 456",
+};
+```
+
+### Edycja uczestników (linia 30-37)
+```tsx
+const PEOPLE: Person[] = [
+  { init: "TS", name: "Tomek", av: "av-g" },
+  { init: "JW", name: "Justyna", av: "av-p" },
+  // ... dodaj więcej
+];
+```
+
+## 🛠️ Technologie
+
+- **React** - framework UI
+- **TypeScript** - typowanie
+- **Tailwind CSS v4** - stylowanie
+- **Vite** - build tool
+- **LocalStorage** - przechowywanie danych
+
+## 📱 Responsywność
+
+Aplikacja jest responsywna i działa na:
+- 📱 Telefonach (320px+)
+- 📱 Tabletach (768px+)
+- 💻 Komputerach (1024px+)
+
+## 💾 Dane
+
+Wszystkie dane są przechowywane lokalnie w przeglądarce (LocalStorage):
+- `wk2_settings` - podstawowe informacje
+- `wk2_people` - lista uczestników
+- `wk2_shop` - lista zakupów
+- `wk2_gear` - gry i gadżety
+- `wk2_personal` - checklista osobista
+- `wk2_pay` - statusy wpłat
+- `wk2_drivers` - informacje o kierowcach
+
+**Uwaga:** Dane pozostają w przeglądarce nawet po odświeżeniu strony!
+
+## 🎯 Najczęstsze edycje
+
+### Zmiana kolorów
+Zobacz: [PALETA_KOLOROW.md](./PALETA_KOLOROW.md)
+
+### Zmiana planu dnia
+Zobacz: [INSTRUKCJA_EDYCJI.md](./INSTRUKCJA_EDYCJI.md#5-plan-dnia---piątek-linia-973-1017)
+
+### Zmiana budżetu
+Zobacz: [INSTRUKCJA_EDYCJI.md](./INSTRUKCJA_EDYCJI.md#7-budżet-i-koszty-linia-367-368)
+
+### Import z Figmy
+Zobacz: [INSTRUKCJA_FIGMA.md](./INSTRUKCJA_FIGMA.md#-import-designu-z-figma-do-projektu)
+
+## ❓ Pomoc
+
+1. Sprawdź odpowiednią instrukcję powyżej
+2. Szukaj komentarzy w kodzie: `{/* Transport Section */}`
+3. Sprawdź PALETA_KOLOROW.md dla kodów kolorów
+4. Testuj zmiany w przeglądarce po każdej edycji
+
+---
+
+**Stworzone z ❤️ przy użyciu Figma Make**
