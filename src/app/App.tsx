@@ -986,7 +986,7 @@ export default function App() {
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#E2DDD5]"></div>
                 {[
                   {
-                    time: "09:00",
+                    time: "08:30",
                     name: "Zbiórka i wyjazd",
                     desc: "Wyjazd z Warszawy",
                     dot: "bg-[#006FFD]",
