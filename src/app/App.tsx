@@ -82,8 +82,7 @@ type TabType =
   | "zakupy"
   | "rzeczy"
   | "plan"
-  | "zrzutka"
-  | "ustawienia";
+  | "zrzutka";
 
 interface EventSettings {
   title: string;
@@ -107,7 +106,7 @@ const DEFAULT_SETTINGS: EventSettings = {
 
 export default function App() {
   const [activeTab, setActiveTab] =
-    useState<TabType>("transport");
+    useState<TabType>("plan");
 
   const [settings, setSettings] = useState<EventSettings>(
     () => {
@@ -425,41 +424,21 @@ export default function App() {
             <div className="text-base text-[#666] mb-6 font-medium">
               {settings.subtitle}
             </div>
-            <div className="flex justify-between items-start gap-4 flex-wrap">
-              <div className="flex flex-wrap gap-2.5 flex-1">
-                {[
-                  { emoji: "📅", text: settings.date, color: "from-[#E1BEE7] to-[#CE93D8]" },
-                  { emoji: "📍", text: settings.location, color: "from-[#B2EBF2] to-[#80DEEA]" },
-                  settings.venue ? { emoji: "🏡", text: settings.venue, color: "from-[#C8E6C9] to-[#A5D6A7]" } : null,
-                  { emoji: "👥", text: `${people.length} osób`, color: "from-[#FFECB3] to-[#FFE082]" },
-                ].filter(Boolean).map((chip) => (
-                  <div
-                    key={chip.text}
-                    className={`text-[14px] font-semibold bg-gradient-to-r ${chip.color} rounded-full px-4 py-2 text-[#1A1A1A] shadow-md hover:scale-105 transition-transform`}
-                  >
-                    <span className="mr-1.5">{chip.emoji}</span>
-                    {chip.text}
-                  </div>
-                ))}
-              </div>
-
-              {/* Widget pogody */}
-              <div className="relative bg-gradient-to-br from-[#FFD54F] to-[#FFA726] border-4 border-[#FF8F00] rounded-3xl px-5 py-4 min-w-[160px] self-start shadow-[6px_6px_0px_0px_rgba(255,143,0,0.3)]">
-                <div className="absolute -top-3 -right-3 w-8 h-8">
-                  <svg viewBox="0 0 40 40" className="w-full h-full">
-                    <circle cx="20" cy="20" r="18" fill="#FF6F00" opacity="0.5"/>
-                    <circle cx="20" cy="20" r="12" fill="#FFD54F"/>
-                  </svg>
+            <div className="flex flex-wrap gap-2.5">
+              {[
+                { emoji: "📅", text: settings.date, color: "from-[#E1BEE7] to-[#CE93D8]" },
+                { emoji: "📍", text: settings.location, color: "from-[#B2EBF2] to-[#80DEEA]" },
+                settings.venue ? { emoji: "🏡", text: settings.venue, color: "from-[#C8E6C9] to-[#A5D6A7]" } : null,
+                { emoji: "👥", text: `${people.length} osób`, color: "from-[#FFECB3] to-[#FFE082]" },
+              ].filter(Boolean).map((chip) => (
+                <div
+                  key={chip.text}
+                  className={`text-[14px] font-semibold bg-gradient-to-r ${chip.color} rounded-full px-4 py-2 text-[#1A1A1A] shadow-md hover:scale-105 transition-transform`}
+                >
+                  <span className="mr-1.5">{chip.emoji}</span>
+                  {chip.text}
                 </div>
-                <div className="text-xs text-[#4A2800] mb-1 font-bold uppercase tracking-wider">Pogoda</div>
-                <div className="flex items-center gap-3">
-                  <div className="text-4xl">☀️</div>
-                  <div>
-                    <div className="text-2xl font-black leading-tight text-[#4A2800]">24°C</div>
-                    <div className="text-[11px] text-[#6D4C00] font-semibold">Słonecznie</div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -468,28 +447,27 @@ export default function App() {
         <div className="flex gap-2.5 flex-wrap mb-6 bg-white rounded-3xl p-3 shadow-lg border-3 border-[#E1BEE7]">
           {[
             {
+              id: "plan" as TabType,
+              label: "📋 Plan dnia",
+              color: "from-[#FFECB3] to-[#FFE082]",
+            },
+            {
               id: "transport" as TabType,
               label: "🚗 Transport",
               color: "from-[#B2EBF2] to-[#80DEEA]",
             },
-            { id: "plan" as TabType, label: "📋 Plan dnia", color: "from-[#FFECB3] to-[#FFE082]" },
             { id: "zrzutka" as TabType, label: "💸 Zrzutka", color: "from-[#C5E1A5] to-[#AED581]" },
             { id: "zakupy" as TabType, label: "🛒 Zakupy", color: "from-[#FFCCBC] to-[#FFAB91]" },
             { id: "rzeczy" as TabType, label: "🎒 Co zabrać", color: "from-[#E1BEE7] to-[#CE93D8]" },
             { id: "nocleg" as TabType, label: "🏡 Nocleg", color: "from-[#C8E6C9] to-[#A5D6A7]" },
-            {
-              id: "ustawienia" as TabType,
-              label: "⚙️ Ustawienia",
-              color: "from-[#CFD8DC] to-[#B0BEC5]",
-            },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`text-[14px] font-bold px-5 py-3 rounded-2xl transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? `bg-gradient-to-r ${tab.color} text-[#1A1A1A] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] scale-105 border-3 border-[#1A1A1A]`
-                  : "bg-white text-[#666] hover:bg-gray-50 hover:scale-102 border-2 border-transparent"
+                  ? `bg-gradient-to-r ${tab.color} text-[#1A1A1A] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] scale-105`
+                  : "bg-white text-[#666] hover:bg-gray-50 hover:scale-102"
               }`}
             >
               {tab.label}
@@ -585,9 +563,9 @@ export default function App() {
                       </div>
                       <button
                         onClick={() => removePassenger(driverIdx, passengerIdx)}
-                        className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
+                        className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                       >
-                        ✕ Usuń
+                        ✕
                       </button>
                     </div>
                   ))}
@@ -783,7 +761,7 @@ export default function App() {
                       />
                       <button
                         onClick={() => removeShopItem(actualIndex)}
-                        className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
+                        className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                       >
                         ✕
                       </button>
@@ -879,7 +857,7 @@ export default function App() {
                         />
                         <button
                           onClick={() => removeShopItem(actualIndex)}
-                          className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
+                          className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                         >
                           ✕
                         </button>
@@ -934,7 +912,7 @@ export default function App() {
                     </div>
                     <button
                       onClick={() => removeGearItem(i)}
-                      className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
+                      className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                     >
                       ✕
                     </button>
@@ -1005,7 +983,7 @@ export default function App() {
                     </span>
                     <button
                       onClick={() => removePersonalItem(i)}
-                      className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
+                      className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                     >
                       ✕
                     </button>
@@ -1034,7 +1012,8 @@ export default function App() {
 
         {/* Plan Section */}
         {activeTab === "plan" && (
-          <>
+          <div className="grid md:grid-cols-2 gap-5">
+            {/* Piątek */}
             <div className="relative bg-white border-4 border-[#FFE082] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,224,130,0.4)] p-6">
               <div className="absolute -top-3 -right-3">
                 <svg width="50" height="50" viewBox="0 0 50 50">
@@ -1045,7 +1024,7 @@ export default function App() {
                 </svg>
               </div>
               <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#F57C00] mb-4 flex items-center gap-2">
-                📋 Sobota — plan dnia
+                📋 Piątek — plan dnia
               </div>
               <div className="relative pl-5">
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#E2DDD5]"></div>
@@ -1054,7 +1033,7 @@ export default function App() {
                     time: "09:00",
                     name: "Zbiórka i wyjazd",
                     desc: "Wyjazd z Warszawy",
-                    dot: "bg-[#2D6A4F]",
+                    dot: "bg-[#00ACC1]",
                   },
                   {
                     time: "10:00",
@@ -1066,31 +1045,31 @@ export default function App() {
                     time: "16:00",
                     name: "Koniec pracy",
                     desc: "Czas na relaks",
-                    dot: "bg-[#2D6A4F]",
+                    dot: "bg-[#66BB6A]",
                   },
                   {
                     time: "16:15",
                     name: "Obiad",
                     desc: "Wspólny posiłek",
-                    dot: "bg-[#E9A800]",
+                    dot: "bg-[#FFA000]",
                   },
                   {
                     time: "18:00",
                     name: "Gry planszowe / Gry terenowe / Spacery",
                     desc: "Aktywności integracyjne",
-                    dot: "bg-[#4A3880]",
+                    dot: "bg-[#AB47BC]",
                   },
                   {
                     time: "20:00",
                     name: "Ognisko / Grill",
                     desc: "Kolacja przy ognisku",
-                    dot: "bg-[#E9A800]",
+                    dot: "bg-[#FF5722]",
                   },
                   {
                     time: "22:00",
                     name: "Opowieści o duchach",
                     desc: "Wieczór przy ognisku",
-                    dot: "bg-[#B0ABA4]",
+                    dot: "bg-[#78909C]",
                   },
                 ].map((event) => (
                   <div
@@ -1098,7 +1077,7 @@ export default function App() {
                     className="flex gap-4 py-2.5 relative"
                   >
                     <div
-                      className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-[#F5F2EC] ${event.dot}`}
+                      className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-white ${event.dot}`}
                     />
                     <div className="font-['DM_Mono',monospace] text-[13px] font-medium text-[#7A7570] min-w-[44px] pt-0.5">
                       {event.time}
@@ -1117,7 +1096,65 @@ export default function App() {
                 ))}
               </div>
             </div>
-          </>
+
+            {/* Sobota */}
+            <div className="relative bg-white border-4 border-[#AED581] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(174,213,129,0.4)] p-6">
+              <div className="absolute -top-3 -left-3">
+                <svg width="50" height="50" viewBox="0 0 50 50">
+                  <circle cx="25" cy="25" r="18" stroke="#9CCC65" strokeWidth="3" fill="none"/>
+                  <path d="M25,10 L25,25 L35,25" stroke="#9CCC65" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#558B2F] mb-4 flex items-center gap-2">
+                🌅 Sobota — plan dnia
+              </div>
+              <div className="relative pl-5">
+                <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#E2DDD5]"></div>
+                {[
+                  {
+                    time: "09:00",
+                    name: "Śniadanie",
+                    desc: "Wspólny posiłek",
+                    dot: "bg-[#FFA000]",
+                  },
+                  {
+                    time: "10:00",
+                    name: "Spacer",
+                    desc: "Zwiedzanie okolicy",
+                    dot: "bg-[#66BB6A]",
+                  },
+                  {
+                    time: "12:00",
+                    name: "Wyjazd",
+                    desc: "Powrót do Warszawy",
+                    dot: "bg-[#00ACC1]",
+                  },
+                ].map((event) => (
+                  <div
+                    key={event.time}
+                    className="flex gap-4 py-2.5 relative"
+                  >
+                    <div
+                      className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-white ${event.dot}`}
+                    />
+                    <div className="font-['DM_Mono',monospace] text-[13px] font-medium text-[#7A7570] min-w-[44px] pt-0.5">
+                      {event.time}
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium">
+                        {event.name}
+                      </div>
+                      {event.desc && (
+                        <div className="text-xs text-[#7A7570] mt-0.5">
+                          {event.desc}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Zrzutka Section */}
@@ -1339,244 +1376,6 @@ export default function App() {
           </>
         )}
 
-        {/* Ustawienia Section */}
-        {activeTab === "ustawienia" && (
-          <>
-            <div className="relative bg-white border-4 border-[#B0BEC5] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(176,190,197,0.4)] p-6 mb-5">
-              <div className="absolute -top-3 -right-3">
-                <svg width="45" height="45" viewBox="0 0 45 45">
-                  <circle cx="22" cy="22" r="12" stroke="#607D8B" strokeWidth="2.5" fill="none"/>
-                  <path d="M22,10 L22,15 M22,29 L22,34 M10,22 L15,22 M29,22 L34,22" stroke="#607D8B" strokeWidth="2.5" strokeLinecap="round"/>
-                  <circle cx="22" cy="22" r="5" fill="#607D8B"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#37474F] mb-4 flex items-center gap-2">
-                ℹ️ Podstawowe informacje
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs text-[#7A7570] mb-1.5">
-                    Tytuł wydarzenia
-                  </label>
-                  <input
-                    type="text"
-                    value={settings.title}
-                    onChange={(e) =>
-                      setSettings((prev) => ({
-                        ...prev,
-                        title: e.target.value,
-                      }))
-                    }
-                    className="w-full text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-[#7A7570] mb-1.5">
-                    Podtytuł
-                  </label>
-                  <input
-                    type="text"
-                    value={settings.subtitle}
-                    onChange={(e) =>
-                      setSettings((prev) => ({
-                        ...prev,
-                        subtitle: e.target.value,
-                      }))
-                    }
-                    className="w-full text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
-                  />
-                </div>
-                <div className="grid md:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs text-[#7A7570] mb-1.5">
-                      Data
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.date}
-                      onChange={(e) =>
-                        setSettings((prev) => ({
-                          ...prev,
-                          date: e.target.value,
-                        }))
-                      }
-                      className="w-full text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-[#7A7570] mb-1.5">
-                      Lokalizacja
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.location}
-                      onChange={(e) =>
-                        setSettings((prev) => ({
-                          ...prev,
-                          location: e.target.value,
-                        }))
-                      }
-                      className="w-full text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative bg-white border-4 border-[#A5D6A7] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(165,214,167,0.4)] p-6 mb-5">
-              <div className="absolute -top-3 -left-3">
-                <svg width="45" height="45" viewBox="0 0 45 45">
-                  <rect x="10" y="18" width="25" height="18" stroke="#66BB6A" strokeWidth="3" fill="none" rx="3"/>
-                  <path d="M13,12 L22.5,7 L32,12" stroke="#66BB6A" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#2E7D32] mb-4 flex items-center gap-2">
-                🏨 Obiekt noclegowy
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs text-[#7A7570] mb-1.5">
-                    Nazwa obiektu
-                  </label>
-                  <input
-                    type="text"
-                    value={settings.venue}
-                    onChange={(e) =>
-                      setSettings((prev) => ({
-                        ...prev,
-                        venue: e.target.value,
-                      }))
-                    }
-                    className="w-full text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-[#7A7570] mb-1.5">
-                    Adres
-                  </label>
-                  <input
-                    type="text"
-                    value={settings.venueAddress}
-                    onChange={(e) =>
-                      setSettings((prev) => ({
-                        ...prev,
-                        venueAddress: e.target.value,
-                      }))
-                    }
-                    className="w-full text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-[#7A7570] mb-1.5">
-                    Telefon kontaktowy
-                  </label>
-                  <input
-                    type="text"
-                    value={settings.venuePhone}
-                    onChange={(e) =>
-                      setSettings((prev) => ({
-                        ...prev,
-                        venuePhone: e.target.value,
-                      }))
-                    }
-                    className="w-full text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="relative bg-white border-4 border-[#CE93D8] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(206,147,216,0.4)] p-6">
-              <div className="absolute -top-3 -right-3">
-                <svg width="50" height="50" viewBox="0 0 50 50">
-                  <circle cx="20" cy="15" r="6" stroke="#AB47BC" strokeWidth="2.5" fill="none"/>
-                  <path d="M10,35 Q20,28 30,35" stroke="#AB47BC" strokeWidth="2.5" fill="none"/>
-                  <circle cx="35" cy="20" r="5" stroke="#AB47BC" strokeWidth="2.5" fill="none"/>
-                  <path d="M28,38 Q35,33 42,38" stroke="#AB47BC" strokeWidth="2.5" fill="none"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#6A1B9A] mb-4 flex items-center gap-2">
-                👥 Lista uczestników
-              </div>
-              <div className="space-y-2 mb-4">
-                {people.map((person, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 p-3 border border-[#E2DDD5] rounded-lg bg-[#F0EDE6]"
-                  >
-                    <div
-                      className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass(person.av)}`}
-                    >
-                      {person.init}
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-medium">
-                        {person.name}
-                      </div>
-                      <div className="text-xs text-[#7A7570]">
-                        {person.init} · {person.av}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => removePerson(i)}
-                      className="text-xs font-bold px-3 py-2 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
-                    >
-                      ✕ Usuń
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t border-[#E2DDD5] pt-4">
-                <div className="text-xs text-[#7A7570] mb-3">
-                  Dodaj nową osobę
-                </div>
-                <div className="space-y-2">
-                  <input
-                    type="text"
-                    value={newPersonName}
-                    onChange={(e) =>
-                      setNewPersonName(e.target.value)
-                    }
-                    placeholder="Imię i nazwisko (np. Jan K.)"
-                    className="w-full text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
-                  />
-                  <div className="grid grid-cols-2 gap-2">
-                    <input
-                      type="text"
-                      value={newPersonInit}
-                      onChange={(e) =>
-                        setNewPersonInit(e.target.value)
-                      }
-                      placeholder="Inicjały (np. JK)"
-                      maxLength={3}
-                      className="text-sm px-3 py-2 border border-[#E2DDD5] rounded-lg bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] transition-colors"
-                    />
-                    <select
-                      value={newPersonColor}
-                      onChange={(e) =>
-                        setNewPersonColor(e.target.value)
-                      }
-                      className="text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] cursor-pointer hover:border-[#2D6A4F] transition-all"
-                    >
-                      <option value="av-g">Zielony</option>
-                      <option value="av-a">Bursztynowy</option>
-                      <option value="av-b">Niebieski</option>
-                      <option value="av-c">Koralowy</option>
-                      <option value="av-p">Fioletowy</option>
-                      <option value="av-2">Szary</option>
-                    </select>
-                  </div>
-                  <button
-                    onClick={addPerson}
-                    className="w-full text-sm font-black px-4 py-2.5 border-3 border-[#AB47BC] rounded-2xl bg-gradient-to-r from-[#CE93D8] to-[#BA68C8] text-[#1A1A1A] hover:shadow-lg hover:scale-105 transition-all shadow-[4px_4px_0px_0px_rgba(171,71,188,0.3)]"
-                  >
-                    ➕ Dodaj uczestnika
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
       </div>
     </div>
   );
