@@ -371,103 +371,65 @@ export default function App() {
 
   const getAvatarClass = (av: string) => {
     const map: Record<string, string> = {
-      "av-g": "bg-gradient-to-br from-[#D4F1D4] to-[#B8E6B8] text-[#2E7D32] border-2 border-[#A5D6A7] shadow-sm",
-      "av-a": "bg-gradient-to-br from-[#FFF4D6] to-[#FFE9B3] text-[#F57C00] border-2 border-[#FFD54F] shadow-sm",
-      "av-b": "bg-gradient-to-br from-[#D1F2F9] to-[#B3E5FC] text-[#0277BD] border-2 border-[#81D4FA] shadow-sm",
-      "av-c": "bg-gradient-to-br from-[#FFE0D8] to-[#FFCCBC] text-[#D84315] border-2 border-[#FFAB91] shadow-sm",
-      "av-p": "bg-gradient-to-br from-[#EDD7F0] to-[#E1BEE7] text-[#6A1B9A] border-2 border-[#CE93D8] shadow-sm",
-      "av-2": "bg-gradient-to-br from-[#ECEFF1] to-[#CFD8DC] text-[#455A64] border-2 border-[#B0BEC5] shadow-sm",
+      "av-g": "bg-[#E7F4E8] text-[#3AC0A0] border border-[#3AC0A0]",
+      "av-a": "bg-[#FFF4E4] text-[#FFB37C] border border-[#FFB37C]",
+      "av-b": "bg-[#EAF2FF] text-[#006FFD] border border-[#006FFD]",
+      "av-c": "bg-[#FFE2E5] text-[#FF616D] border border-[#FF616D]",
+      "av-p": "bg-[#EAF2FF] text-[#6FBAFF] border border-[#6FBAFF]",
+      "av-2": "bg-[#F8F9FE] text-[#71727A] border border-[#C5C6CC]",
     };
     return map[av] || map["av-2"];
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF5F7] via-[#F5F0FF] to-[#FFF9E6] py-8 px-5 pb-20 relative overflow-hidden">
-      {/* Doodle decorations */}
-      <div className="absolute top-10 right-10 w-32 h-32 opacity-20 pointer-events-none">
-        <svg viewBox="0 0 100 100" className="w-full h-full">
-          <path d="M20,50 Q30,20 50,30 T80,50" stroke="#9C27B0" strokeWidth="3" fill="none" strokeLinecap="round"/>
-          <circle cx="70" cy="30" r="8" fill="#FFB300" opacity="0.6"/>
-          <path d="M10,70 L25,85 L15,90" stroke="#E91E63" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-        </svg>
-      </div>
-      <div className="absolute bottom-20 left-10 w-40 h-40 opacity-15 pointer-events-none">
-        <svg viewBox="0 0 100 100" className="w-full h-full">
-          <circle cx="30" cy="30" r="25" stroke="#00BCD4" strokeWidth="2.5" fill="none" strokeDasharray="5,5"/>
-          <path d="M60,60 Q70,40 80,60 Q90,80 70,85" stroke="#4CAF50" strokeWidth="3" fill="none" strokeLinecap="round"/>
-        </svg>
-      </div>
-
+    <div className="min-h-screen bg-[#F8F9FE] py-6 px-4 pb-20">
       <div className="max-w-[900px] mx-auto">
         {/* Hero */}
-        <div className="relative overflow-hidden bg-white rounded-[28px] border-4 border-[#9C27B0] shadow-[8px_8px_0px_0px_rgba(156,39,176,0.2)] p-7 mb-6">
-          {/* Doodle elements */}
-          <div className="absolute -top-2 -right-2 w-24 h-24">
-            <svg viewBox="0 0 100 100" className="w-full h-full opacity-60">
-              <circle cx="50" cy="50" r="40" fill="#FFE082" stroke="#FFB300" strokeWidth="3"/>
-              <path d="M30,50 Q50,30 70,50" stroke="#FFB300" strokeWidth="2.5" fill="none"/>
-            </svg>
+        <div className="bg-white rounded-[16px] shadow-sm p-6 mb-4">
+          <div className="inline-block text-[10px] font-semibold tracking-[0.8px] uppercase text-[#006FFD] bg-[#EAF2FF] px-3 py-1.5 rounded-[8px] mb-3">
+            WYJAZD SMART'ÓW
           </div>
-          <div className="absolute bottom-4 left-4 opacity-40">
-            <svg width="60" height="60" viewBox="0 0 60 60">
-              <path d="M10,30 L20,10 L30,30 L50,20 L40,40 L50,50" stroke="#E91E63" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+          <h1 className="text-[28px] font-extrabold tracking-[0.28px] leading-tight mb-2 text-[#1F2024]">
+            {settings.title}
+          </h1>
+          <div className="text-[14px] text-[#71727A] mb-5 font-normal leading-[20px]">
+            {settings.subtitle}
           </div>
-
-          <div className="relative">
-            <div className="inline-block text-[11px] font-bold tracking-[0.1em] uppercase text-white bg-gradient-to-r from-[#E91E63] to-[#9C27B0] px-4 py-2 rounded-full mb-3 shadow-md">
-              ✨ WYJAZD SMART'ÓW ✨
-            </div>
-            <h1 className="text-[32px] font-bold tracking-tight leading-tight mb-2 text-[#1A1A1A]">
-              {settings.title}
-            </h1>
-            <div className="text-base text-[#666] mb-6 font-medium">
-              {settings.subtitle}
-            </div>
-            <div className="flex flex-wrap gap-2.5">
-              {[
-                { emoji: "📅", text: settings.date, color: "from-[#F3E5F5] to-[#E1BEE7]" },
-                { emoji: "📍", text: settings.location, color: "from-[#E0F7FA] to-[#B2EBF2]" },
-                settings.venue ? { emoji: "🏡", text: settings.venue, color: "from-[#E8F5E9] to-[#C8E6C9]" } : null,
-                { emoji: "👥", text: `${people.length} osób`, color: "from-[#FFF9E6] to-[#FFECB3]" },
-              ].filter(Boolean).map((chip) => (
-                <div
-                  key={chip.text}
-                  className={`text-[14px] font-semibold bg-gradient-to-r ${chip.color} rounded-full px-4 py-2 text-[#424242] shadow-sm hover:scale-105 transition-transform`}
-                >
-                  <span className="mr-1.5">{chip.emoji}</span>
-                  {chip.text}
-                </div>
-              ))}
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { emoji: "📅", text: settings.date },
+              { emoji: "📍", text: settings.location },
+              settings.venue ? { emoji: "🏡", text: settings.venue } : null,
+              { emoji: "👥", text: `${people.length} osób` },
+            ].filter(Boolean).map((chip) => (
+              <div
+                key={chip.text}
+                className="text-[12px] font-medium bg-[#F8F9FE] border border-[#E8E9F1] rounded-[8px] px-3 py-1.5 text-[#1F2024]"
+              >
+                <span className="mr-1.5">{chip.emoji}</span>
+                {chip.text}
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Navigation */}
-        <div className="flex gap-2.5 flex-wrap mb-6 bg-white rounded-3xl p-3 shadow-lg border-3 border-[#F3E5F5]">
+        <div className="flex gap-2 flex-wrap mb-4">
           {[
-            {
-              id: "plan" as TabType,
-              label: "📋 Plan dnia",
-              color: "from-[#FFF9E6] to-[#FFECB3]",
-            },
-            {
-              id: "transport" as TabType,
-              label: "🚗 Transport",
-              color: "from-[#E0F7FA] to-[#B2EBF2]",
-            },
-            { id: "zrzutka" as TabType, label: "💸 Zrzutka", color: "from-[#E8F5E9] to-[#C8E6C9]" },
-            { id: "zakupy" as TabType, label: "🛒 Zakupy", color: "from-[#FFE0D8] to-[#FFCCBC]" },
-            { id: "rzeczy" as TabType, label: "🎒 Co zabrać", color: "from-[#F3E5F5] to-[#E1BEE7]" },
-            { id: "nocleg" as TabType, label: "🏡 Nocleg", color: "from-[#E8F5E9] to-[#C8E6C9]" },
+            { id: "plan" as TabType, label: "📋 Plan dnia" },
+            { id: "transport" as TabType, label: "🚗 Transport" },
+            { id: "zrzutka" as TabType, label: "💸 Zrzutka" },
+            { id: "zakupy" as TabType, label: "🛒 Zakupy" },
+            { id: "rzeczy" as TabType, label: "🎒 Co zabrać" },
+            { id: "nocleg" as TabType, label: "🏡 Nocleg" },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`text-[14px] font-bold px-5 py-3 rounded-2xl transition-all whitespace-nowrap ${
+              className={`text-[12px] font-semibold px-4 py-2.5 rounded-[12px] transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? `bg-gradient-to-r ${tab.color} text-[#424242] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.05)] scale-105`
-                  : "bg-white text-[#666] hover:bg-gray-50 hover:scale-102"
+                  ? "bg-[#006FFD] text-white shadow-sm"
+                  : "bg-white text-[#71727A] border border-[#E8E9F1] hover:border-[#006FFD] hover:text-[#006FFD]"
               }`}
             >
               {tab.label}
@@ -478,13 +440,8 @@ export default function App() {
         {/* Transport Section */}
         {activeTab === "transport" && (
           <>
-            <div className="relative bg-white border-4 border-[#80DEEA] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(128,222,234,0.3)] p-6 mb-5">
-              <div className="absolute -top-3 -left-3">
-                <svg width="40" height="40" viewBox="0 0 40 40">
-                  <path d="M5,20 Q15,5 25,20 T35,20" stroke="#00BCD4" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#00838F] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 🚗 Auta i pasażerowie
               </div>
 
@@ -492,7 +449,7 @@ export default function App() {
                 <div key={driverIdx}>
                   {driverIdx > 0 && <div className="h-px bg-[#E2DDD5] my-3"></div>}
 
-                  <div className="flex items-center gap-3 py-2.5 border-b border-[#E2DDD5]">
+                  <div className="flex items-center gap-3 py-2.5 border-b border-[#E8E9F1]">
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass(people[driver.personIndex]?.av || 'av-2')}`}
                     >
@@ -504,7 +461,7 @@ export default function App() {
                           <select
                             value={driver.personIndex}
                             onChange={(e) => updateDriver(driverIdx, 'personIndex', Number(e.target.value))}
-                            className="text-sm px-2 py-1 border border-[#E2DDD5] rounded bg-white"
+                            className="text-sm px-2 py-1 border border-[#E8E9F1] rounded bg-white"
                           >
                             {people.map((p, i) => (
                               <option key={i} value={i}>{p.name}</option>
@@ -516,14 +473,14 @@ export default function App() {
                               value={driver.departureLocation}
                               onChange={(e) => updateDriver(driverIdx, 'departureLocation', e.target.value)}
                               placeholder="Miejsce wyjazdu"
-                              className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white flex-1"
+                              className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white flex-1"
                             />
                             <input
                               type="text"
                               value={driver.departureTime}
                               onChange={(e) => updateDriver(driverIdx, 'departureTime', e.target.value)}
                               placeholder="Godz."
-                              className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white w-16"
+                              className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white w-16"
                             />
                           </div>
                         </div>
@@ -532,7 +489,7 @@ export default function App() {
                           <div className="text-sm font-medium">
                             {people[driver.personIndex]?.name || 'Nieznany'}
                           </div>
-                          <div className="text-xs text-[#7A7570] mt-0.5">
+                          <div className="text-xs text-[#71727A] mt-0.5">
                             wyjazd {driver.departureLocation} {driver.departureTime}
                           </div>
                         </>
@@ -540,14 +497,14 @@ export default function App() {
                     </div>
                     <button
                       onClick={() => setEditingDriver(editingDriver === driverIdx ? null : driverIdx)}
-                      className="text-[12px] font-bold px-3 py-1.5 rounded-full bg-gradient-to-r from-[#E0F7FA] to-[#B2EBF2] text-[#0277BD] border-2 border-[#B2EBF2] flex-shrink-0 shadow-sm hover:scale-105 transition-transform"
+                      className="text-[12px] font-semibold px-3 py-2 rounded-[8px] bg-[#006FFD] text-white flex-shrink-0 hover:bg-[#2897FF] transition-colors"
                     >
-                      {editingDriver === driverIdx ? '✓ Zapisz' : '✎ Kierowca'}
+                      {editingDriver === driverIdx ? 'Zapisz' : 'Edytuj'}
                     </button>
                   </div>
 
                   {driver.passengers.map((passengerIdx, i) => (
-                    <div key={i} className={`flex items-center gap-3 py-2.5 pl-[46px] border-b border-[#E2DDD5]`}>
+                    <div key={i} className={`flex items-center gap-3 py-2.5 pl-[46px] border-b border-[#E8E9F1]`}>
                       <div
                         className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass(people[passengerIdx]?.av || 'av-2')}`}
                       >
@@ -557,7 +514,7 @@ export default function App() {
                         <div className="text-sm font-medium">
                           {people[passengerIdx]?.name || 'Nieznany'}
                         </div>
-                        <div className="text-xs text-[#7A7570] mt-0.5">
+                        <div className="text-xs text-[#71727A] mt-0.5">
                           Pasażer → auto {people[driver.personIndex]?.name?.split(' ')[0] || 'kierowcy'}
                         </div>
                       </div>
@@ -580,7 +537,7 @@ export default function App() {
                           e.target.value = '';
                         }
                       }}
-                      className="flex-1 text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-[#F0EDE6]"
+                      className="flex-1 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-[#F8F9FE]"
                       defaultValue=""
                     >
                       <option value="" disabled>+ Dodaj pasażera</option>
@@ -597,14 +554,8 @@ export default function App() {
               ))}
             </div>
 
-            <div className="relative bg-white border-4 border-[#FFE082] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,224,130,0.4)] p-6">
-              <div className="absolute -top-2 -right-2">
-                <svg width="50" height="50" viewBox="0 0 50 50">
-                  <circle cx="25" cy="25" r="20" fill="#FFD54F" opacity="0.6"/>
-                  <path d="M15,25 L35,25 M25,15 L25,35" stroke="#FFA000" strokeWidth="3" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#F57C00] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 🗺️ Trasa
               </div>
               {[
@@ -624,11 +575,11 @@ export default function App() {
                   key={row.label}
                   className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
                     i < arr.length - 1
-                      ? "border-b border-[#E2DDD5]"
+                      ? "border-b border-[#E8E9F1]"
                       : ""
                   }`}
                 >
-                  <span className="text-[#7A7570] text-[13px] flex-shrink-0">
+                  <span className="text-[#71727A] text-[13px] flex-shrink-0">
                     {row.label}
                   </span>
                   <span
@@ -649,14 +600,8 @@ export default function App() {
         {/* Nocleg Section */}
         {activeTab === "nocleg" && (
           <>
-            <div className="relative bg-white border-4 border-[#A5D6A7] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(165,214,167,0.4)] p-6 mb-5">
-              <div className="absolute -top-3 -right-3">
-                <svg width="45" height="45" viewBox="0 0 45 45">
-                  <rect x="10" y="15" width="25" height="20" stroke="#66BB6A" strokeWidth="3" fill="none" rx="5"/>
-                  <path d="M15,10 L22.5,5 L30,10" stroke="#66BB6A" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#2E7D32] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 🏡 Obiekt
               </div>
               {[
@@ -670,11 +615,11 @@ export default function App() {
                   key={row.label}
                   className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
                     i < arr.length - 1
-                      ? "border-b border-[#E2DDD5]"
+                      ? "border-b border-[#E8E9F1]"
                       : ""
                   }`}
                 >
-                  <span className="text-[#7A7570] text-[13px] flex-shrink-0">
+                  <span className="text-[#71727A] text-[13px] flex-shrink-0">
                     {row.label}
                   </span>
                   <span className="text-right">
@@ -684,11 +629,11 @@ export default function App() {
               ))}
             </div>
 
-            <div className="relative bg-white border-4 border-[#C8E6C9] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(200,230,201,0.4)] p-6">
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#2E7D32] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 ✨ Udogodnienia
               </div>
-              <div className="flex flex-wrap gap-2.5">
+              <div className="flex flex-wrap gap-2">
                 {[
                   "Grill",
                   "Ognisko",
@@ -699,7 +644,7 @@ export default function App() {
                 ].map((tag) => (
                   <span
                     key={tag}
-                    className="text-sm font-bold px-4 py-2 rounded-full bg-gradient-to-r from-[#C8E6C9] to-[#A5D6A7] text-[#1B5E20] border-3 border-[#66BB6A] shadow-md hover:scale-105 transition-transform"
+                    className="text-[12px] font-medium px-3 py-1.5 rounded-[8px] bg-[#EAF2FF] text-[#006FFD] border border-[#B4DBFF]"
                   >
                     {tag}
                   </span>
@@ -712,15 +657,8 @@ export default function App() {
         {/* Zakupy Section */}
         {activeTab === "zakupy" && (
           <>
-            <div className="relative bg-white border-4 border-[#FFAB91] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,171,145,0.4)] p-6 mb-5">
-              <div className="absolute -top-3 -left-3">
-                <svg width="50" height="50" viewBox="0 0 50 50">
-                  <path d="M10,20 L15,10 L35,10 L40,20 L35,40 L15,40 Z" stroke="#FF5722" strokeWidth="3" fill="none" strokeLinejoin="round"/>
-                  <circle cx="20" cy="25" r="3" fill="#FF5722"/>
-                  <circle cx="30" cy="25" r="3" fill="#FF5722"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#D84315] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 🛒 Do kupienia
               </div>
               <div>
@@ -729,7 +667,7 @@ export default function App() {
                   return (
                     <div
                       key={actualIndex}
-                      className="flex items-center gap-2.5 py-2.5 border-b border-[#E2DDD5] last:border-b-0"
+                      className="flex items-center gap-2.5 py-2.5 border-b border-[#E8E9F1] last:border-b-0"
                     >
                       <input
                         type="checkbox"
@@ -740,13 +678,13 @@ export default function App() {
                       <div className="flex-1">
                         <div className="text-sm">{item.name}</div>
                         {item.cost > 0 && (
-                          <div className="text-xs text-[#7A7570] mt-0.5">{item.cost} zł</div>
+                          <div className="text-xs text-[#71727A] mt-0.5">{item.cost} zł</div>
                         )}
                       </div>
                       <select
                         value={item.who}
                         onChange={(e) => updateShopPerson(actualIndex, e.target.value)}
-                        className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-[#F0EDE6] text-[#7A7570] flex-shrink-0"
+                        className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-[#F8F9FE] text-[#71727A] flex-shrink-0"
                       >
                         {people.map((p) => (
                           <option key={p.name}>{p.name}</option>
@@ -757,7 +695,7 @@ export default function App() {
                         value={item.cost || ''}
                         onChange={(e) => updateShopCost(actualIndex, parseFloat(e.target.value) || 0)}
                         placeholder="Koszt"
-                        className="w-20 text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white text-[#1A1814]"
+                        className="w-20 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
                       />
                       <button
                         onClick={() => removeShopItem(actualIndex)}
@@ -778,7 +716,7 @@ export default function App() {
                     e.key === "Enter" && addShopItem()
                   }
                   placeholder="Dodaj produkt..."
-                  className="flex-1 min-w-[120px] text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
+                  className="flex-1 min-w-[120px] text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
                 />
                 <input
                   type="number"
@@ -788,12 +726,12 @@ export default function App() {
                     e.key === "Enter" && addShopItem()
                   }
                   placeholder="Koszt (zł)"
-                  className="w-24 text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
+                  className="w-24 text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
                 />
                 <select
                   value={shopWho}
                   onChange={(e) => setShopWho(e.target.value)}
-                  className="text-[13px] px-2.5 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] cursor-pointer hover:border-[#2D6A4F] transition-all"
+                  className="text-[13px] px-2.5 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] cursor-pointer hover:border-[#006FFD] transition-all"
                 >
                   {people.map((p) => (
                     <option key={p.name}>{p.name}</option>
@@ -801,22 +739,16 @@ export default function App() {
                 </select>
                 <button
                   onClick={addShopItem}
-                  className="text-[14px] font-bold px-5 py-3 border-2 border-[#FFCCBC] rounded-2xl bg-gradient-to-r from-[#FFE0D8] to-[#FFCCBC] text-[#D84315] cursor-pointer hover:shadow-md hover:scale-105 transition-all whitespace-nowrap shadow-sm"
+                  className="text-[12px] font-semibold px-4 py-2.5 rounded-[12px] bg-[#006FFD] text-white cursor-pointer hover:bg-[#2897FF] transition-colors whitespace-nowrap"
                 >
-                  ➕ Dodaj
+                  Dodaj
                 </button>
               </div>
             </div>
 
             {shopItems.filter(item => item.done).length > 0 && (
-              <div className="relative bg-white border-4 border-[#C5E1A5] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(197,225,165,0.4)] p-6">
-                <div className="absolute -top-3 -right-3">
-                  <svg width="40" height="40" viewBox="0 0 40 40">
-                    <circle cx="20" cy="20" r="15" fill="#8BC34A" opacity="0.3"/>
-                    <path d="M12,20 L18,26 L28,14" stroke="#689F38" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#558B2F] mb-4 flex items-center gap-2">
+              <div className="bg-white rounded-[12px] shadow-sm p-5">
+                <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                   ✓ Kupione
                 </div>
                 <div>
@@ -825,7 +757,7 @@ export default function App() {
                     return (
                       <div
                         key={actualIndex}
-                        className="flex items-center gap-2.5 py-2.5 border-b border-[#E2DDD5] last:border-b-0"
+                        className="flex items-center gap-2.5 py-2.5 border-b border-[#E8E9F1] last:border-b-0"
                       >
                         <input
                           type="checkbox"
@@ -842,7 +774,7 @@ export default function App() {
                         <select
                           value={item.who}
                           onChange={(e) => updateShopPerson(actualIndex, e.target.value)}
-                          className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-[#F0EDE6] text-[#B0ABA4] flex-shrink-0"
+                          className="text-xs px-2 py-1 border border-[#E8E9F1] rounded bg-[#F8F9FE] text-[#B0ABA4] flex-shrink-0"
                         >
                           {people.map((p) => (
                             <option key={p.name}>{p.name}</option>
@@ -853,7 +785,7 @@ export default function App() {
                           value={item.cost || ''}
                           onChange={(e) => updateShopCost(actualIndex, parseFloat(e.target.value) || 0)}
                           placeholder="Koszt"
-                          className="w-20 text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white text-[#B0ABA4]"
+                          className="w-20 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#B0ABA4]"
                         />
                         <button
                           onClick={() => removeShopItem(actualIndex)}
@@ -872,16 +804,9 @@ export default function App() {
 
         {/* Rzeczy Section */}
         {activeTab === "rzeczy" && (
-          <div className="grid md:grid-cols-2 gap-5">
-            <div className="relative bg-white border-4 border-[#CE93D8] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(206,147,216,0.4)] p-6">
-              <div className="absolute -top-3 -right-3">
-                <svg width="45" height="45" viewBox="0 0 45 45">
-                  <rect x="8" y="8" width="30" height="30" rx="5" stroke="#AB47BC" strokeWidth="3" fill="none"/>
-                  <circle cx="15" cy="15" r="3" fill="#AB47BC"/>
-                  <circle cx="30" cy="30" r="3" fill="#AB47BC"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#6A1B9A] mb-4 flex items-center gap-2">
+          <div className="grid md:grid-cols-2 gap-3">
+            <div className="bg-white rounded-[12px] shadow-sm p-5">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 🎮 Gry & gadżety
               </div>
               <div>
@@ -890,7 +815,7 @@ export default function App() {
                     key={i}
                     className={`flex items-center gap-2.5 py-2.5 ${
                       i < gearItems.length - 1
-                        ? "border-b border-[#E2DDD5]"
+                        ? "border-b border-[#E8E9F1]"
                         : ""
                     }`}
                   >
@@ -928,13 +853,13 @@ export default function App() {
                     e.key === "Enter" && addGear()
                   }
                   placeholder="Dodaj item..."
-                  className="text-sm px-3 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/20 transition-all"
+                  className="text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
                 />
                 <div className="flex gap-1.5">
                   <select
                     value={gearWho}
                     onChange={(e) => setGearWho(e.target.value)}
-                    className="flex-1 text-[13px] px-2.5 py-2.5 border-2 border-[#E2DDD5] rounded-xl bg-white text-[#1A1814] cursor-pointer hover:border-[#2D6A4F] transition-all"
+                    className="flex-1 text-[13px] px-2.5 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] cursor-pointer hover:border-[#006FFD] transition-all"
                   >
                     {people.map((p) => (
                       <option key={p.name}>{p.name}</option>
@@ -942,22 +867,16 @@ export default function App() {
                   </select>
                   <button
                     onClick={addGear}
-                    className="text-[14px] font-bold px-4 py-2.5 border-2 border-[#E1BEE7] rounded-2xl bg-gradient-to-r from-[#F3E5F5] to-[#E1BEE7] text-[#6A1B9A] cursor-pointer hover:shadow-md hover:scale-105 transition-all shadow-sm"
+                    className="text-[12px] font-semibold px-4 py-2.5 rounded-[12px] bg-[#006FFD] text-white cursor-pointer hover:bg-[#2897FF] transition-colors"
                   >
-                    ➕ Dodaj
+                    Dodaj
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="relative bg-white border-4 border-[#E1BEE7] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(225,190,231,0.4)] p-6">
-              <div className="absolute -top-3 -left-3">
-                <svg width="45" height="45" viewBox="0 0 45 45">
-                  <path d="M10,15 L20,10 L35,15 L35,30 L20,35 L10,30 Z" stroke="#9C27B0" strokeWidth="3" fill="none" strokeLinejoin="round"/>
-                  <path d="M18,20 L22,24 L28,18" stroke="#9C27B0" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#6A1B9A] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 ✅ Checklista
               </div>
               <div>
@@ -966,7 +885,7 @@ export default function App() {
                     key={i}
                     className={`flex items-center gap-2.5 py-2.5 ${
                       i < personalItems.length - 1
-                        ? "border-b border-[#E2DDD5]"
+                        ? "border-b border-[#E8E9F1]"
                         : ""
                     }`}
                   >
@@ -997,13 +916,13 @@ export default function App() {
                   onChange={(e) => setNewPersonalItem(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && addPersonalItem()}
                   placeholder="Dodaj item..."
-                  className="w-full text-sm px-3 py-2 border border-[#E2DDD5] rounded-lg bg-[#F0EDE6] text-[#1A1814] outline-none focus:border-[#2D6A4F] transition-colors mb-2"
+                  className="w-full text-sm px-3 py-2 border border-[#C5C6CC] rounded-[12px] bg-[#F8F9FE] text-[#1F2024] outline-none focus:border-[#006FFD] transition-colors mb-2"
                 />
                 <button
                   onClick={addPersonalItem}
-                  className="w-full text-sm font-bold px-4 py-2.5 border-2 border-[#E1BEE7] rounded-2xl bg-gradient-to-r from-[#F3E5F5] to-[#E1BEE7] text-[#6A1B9A] cursor-pointer hover:shadow-md hover:scale-105 transition-all shadow-sm"
+                  className="w-full text-[12px] font-semibold px-4 py-2.5 rounded-[12px] bg-[#006FFD] text-white cursor-pointer hover:bg-[#2897FF] transition-colors"
                 >
-                  ➕ Dodaj
+                  Dodaj
                 </button>
               </div>
             </div>
@@ -1012,18 +931,10 @@ export default function App() {
 
         {/* Plan Section */}
         {activeTab === "plan" && (
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-2 gap-3">
             {/* Piątek */}
-            <div className="relative bg-white border-4 border-[#FFE082] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,224,130,0.4)] p-6">
-              <div className="absolute -top-3 -right-3">
-                <svg width="50" height="50" viewBox="0 0 50 50">
-                  <rect x="10" y="8" width="30" height="35" rx="3" stroke="#FFA000" strokeWidth="3" fill="none"/>
-                  <line x1="15" y1="15" x2="35" y2="15" stroke="#FFA000" strokeWidth="2"/>
-                  <line x1="15" y1="22" x2="30" y2="22" stroke="#FFA000" strokeWidth="2"/>
-                  <line x1="15" y1="29" x2="32" y2="29" stroke="#FFA000" strokeWidth="2"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#F57C00] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 📋 Piątek — plan dnia
               </div>
               <div className="relative pl-5">
@@ -1033,43 +944,43 @@ export default function App() {
                     time: "09:00",
                     name: "Zbiórka i wyjazd",
                     desc: "Wyjazd z Warszawy",
-                    dot: "bg-[#00ACC1]",
+                    dot: "bg-[#006FFD]",
                   },
                   {
                     time: "10:00",
                     name: "Praca zdalna",
                     desc: "Skupienie i produktywność",
-                    dot: "bg-[#1B4F7A]",
+                    dot: "bg-[#2897FF]",
                   },
                   {
                     time: "16:00",
                     name: "Koniec pracy",
                     desc: "Czas na relaks",
-                    dot: "bg-[#66BB6A]",
+                    dot: "bg-[#3AC0A0]",
                   },
                   {
                     time: "16:15",
                     name: "Obiad",
                     desc: "Wspólny posiłek",
-                    dot: "bg-[#FFA000]",
+                    dot: "bg-[#FFB37C]",
                   },
                   {
                     time: "18:00",
                     name: "Gry planszowe / Gry terenowe / Spacery",
                     desc: "Aktywności integracyjne",
-                    dot: "bg-[#AB47BC]",
+                    dot: "bg-[#6FBAFF]",
                   },
                   {
                     time: "20:00",
                     name: "Ognisko / Grill",
                     desc: "Kolacja przy ognisku",
-                    dot: "bg-[#FF5722]",
+                    dot: "bg-[#FF616D]",
                   },
                   {
                     time: "22:00",
                     name: "Opowieści o duchach",
                     desc: "Wieczór przy ognisku",
-                    dot: "bg-[#78909C]",
+                    dot: "bg-[#71727A]",
                   },
                 ].map((event) => (
                   <div
@@ -1079,7 +990,7 @@ export default function App() {
                     <div
                       className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-white ${event.dot}`}
                     />
-                    <div className="font-['DM_Mono',monospace] text-[13px] font-medium text-[#7A7570] min-w-[44px] pt-0.5">
+                    <div className="font-['DM_Mono',monospace] text-[13px] font-medium text-[#71727A] min-w-[44px] pt-0.5">
                       {event.time}
                     </div>
                     <div>
@@ -1087,7 +998,7 @@ export default function App() {
                         {event.name}
                       </div>
                       {event.desc && (
-                        <div className="text-xs text-[#7A7570] mt-0.5">
+                        <div className="text-xs text-[#71727A] mt-0.5">
                           {event.desc}
                         </div>
                       )}
@@ -1098,14 +1009,8 @@ export default function App() {
             </div>
 
             {/* Sobota */}
-            <div className="relative bg-white border-4 border-[#AED581] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(174,213,129,0.4)] p-6">
-              <div className="absolute -top-3 -left-3">
-                <svg width="50" height="50" viewBox="0 0 50 50">
-                  <circle cx="25" cy="25" r="18" stroke="#9CCC65" strokeWidth="3" fill="none"/>
-                  <path d="M25,10 L25,25 L35,25" stroke="#9CCC65" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#558B2F] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 🌅 Sobota — plan dnia
               </div>
               <div className="relative pl-5">
@@ -1115,19 +1020,19 @@ export default function App() {
                     time: "09:00",
                     name: "Śniadanie",
                     desc: "Wspólny posiłek",
-                    dot: "bg-[#FFA000]",
+                    dot: "bg-[#FFB37C]",
                   },
                   {
                     time: "10:00",
                     name: "Spacer",
                     desc: "Zwiedzanie okolicy",
-                    dot: "bg-[#66BB6A]",
+                    dot: "bg-[#3AC0A0]",
                   },
                   {
                     time: "12:00",
                     name: "Wyjazd",
                     desc: "Powrót do Warszawy",
-                    dot: "bg-[#00ACC1]",
+                    dot: "bg-[#006FFD]",
                   },
                 ].map((event) => (
                   <div
@@ -1137,7 +1042,7 @@ export default function App() {
                     <div
                       className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-white ${event.dot}`}
                     />
-                    <div className="font-['DM_Mono',monospace] text-[13px] font-medium text-[#7A7570] min-w-[44px] pt-0.5">
+                    <div className="font-['DM_Mono',monospace] text-[13px] font-medium text-[#71727A] min-w-[44px] pt-0.5">
                       {event.time}
                     </div>
                     <div>
@@ -1145,7 +1050,7 @@ export default function App() {
                         {event.name}
                       </div>
                       {event.desc && (
-                        <div className="text-xs text-[#7A7570] mt-0.5">
+                        <div className="text-xs text-[#71727A] mt-0.5">
                           {event.desc}
                         </div>
                       )}
@@ -1160,64 +1065,53 @@ export default function App() {
         {/* Zrzutka Section */}
         {activeTab === "zrzutka" && (
           <>
-            <div className="relative bg-white border-4 border-[#AED581] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(174,213,129,0.4)] p-6 mb-5">
-              <div className="absolute -top-3 -right-3">
-                <svg width="50" height="50" viewBox="0 0 50 50">
-                  <circle cx="25" cy="25" r="18" stroke="#9CCC65" strokeWidth="3" fill="none"/>
-                  <text x="25" y="32" fontSize="20" fill="#689F38" textAnchor="middle" fontWeight="bold">💰</text>
-                </svg>
-              </div>
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
               <div className="grid grid-cols-3 gap-3 mb-4">
-                <div className="bg-gradient-to-br from-[#E1BEE7] to-[#CE93D8] rounded-2xl p-4 text-center border-3 border-[#AB47BC] shadow-md">
-                  <div className="text-[24px] font-black tracking-tight text-[#1A1A1A]">
+                <div className="bg-[#EAF2FF] rounded-[12px] p-4 text-center border border-[#B4DBFF]">
+                  <div className="text-[20px] font-extrabold tracking-[0.2px] text-[#1F2024]">
                     {total}
                   </div>
-                  <div className="text-[11px] text-[#4A148C] mt-1 font-bold uppercase">
+                  <div className="text-[10px] text-[#71727A] mt-1 font-semibold tracking-[0.8px] uppercase">
                     zł łącznie
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-[#B2EBF2] to-[#80DEEA] rounded-2xl p-4 text-center border-3 border-[#00ACC1] shadow-md">
-                  <div className="text-[24px] font-black tracking-tight text-[#1A1A1A]">
+                <div className="bg-[#EAF2FF] rounded-[12px] p-4 text-center border border-[#B4DBFF]">
+                  <div className="text-[20px] font-extrabold tracking-[0.2px] text-[#1F2024]">
                     {perPerson}
                   </div>
-                  <div className="text-[11px] text-[#006064] mt-1 font-bold uppercase">
+                  <div className="text-[10px] text-[#71727A] mt-1 font-semibold tracking-[0.8px] uppercase">
                     zł / osoba
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-[#C5E1A5] to-[#AED581] rounded-2xl p-4 text-center border-3 border-[#9CCC65] shadow-md">
-                  <div className="text-[24px] font-black tracking-tight text-[#1A1A1A]">
+                <div className="bg-[#EAF2FF] rounded-[12px] p-4 text-center border border-[#B4DBFF]">
+                  <div className="text-[20px] font-extrabold tracking-[0.2px] text-[#1F2024]">
                     {paidCount} / {people.length}
                   </div>
-                  <div className="text-[11px] text-[#33691E] mt-1 font-bold uppercase">
+                  <div className="text-[10px] text-[#71727A] mt-1 font-semibold tracking-[0.8px] uppercase">
                     opłacone
                   </div>
                 </div>
               </div>
               <div className="mb-1">
-                <div className="text-xs text-[#7A7570] mb-1.5">
+                <div className="text-[12px] text-[#71727A] mb-2 font-normal">
                   Zebrano środki
                 </div>
-                <div className="h-1.5 bg-[#F0EDE6] rounded-full overflow-hidden">
+                <div className="h-[8px] bg-[#E8E9F1] rounded-[4px] overflow-hidden">
                   <div
-                    className="h-full bg-[#2D6A4F] rounded-full transition-all duration-400"
+                    className="h-full bg-[#006FFD] rounded-[4px] transition-all duration-400"
                     style={{
                       width: `${Math.round((collected / total) * 100)}%`,
                     }}
                   />
                 </div>
-                <div className="text-xs text-[#7A7570] mt-1.5">
+                <div className="text-[12px] text-[#71727A] mt-2 font-normal">
                   {collected} / {total} zł
                 </div>
               </div>
             </div>
 
-            <div className="relative bg-white border-4 border-[#FFCCBC] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,204,188,0.4)] p-6 mb-5">
-              <div className="absolute -top-3 -left-3">
-                <svg width="40" height="40" viewBox="0 0 40 40">
-                  <path d="M8,20 Q20,8 32,20 Q20,32 8,20" stroke="#FF7043" strokeWidth="3" fill="none"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#D84315] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 💵 Podział kosztów
               </div>
               {[
@@ -1242,7 +1136,7 @@ export default function App() {
                   key={row.name}
                   className={`flex justify-between items-center py-2.5 text-sm ${
                     i < arr.length - 1
-                      ? "border-b border-[#E2DDD5]"
+                      ? "border-b border-[#E8E9F1]"
                       : ""
                   } ${row.total ? "font-semibold" : ""}`}
                 >
@@ -1255,14 +1149,14 @@ export default function App() {
             </div>
 
             {Object.keys(shoppingCosts).length > 0 && (
-              <div className="relative bg-white border-4 border-[#FFE082] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,224,130,0.4)] p-6 mb-5">
-                <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#F57C00] mb-4 flex items-center gap-2">
+              <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+                <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                   🛍️ Kto zapłacił za zakupy
                 </div>
                 {Object.entries(shoppingCosts).map(([personIdx, cost]) => (
                   <div
                     key={personIdx}
-                    className="flex justify-between items-center py-2.5 border-b border-[#E2DDD5] last:border-b-0 text-sm"
+                    className="flex justify-between items-center py-2.5 border-b border-[#E8E9F1] last:border-b-0 text-sm"
                   >
                     <span>{people[Number(personIdx)]?.name}</span>
                     <span className="font-['DM_Mono',monospace] text-[13px]">
@@ -1273,18 +1167,12 @@ export default function App() {
               </div>
             )}
 
-            <div className="relative bg-white border-4 border-[#C5E1A5] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(197,225,165,0.4)] p-6 mb-5">
-              <div className="absolute -top-3 -right-3">
-                <svg width="45" height="45" viewBox="0 0 45 45">
-                  <circle cx="22" cy="22" r="15" stroke="#9CCC65" strokeWidth="3" fill="none" strokeDasharray="3,3"/>
-                  <path d="M15,22 L20,27 L30,17" stroke="#689F38" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-1">
+                💳 Status wpłat — {perPerson} zł / os.
               </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#558B2F] mb-1">
-                💳 Status wpłat — {perPerson} zł / os. &nbsp;
-                <span className="text-[11px] text-[#689F38] font-semibold">
-                  (kliknij aby zmienić)
-                </span>
+              <div className="text-[12px] text-[#71727A] mb-3">
+                (kliknij aby zmienić)
               </div>
               <div className="mt-4">
                 {people.map((person, i) => {
@@ -1294,7 +1182,7 @@ export default function App() {
                     <div
                       key={person.name}
                       onClick={() => togglePay(i)}
-                      className="flex items-center gap-3 py-2.5 border-b border-[#E2DDD5] last:border-b-0 cursor-pointer"
+                      className="flex items-center gap-3 py-2.5 border-b border-[#E8E9F1] last:border-b-0 cursor-pointer"
                     >
                       <div
                         className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass(person.av)}`}
@@ -1306,19 +1194,19 @@ export default function App() {
                           {person.name}
                         </div>
                         {personPaid > 0 && (
-                          <div className="text-xs text-[#7A7570] mt-0.5">
+                          <div className="text-xs text-[#71727A] mt-0.5">
                             Zapłacono: {personPaid} zł · Do wpłaty: {shouldPay} zł
                           </div>
                         )}
                       </div>
                       <span
-                        className={`text-[12px] font-bold px-3 py-1.5 rounded-full border-2 flex-shrink-0 shadow-sm ${
+                        className={`text-[12px] font-medium px-3 py-1.5 rounded-[8px] flex-shrink-0 ${
                           payStatus[i]
-                            ? "bg-gradient-to-r from-[#E8F5E9] to-[#C8E6C9] text-[#2E7D32] border-[#A5D6A7]"
-                            : "bg-gradient-to-r from-[#FFF9E6] to-[#FFECB3] text-[#F57C00] border-[#FFE082]"
+                            ? "bg-[#E7F4E8] text-[#3AC0A0] border border-[#3AC0A0]"
+                            : "bg-[#FFF4E4] text-[#FFB37C] border border-[#FFB37C]"
                         }`}
                       >
-                        {payStatus[i] ? "✓ Opłacone" : "⏳ Do zapłaty"}
+                        {payStatus[i] ? "Opłacone" : "Do zapłaty"}
                       </span>
                     </div>
                   );
@@ -1326,15 +1214,8 @@ export default function App() {
               </div>
             </div>
 
-            <div className="relative bg-white border-4 border-[#B2EBF2] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(178,235,242,0.4)] p-6">
-              <div className="absolute -top-3 -left-3">
-                <svg width="45" height="45" viewBox="0 0 45 45">
-                  <rect x="8" y="15" width="30" height="20" rx="3" stroke="#00ACC1" strokeWidth="3" fill="none"/>
-                  <line x1="8" y1="22" x2="38" y2="22" stroke="#00ACC1" strokeWidth="2"/>
-                  <circle cx="15" cy="28" r="2" fill="#00ACC1"/>
-                </svg>
-              </div>
-              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#00838F] mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-[12px] shadow-sm p-5">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 🏦 Numer do przelewu
               </div>
               {[
@@ -1354,11 +1235,11 @@ export default function App() {
                   key={row.label}
                   className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
                     i < arr.length - 1
-                      ? "border-b border-[#E2DDD5]"
+                      ? "border-b border-[#E8E9F1]"
                       : ""
                   }`}
                 >
-                  <span className="text-[#7A7570] text-[13px] flex-shrink-0">
+                  <span className="text-[#71727A] text-[13px] flex-shrink-0">
                     {row.label}
                   </span>
                   <span

@@ -10,11 +10,12 @@ Aplikacja do organizacji wyjazdów integracyjnych z funkcjami:
 
 ## 🎨 Design
 
-Projekt wykorzystuje **pastelowy, nowoczesny design** z:
-- Kolorowymi gradientami
-- Ręcznie rysowanymi dekoracjami (doodles)
-- Responsywnymi kartami
-- Interaktywnymi animacjami
+Projekt wykorzystuje **czysty, minimalistyczny design Travel App** z:
+- Paletą niebieską (#006FFD jako główny kolor)
+- Białymi kartami z subtelnymi cieniami
+- Zaokrąglonymi rogami (12px)
+- Czystą typografią Inter
+- Dużą ilością białej przestrzeni
 
 ## 📚 Dokumentacja
 
@@ -34,11 +35,12 @@ Projekt wykorzystuje **pastelowy, nowoczesny design** z:
 - Mapowanie stylów Figma → Tailwind CSS
 
 ### Paleta kolorów
-🎨 **[PALETA_KOLOROW.md](./PALETA_KOLOROW.md)**
-- Wszystkie kolory pastelowe używane w projekcie
-- Kody hex i gradienty
-- Przykłady użycia w kodzie
-- Zasady doboru kolorów
+🎨 **[PALETA_TRAVEL_APP.md](./PALETA_TRAVEL_APP.md)**
+- Wszystkie kolory z szablonu Travel App
+- Kody hex dla wszystkich odcieni
+- Przykłady zastosowania w kodzie
+- Zasady projektowe Travel App
+- Tabela migracji ze starych kolorów
 
 ## 🚀 Szybki start
 
@@ -100,7 +102,7 @@ Wszystkie dane są przechowywane lokalnie w przeglądarce (LocalStorage):
 ## 🎯 Najczęstsze edycje
 
 ### Zmiana kolorów
-Zobacz: [PALETA_KOLOROW.md](./PALETA_KOLOROW.md)
+Zobacz: [PALETA_TRAVEL_APP.md](./PALETA_TRAVEL_APP.md)
 
 ### Zmiana planu dnia
 Zobacz: [INSTRUKCJA_EDYCJI.md](./INSTRUKCJA_EDYCJI.md#5-plan-dnia---piątek-linia-973-1017)

@@ -174,8 +174,17 @@
 
 ## 🎨 Paleta kolorów projektu
 
-Projekt używa **pastelowych kolorów** - pełna paleta z kodami hex dostępna w:
-📖 **`PALETA_KOLOROW.md`**
+Projekt używa **palety Travel App** - czysty, minimalistyczny design z niebieskim jako głównym kolorem.
+
+Pełna paleta z kodami hex dostępna w:
+📖 **`PALETA_TRAVEL_APP.md`**
+
+**Główne kolory do użycia w Figmie:**
+- Primary Blue: `#006FFD`
+- Background: `#F8F9FE`
+- Text: `#1F2024`
+- Secondary Text: `#71727A`
+- Borders: `#E8E9F1`
 
 Gdy projektujesz w Figmie, użyj tych samych kolorów aby zachować spójność!
 
@@ -189,7 +198,7 @@ Gdy projektujesz w Figmie, użyj tych samych kolorów aby zachować spójność!
 
 - `INSTRUKCJA_EDYCJI.md` - jak edytować zawartość i kolory w kodzie
 - `INSTRUKCJA_FIGMA.md` (ten plik) - integracja Figma ↔ Kod
-- `PALETA_KOLOROW.md` - pełna paleta kolorów pastelowych z kodami hex
+- `PALETA_TRAVEL_APP.md` - pełna paleta kolorów Travel App z kodami hex i przykładami
 
 ---
 

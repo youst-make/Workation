@@ -9,44 +9,53 @@ Cały kod strony znajduje się w jednym pliku:
 
 ## 🎨 Jak zmienić kolory?
 
-### Paleta kolorów pastelowych używana w projekcie:
-- **Różowy:** `#FFF5F7` → `#F3E5F5`
-- **Fioletowy:** `#F5F0FF` → `#E1BEE7`
-- **Żółty:** `#FFF9E6` → `#FFECB3`
-- **Niebieski:** `#E0F7FA` → `#B2EBF2`
-- **Zielony:** `#E8F5E9` → `#C8E6C9`
-- **Koralowy:** `#FFE0D8` → `#FFCCBC`
+### Paleta kolorów Travel App używana w projekcie:
 
-### Tło strony (linia 385)
+**Główne kolory:**
+- **Niebieski Primary:** `#006FFD` (przyciski, akcje)
+- **Niebieski Light:** `#EAF2FF` (tła, karty)
+- **Tekst główny:** `#1F2024`
+- **Tekst pomocniczy:** `#71727A`
+- **Tło strony:** `#F8F9FE`
+- **Bordery:** `#E8E9F1` lub `#C5C6CC`
+
+**Kolory wsparcia:**
+- **Sukces (zielony):** `#3AC0A0` / tło `#E7F4E8`
+- **Ostrzeżenie (pomarańczowy):** `#FFB37C` / tło `#FFF4E4`
+- **Błąd (czerwony):** `#FF616D` / tło `#FFE2E5`
+
+📖 **Pełna paleta:** Zobacz `PALETA_TRAVEL_APP.md`
+
+### Tło strony (linia ~385)
 ```tsx
-<div className="min-h-screen bg-gradient-to-br from-[#FFF5F7] via-[#F5F0FF] to-[#FFF9E6] ...">
+<div className="min-h-screen bg-[#F8F9FE] py-6 px-4 pb-20">
 ```
-- `from-[#FFF5F7]` - różowy pastel
-- `via-[#F5F0FF]` - fioletowy pastel  
-- `to-[#FFF9E6]` - żółty pastel
+- `bg-[#F8F9FE]` - bardzo jasny szary (Neutral Lightest)
 
-### Kolory zakładek (linia 439-450) - PASTELOWE
-Każda zakładka ma swój pastelowy gradient:
+### Kolory zakładek (linia ~439)
+Wszystkie zakładki używają tego samego niebieskieg koloru:
 ```tsx
-{ id: "plan", label: "📋 Plan dnia", color: "from-[#FFF9E6] to-[#FFECB3]" }
-{ id: "transport", label: "🚗 Transport", color: "from-[#E0F7FA] to-[#B2EBF2]" }
-{ id: "zrzutka", label: "💸 Zrzutka", color: "from-[#E8F5E9] to-[#C8E6C9]" }
+// Aktywna zakładka
+className="bg-[#006FFD] text-white"
+
+// Nieaktywna zakładka  
+className="bg-white text-[#71727A] border border-[#E8E9F1]"
 ```
 
-### Kolory chipów w hero (linia 414-417) - PASTELOWE
+### Kolory chipów w hero (linia ~414)
 ```tsx
-{ emoji: "📅", text: settings.date, color: "from-[#F3E5F5] to-[#E1BEE7]" }
-{ emoji: "📍", text: settings.location, color: "from-[#E0F7FA] to-[#B2EBF2]" }
-{ emoji: "🏡", text: settings.venue, color: "from-[#E8F5E9] to-[#C8E6C9]" }
-{ emoji: "👥", text: people.length, color: "from-[#FFF9E6] to-[#FFECB3]" }
+// Wszystkie chipy mają ten sam styl
+className="bg-[#F8F9FE] border border-[#E8E9F1] text-[#1F2024]"
 ```
 
-### Kolory avatarów (linia 374-381) - PASTELOWE
+### Kolory avatarów (linia ~374)
 ```tsx
 const getAvatarClass = (av: string) => {
   const map: Record<string, string> = {
-    "av-g": "bg-gradient-to-br from-[#D4F1D4] to-[#B8E6B8] ...",
-    "av-a": "bg-gradient-to-br from-[#FFF4D6] to-[#FFE9B3] ...",
+    "av-g": "bg-[#E7F4E8] text-[#3AC0A0] border-[#3AC0A0]",  // Zielony
+    "av-a": "bg-[#FFF4E4] text-[#FFB37C] border-[#FFB37C]",  // Pomarańczowy
+    "av-b": "bg-[#EAF2FF] text-[#006FFD] border-[#006FFD]",  // Niebieski
+    "av-c": "bg-[#FFE2E5] text-[#FF616D] border-[#FF616D]",  // Czerwony
     // itd.
   };
 }
@@ -76,13 +85,13 @@ const PEOPLE: Person[] = [
 ];
 ```
 
-Kolory avatarów (pastelowe):
-- `av-g` - zielony pastel (#D4F1D4 → #B8E6B8)
-- `av-a` - bursztynowy pastel (#FFF4D6 → #FFE9B3)
-- `av-b` - niebieski pastel (#D1F2F9 → #B3E5FC)
-- `av-c` - koralowy pastel (#FFE0D8 → #FFCCBC)
-- `av-p` - fioletowy pastel (#EDD7F0 → #E1BEE7)
-- `av-2` - szary pastel (#ECEFF1 → #CFD8DC)
+Kolory avatarów (Travel App):
+- `av-g` - zielony sukcesu (#E7F4E8 tło, #3AC0A0 tekst)
+- `av-a` - pomarańczowy ostrzeżenia (#FFF4E4 tło, #FFB37C tekst)
+- `av-b` - niebieski primary (#EAF2FF tło, #006FFD tekst)
+- `av-c` - czerwony błędu (#FFE2E5 tło, #FF616D tekst)
+- `av-p` - niebieski medium (#EAF2FF tło, #6FBAFF tekst)
+- `av-2` - szary neutralny (#F8F9FE tło, #71727A tekst)
 
 ### 3. Lista zakupów (linia 39-53)
 ```tsx
@@ -205,3 +214,4 @@ Jeśli chcesz:
 
 - `INSTRUKCJA_EDYCJI.md` (ten plik) - jak edytować zawartość i kolory
 - `INSTRUKCJA_FIGMA.md` - jak pracować z Figma Design
+- `PALETA_TRAVEL_APP.md` - pełna paleta kolorów Travel App z przykładami
