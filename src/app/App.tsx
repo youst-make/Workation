@@ -683,8 +683,10 @@ export default function App() {
                   "Ognisko",
                   "WiFi",
                   "Parking",
-                  "Kuchnia wspólna",
+                  "Wybitne towarzystwo",
                   "Duży ogród",
+                  "Doznania artystyczne"
+                  "Czyste powietrze",
                 ].map((tag) => (
                   <span
                     key={tag}
