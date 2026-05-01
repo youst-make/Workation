@@ -372,63 +372,91 @@ export default function App() {
 
   const getAvatarClass = (av: string) => {
     const map: Record<string, string> = {
-      "av-g": "bg-[#D8F3DC] text-[#2D6A4F]",
-      "av-a": "bg-[#FFF0CC] text-[#7C4A00]",
-      "av-b": "bg-[#D6E8F7] text-[#1B4F7A]",
-      "av-c": "bg-[#FDDDD7] text-[#8B3A2A]",
-      "av-p": "bg-[#E8E4F8] text-[#4A3880]",
-      "av-2": "bg-[#F0EDE6] text-[#7A7570]",
+      "av-g": "bg-gradient-to-br from-[#A5D6A7] to-[#81C784] text-[#1B5E20] border-3 border-[#66BB6A] shadow-md",
+      "av-a": "bg-gradient-to-br from-[#FFE082] to-[#FFD54F] text-[#F57C00] border-3 border-[#FFA000] shadow-md",
+      "av-b": "bg-gradient-to-br from-[#80DEEA] to-[#4DD0E1] text-[#006064] border-3 border-[#00ACC1] shadow-md",
+      "av-c": "bg-gradient-to-br from-[#FFAB91] to-[#FF8A65] text-[#BF360C] border-3 border-[#FF5722] shadow-md",
+      "av-p": "bg-gradient-to-br from-[#CE93D8] to-[#BA68C8] text-[#4A148C] border-3 border-[#AB47BC] shadow-md",
+      "av-2": "bg-gradient-to-br from-[#CFD8DC] to-[#B0BEC5] text-[#263238] border-3 border-[#78909C] shadow-md",
     };
     return map[av] || map["av-2"];
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F5F2EC] to-[#E8E3D8] py-8 px-5 pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFF5F7] via-[#F5F0FF] to-[#FFF9E6] py-8 px-5 pb-20 relative overflow-hidden">
+      {/* Doodle decorations */}
+      <div className="absolute top-10 right-10 w-32 h-32 opacity-20 pointer-events-none">
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <path d="M20,50 Q30,20 50,30 T80,50" stroke="#9C27B0" strokeWidth="3" fill="none" strokeLinecap="round"/>
+          <circle cx="70" cy="30" r="8" fill="#FFB300" opacity="0.6"/>
+          <path d="M10,70 L25,85 L15,90" stroke="#E91E63" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        </svg>
+      </div>
+      <div className="absolute bottom-20 left-10 w-40 h-40 opacity-15 pointer-events-none">
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <circle cx="30" cy="30" r="25" stroke="#00BCD4" strokeWidth="2.5" fill="none" strokeDasharray="5,5"/>
+          <path d="M60,60 Q70,40 80,60 Q90,80 70,85" stroke="#4CAF50" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        </svg>
+      </div>
+
       <div className="max-w-[900px] mx-auto">
         {/* Hero */}
-        <div className="relative overflow-hidden bg-white/80 backdrop-blur-sm rounded-[20px] border border-[#E2DDD5] shadow-lg shadow-black/5 p-7 mb-6">
-          <div
-            className="absolute -top-10 -right-10 w-[180px] h-[180px] rounded-full opacity-60"
-            style={{
-              background:
-                "radial-gradient(circle, #D8F3DC 0%, transparent 70%)",
-            }}
-          />
+        <div className="relative overflow-hidden bg-white rounded-[28px] border-4 border-[#9C27B0] shadow-[8px_8px_0px_0px_rgba(156,39,176,0.2)] p-7 mb-6">
+          {/* Doodle elements */}
+          <div className="absolute -top-2 -right-2 w-24 h-24">
+            <svg viewBox="0 0 100 100" className="w-full h-full opacity-60">
+              <circle cx="50" cy="50" r="40" fill="#FFE082" stroke="#FFB300" strokeWidth="3"/>
+              <path d="M30,50 Q50,30 70,50" stroke="#FFB300" strokeWidth="2.5" fill="none"/>
+            </svg>
+          </div>
+          <div className="absolute bottom-4 left-4 opacity-40">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <path d="M10,30 L20,10 L30,30 L50,20 L40,40 L50,50" stroke="#E91E63" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+
           <div className="relative">
-            <div className="text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D6A4F] mb-2">
-              WYJAZD SMART'ÓW
+            <div className="inline-block text-[11px] font-bold tracking-[0.1em] uppercase text-white bg-gradient-to-r from-[#E91E63] to-[#9C27B0] px-4 py-2 rounded-full mb-3 shadow-md">
+              ✨ WYJAZD SMART'ÓW ✨
             </div>
-            <h1 className="text-[26px] font-semibold tracking-tight leading-tight mb-1">
+            <h1 className="text-[32px] font-bold tracking-tight leading-tight mb-2 text-[#1A1A1A]">
               {settings.title}
             </h1>
-            <div className="text-sm text-[#7A7570] mb-5">
+            <div className="text-base text-[#666] mb-6 font-medium">
               {settings.subtitle}
             </div>
-            <div className="flex justify-between items-start gap-4">
-              <div className="flex flex-wrap gap-2 flex-1">
+            <div className="flex justify-between items-start gap-4 flex-wrap">
+              <div className="flex flex-wrap gap-2.5 flex-1">
                 {[
-                  `📅 ${settings.date}`,
-                  `📍 ${settings.location}`,
-                  settings.venue ? `🏡 ${settings.venue}` : null,
-                  `👥 ${people.length} osób`,
+                  { emoji: "📅", text: settings.date, color: "from-[#E1BEE7] to-[#CE93D8]" },
+                  { emoji: "📍", text: settings.location, color: "from-[#B2EBF2] to-[#80DEEA]" },
+                  settings.venue ? { emoji: "🏡", text: settings.venue, color: "from-[#C8E6C9] to-[#A5D6A7]" } : null,
+                  { emoji: "👥", text: `${people.length} osób`, color: "from-[#FFECB3] to-[#FFE082]" },
                 ].filter(Boolean).map((chip) => (
                   <div
-                    key={chip}
-                    className="text-[13px] bg-[#F0EDE6] border border-[#E2DDD5] rounded-full px-3 py-1 text-[#7A7570] flex items-center gap-1.5"
+                    key={chip.text}
+                    className={`text-[14px] font-semibold bg-gradient-to-r ${chip.color} rounded-full px-4 py-2 text-[#1A1A1A] shadow-md hover:scale-105 transition-transform`}
                   >
-                    {chip}
+                    <span className="mr-1.5">{chip.emoji}</span>
+                    {chip.text}
                   </div>
                 ))}
               </div>
 
               {/* Widget pogody */}
-              <div className="bg-gradient-to-br from-[#FFF8E1] to-[#FFE082] border border-[#FFD54F] rounded-2xl px-4 py-3 min-w-[140px] self-start shadow-md">
-                <div className="text-xs text-[#7A7570] mb-1 font-medium">Pogoda</div>
-                <div className="flex items-center gap-2">
-                  <div className="text-3xl">☀️</div>
+              <div className="relative bg-gradient-to-br from-[#FFD54F] to-[#FFA726] border-4 border-[#FF8F00] rounded-3xl px-5 py-4 min-w-[160px] self-start shadow-[6px_6px_0px_0px_rgba(255,143,0,0.3)]">
+                <div className="absolute -top-3 -right-3 w-8 h-8">
+                  <svg viewBox="0 0 40 40" className="w-full h-full">
+                    <circle cx="20" cy="20" r="18" fill="#FF6F00" opacity="0.5"/>
+                    <circle cx="20" cy="20" r="12" fill="#FFD54F"/>
+                  </svg>
+                </div>
+                <div className="text-xs text-[#4A2800] mb-1 font-bold uppercase tracking-wider">Pogoda</div>
+                <div className="flex items-center gap-3">
+                  <div className="text-4xl">☀️</div>
                   <div>
-                    <div className="text-xl font-bold leading-tight text-[#FF6F00]">24°C</div>
-                    <div className="text-[10px] text-[#7A7570] font-medium">Słonecznie</div>
+                    <div className="text-2xl font-black leading-tight text-[#4A2800]">24°C</div>
+                    <div className="text-[11px] text-[#6D4C00] font-semibold">Słonecznie</div>
                   </div>
                 </div>
               </div>
@@ -437,29 +465,31 @@ export default function App() {
         </div>
 
         {/* Navigation */}
-        <div className="flex gap-2 flex-wrap mb-6 bg-white/60 backdrop-blur-sm rounded-2xl p-2 shadow-sm">
+        <div className="flex gap-2.5 flex-wrap mb-6 bg-white rounded-3xl p-3 shadow-lg border-3 border-[#E1BEE7]">
           {[
             {
               id: "transport" as TabType,
               label: "🚗 Transport",
+              color: "from-[#B2EBF2] to-[#80DEEA]",
             },
-            { id: "plan" as TabType, label: "📋 Plan dnia" },
-            { id: "zrzutka" as TabType, label: "💸 Zrzutka" },
-            { id: "zakupy" as TabType, label: "🛒 Zakupy" },
-            { id: "rzeczy" as TabType, label: "🎒 Co zabrać" },
-            { id: "nocleg" as TabType, label: "🏡 Nocleg" },
+            { id: "plan" as TabType, label: "📋 Plan dnia", color: "from-[#FFECB3] to-[#FFE082]" },
+            { id: "zrzutka" as TabType, label: "💸 Zrzutka", color: "from-[#C5E1A5] to-[#AED581]" },
+            { id: "zakupy" as TabType, label: "🛒 Zakupy", color: "from-[#FFCCBC] to-[#FFAB91]" },
+            { id: "rzeczy" as TabType, label: "🎒 Co zabrać", color: "from-[#E1BEE7] to-[#CE93D8]" },
+            { id: "nocleg" as TabType, label: "🏡 Nocleg", color: "from-[#C8E6C9] to-[#A5D6A7]" },
             {
               id: "ustawienia" as TabType,
               label: "⚙️ Ustawienia",
+              color: "from-[#CFD8DC] to-[#B0BEC5]",
             },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`text-[13px] font-semibold px-5 py-2.5 rounded-xl transition-all whitespace-nowrap ${
+              className={`text-[14px] font-bold px-5 py-3 rounded-2xl transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? "bg-gradient-to-r from-[#2D6A4F] to-[#1B4F3A] text-white shadow-lg shadow-green-900/20 scale-105"
-                  : "bg-white/50 text-[#7A7570] hover:bg-white hover:shadow-md hover:text-[#1A1814]"
+                  ? `bg-gradient-to-r ${tab.color} text-[#1A1A1A] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] scale-105 border-3 border-[#1A1A1A]`
+                  : "bg-white text-[#666] hover:bg-gray-50 hover:scale-102 border-2 border-transparent"
               }`}
             >
               {tab.label}
@@ -470,9 +500,14 @@ export default function App() {
         {/* Transport Section */}
         {activeTab === "transport" && (
           <>
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Auta i pasażerowie
+            <div className="relative bg-white border-4 border-[#80DEEA] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(128,222,234,0.3)] p-6 mb-5">
+              <div className="absolute -top-3 -left-3">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                  <path d="M5,20 Q15,5 25,20 T35,20" stroke="#00BCD4" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#00838F] mb-4 flex items-center gap-2">
+                🚗 Auta i pasażerowie
               </div>
 
               {drivers.map((driver, driverIdx) => (
@@ -527,9 +562,9 @@ export default function App() {
                     </div>
                     <button
                       onClick={() => setEditingDriver(editingDriver === driverIdx ? null : driverIdx)}
-                      className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#D8F3DC] text-[#2D6A4F] border border-[#B7E4C7] flex-shrink-0"
+                      className="text-[12px] font-bold px-3 py-1.5 rounded-full bg-gradient-to-r from-[#80DEEA] to-[#4DD0E1] text-[#006064] border-2 border-[#00ACC1] flex-shrink-0 shadow-md hover:scale-105 transition-transform"
                     >
-                      {editingDriver === driverIdx ? 'Zapisz' : 'Kierowca'}
+                      {editingDriver === driverIdx ? '✓ Zapisz' : '✎ Kierowca'}
                     </button>
                   </div>
 
@@ -550,9 +585,9 @@ export default function App() {
                       </div>
                       <button
                         onClick={() => removePassenger(driverIdx, passengerIdx)}
-                        className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white text-[#8B3A2A] hover:bg-[#FDDDD7] transition-colors"
+                        className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
                       >
-                        Usuń
+                        ✕ Usuń
                       </button>
                     </div>
                   ))}
@@ -584,9 +619,15 @@ export default function App() {
               ))}
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Trasa
+            <div className="relative bg-white border-4 border-[#FFE082] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,224,130,0.4)] p-6">
+              <div className="absolute -top-2 -right-2">
+                <svg width="50" height="50" viewBox="0 0 50 50">
+                  <circle cx="25" cy="25" r="20" fill="#FFD54F" opacity="0.6"/>
+                  <path d="M15,25 L35,25 M25,15 L25,35" stroke="#FFA000" strokeWidth="3" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#F57C00] mb-4 flex items-center gap-2">
+                🗺️ Trasa
               </div>
               {[
                 {
@@ -630,9 +671,15 @@ export default function App() {
         {/* Nocleg Section */}
         {activeTab === "nocleg" && (
           <>
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Obiekt
+            <div className="relative bg-white border-4 border-[#A5D6A7] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(165,214,167,0.4)] p-6 mb-5">
+              <div className="absolute -top-3 -right-3">
+                <svg width="45" height="45" viewBox="0 0 45 45">
+                  <rect x="10" y="15" width="25" height="20" stroke="#66BB6A" strokeWidth="3" fill="none" rx="5"/>
+                  <path d="M15,10 L22.5,5 L30,10" stroke="#66BB6A" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#2E7D32] mb-4 flex items-center gap-2">
+                🏡 Obiekt
               </div>
               {[
                 { label: "Check-in", value: "od 16:00 (sobota)" },
@@ -659,11 +706,11 @@ export default function App() {
               ))}
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Udogodnienia
+            <div className="relative bg-white border-4 border-[#C8E6C9] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(200,230,201,0.4)] p-6">
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#2E7D32] mb-4 flex items-center gap-2">
+                ✨ Udogodnienia
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2.5">
                 {[
                   "Grill",
                   "Ognisko",
@@ -674,7 +721,7 @@ export default function App() {
                 ].map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#D8F3DC] text-[#2D6A4F] border border-[#B7E4C7]"
+                    className="text-sm font-bold px-4 py-2 rounded-full bg-gradient-to-r from-[#C8E6C9] to-[#A5D6A7] text-[#1B5E20] border-3 border-[#66BB6A] shadow-md hover:scale-105 transition-transform"
                   >
                     {tag}
                   </span>
@@ -687,9 +734,16 @@ export default function App() {
         {/* Zakupy Section */}
         {activeTab === "zakupy" && (
           <>
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Do kupienia
+            <div className="relative bg-white border-4 border-[#FFAB91] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,171,145,0.4)] p-6 mb-5">
+              <div className="absolute -top-3 -left-3">
+                <svg width="50" height="50" viewBox="0 0 50 50">
+                  <path d="M10,20 L15,10 L35,10 L40,20 L35,40 L15,40 Z" stroke="#FF5722" strokeWidth="3" fill="none" strokeLinejoin="round"/>
+                  <circle cx="20" cy="25" r="3" fill="#FF5722"/>
+                  <circle cx="30" cy="25" r="3" fill="#FF5722"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#D84315] mb-4 flex items-center gap-2">
+                🛒 Do kupienia
               </div>
               <div>
                 {shopItems.filter(item => !item.done).map((item, originalIndex) => {
@@ -729,9 +783,9 @@ export default function App() {
                       />
                       <button
                         onClick={() => removeShopItem(actualIndex)}
-                        className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white text-[#8B3A2A] hover:bg-[#FDDDD7] transition-colors"
+                        className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
                       >
-                        Usuń
+                        ✕
                       </button>
                     </div>
                   );
@@ -769,17 +823,23 @@ export default function App() {
                 </select>
                 <button
                   onClick={addShopItem}
-                  className="text-[13px] font-semibold px-4 py-2 border-0 rounded-xl bg-gradient-to-r from-[#2D6A4F] to-[#1B4F3A] text-white cursor-pointer hover:shadow-lg hover:scale-105 transition-all whitespace-nowrap shadow-md"
+                  className="text-[14px] font-black px-5 py-3 border-3 border-[#FF5722] rounded-2xl bg-gradient-to-r from-[#FFAB91] to-[#FF8A65] text-[#1A1A1A] cursor-pointer hover:shadow-lg hover:scale-105 transition-all whitespace-nowrap shadow-[4px_4px_0px_0px_rgba(255,87,34,0.3)]"
                 >
-                  + Dodaj
+                  ➕ Dodaj
                 </button>
               </div>
             </div>
 
             {shopItems.filter(item => item.done).length > 0 && (
-              <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6">
-                <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                  Kupione ✓
+              <div className="relative bg-white border-4 border-[#C5E1A5] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(197,225,165,0.4)] p-6">
+                <div className="absolute -top-3 -right-3">
+                  <svg width="40" height="40" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="15" fill="#8BC34A" opacity="0.3"/>
+                    <path d="M12,20 L18,26 L28,14" stroke="#689F38" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#558B2F] mb-4 flex items-center gap-2">
+                  ✓ Kupione
                 </div>
                 <div>
                   {shopItems.filter(item => item.done).map((item, originalIndex) => {
@@ -819,9 +879,9 @@ export default function App() {
                         />
                         <button
                           onClick={() => removeShopItem(actualIndex)}
-                          className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white text-[#8B3A2A] hover:bg-[#FDDDD7] transition-colors"
+                          className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
                         >
-                          Usuń
+                          ✕
                         </button>
                       </div>
                     );
@@ -834,10 +894,17 @@ export default function App() {
 
         {/* Rzeczy Section */}
         {activeTab === "rzeczy" && (
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Gry & gadżety
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="relative bg-white border-4 border-[#CE93D8] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(206,147,216,0.4)] p-6">
+              <div className="absolute -top-3 -right-3">
+                <svg width="45" height="45" viewBox="0 0 45 45">
+                  <rect x="8" y="8" width="30" height="30" rx="5" stroke="#AB47BC" strokeWidth="3" fill="none"/>
+                  <circle cx="15" cy="15" r="3" fill="#AB47BC"/>
+                  <circle cx="30" cy="30" r="3" fill="#AB47BC"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#6A1B9A] mb-4 flex items-center gap-2">
+                🎮 Gry & gadżety
               </div>
               <div>
                 {gearItems.map((item, i) => (
@@ -867,9 +934,9 @@ export default function App() {
                     </div>
                     <button
                       onClick={() => removeGearItem(i)}
-                      className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white text-[#8B3A2A] hover:bg-[#FDDDD7] transition-colors"
+                      className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
                     >
-                      Usuń
+                      ✕
                     </button>
                   </div>
                 ))}
@@ -897,17 +964,23 @@ export default function App() {
                   </select>
                   <button
                     onClick={addGear}
-                    className="text-[13px] font-semibold px-4 py-2 border-0 rounded-xl bg-gradient-to-r from-[#2D6A4F] to-[#1B4F3A] text-white cursor-pointer hover:shadow-lg hover:scale-105 transition-all shadow-md"
+                    className="text-[14px] font-black px-4 py-2.5 border-3 border-[#AB47BC] rounded-2xl bg-gradient-to-r from-[#CE93D8] to-[#BA68C8] text-[#1A1A1A] cursor-pointer hover:shadow-lg hover:scale-105 transition-all shadow-[4px_4px_0px_0px_rgba(171,71,188,0.3)]"
                   >
-                    + Dodaj
+                    ➕ Dodaj
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Checklista
+            <div className="relative bg-white border-4 border-[#E1BEE7] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(225,190,231,0.4)] p-6">
+              <div className="absolute -top-3 -left-3">
+                <svg width="45" height="45" viewBox="0 0 45 45">
+                  <path d="M10,15 L20,10 L35,15 L35,30 L20,35 L10,30 Z" stroke="#9C27B0" strokeWidth="3" fill="none" strokeLinejoin="round"/>
+                  <path d="M18,20 L22,24 L28,18" stroke="#9C27B0" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#6A1B9A] mb-4 flex items-center gap-2">
+                ✅ Checklista
               </div>
               <div>
                 {personalItems.map((item, i) => (
@@ -932,9 +1005,9 @@ export default function App() {
                     </span>
                     <button
                       onClick={() => removePersonalItem(i)}
-                      className="text-xs px-2 py-1 border border-[#E2DDD5] rounded bg-white text-[#8B3A2A] hover:bg-[#FDDDD7] transition-colors"
+                      className="text-xs font-bold px-2.5 py-1.5 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
                     >
-                      Usuń
+                      ✕
                     </button>
                   </div>
                 ))}
@@ -950,9 +1023,9 @@ export default function App() {
                 />
                 <button
                   onClick={addPersonalItem}
-                  className="w-full text-sm font-semibold px-4 py-2 border-0 rounded-xl bg-gradient-to-r from-[#2D6A4F] to-[#1B4F3A] text-white cursor-pointer hover:shadow-lg hover:scale-105 transition-all shadow-md"
+                  className="w-full text-sm font-black px-4 py-2.5 border-3 border-[#9C27B0] rounded-2xl bg-gradient-to-r from-[#E1BEE7] to-[#CE93D8] text-[#1A1A1A] cursor-pointer hover:shadow-lg hover:scale-105 transition-all shadow-[4px_4px_0px_0px_rgba(156,39,176,0.3)]"
                 >
-                  + Dodaj
+                  ➕ Dodaj
                 </button>
               </div>
             </div>
@@ -962,9 +1035,17 @@ export default function App() {
         {/* Plan Section */}
         {activeTab === "plan" && (
           <>
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Sobota — plan dnia
+            <div className="relative bg-white border-4 border-[#FFE082] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,224,130,0.4)] p-6">
+              <div className="absolute -top-3 -right-3">
+                <svg width="50" height="50" viewBox="0 0 50 50">
+                  <rect x="10" y="8" width="30" height="35" rx="3" stroke="#FFA000" strokeWidth="3" fill="none"/>
+                  <line x1="15" y1="15" x2="35" y2="15" stroke="#FFA000" strokeWidth="2"/>
+                  <line x1="15" y1="22" x2="30" y2="22" stroke="#FFA000" strokeWidth="2"/>
+                  <line x1="15" y1="29" x2="32" y2="29" stroke="#FFA000" strokeWidth="2"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#F57C00] mb-4 flex items-center gap-2">
+                📋 Sobota — plan dnia
               </div>
               <div className="relative pl-5">
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#E2DDD5]"></div>
@@ -1042,29 +1123,35 @@ export default function App() {
         {/* Zrzutka Section */}
         {activeTab === "zrzutka" && (
           <>
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-              <div className="grid grid-cols-3 gap-2.5 mb-4">
-                <div className="bg-[#F0EDE6] rounded-lg p-3.5 text-center border border-[#E2DDD5]">
-                  <div className="text-[22px] font-semibold tracking-tight">
+            <div className="relative bg-white border-4 border-[#AED581] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(174,213,129,0.4)] p-6 mb-5">
+              <div className="absolute -top-3 -right-3">
+                <svg width="50" height="50" viewBox="0 0 50 50">
+                  <circle cx="25" cy="25" r="18" stroke="#9CCC65" strokeWidth="3" fill="none"/>
+                  <text x="25" y="32" fontSize="20" fill="#689F38" textAnchor="middle" fontWeight="bold">💰</text>
+                </svg>
+              </div>
+              <div className="grid grid-cols-3 gap-3 mb-4">
+                <div className="bg-gradient-to-br from-[#E1BEE7] to-[#CE93D8] rounded-2xl p-4 text-center border-3 border-[#AB47BC] shadow-md">
+                  <div className="text-[24px] font-black tracking-tight text-[#1A1A1A]">
                     {total}
                   </div>
-                  <div className="text-[11px] text-[#7A7570] mt-1">
+                  <div className="text-[11px] text-[#4A148C] mt-1 font-bold uppercase">
                     zł łącznie
                   </div>
                 </div>
-                <div className="bg-[#F0EDE6] rounded-lg p-3.5 text-center border border-[#E2DDD5]">
-                  <div className="text-[22px] font-semibold tracking-tight">
+                <div className="bg-gradient-to-br from-[#B2EBF2] to-[#80DEEA] rounded-2xl p-4 text-center border-3 border-[#00ACC1] shadow-md">
+                  <div className="text-[24px] font-black tracking-tight text-[#1A1A1A]">
                     {perPerson}
                   </div>
-                  <div className="text-[11px] text-[#7A7570] mt-1">
+                  <div className="text-[11px] text-[#006064] mt-1 font-bold uppercase">
                     zł / osoba
                   </div>
                 </div>
-                <div className="bg-[#F0EDE6] rounded-lg p-3.5 text-center border border-[#E2DDD5]">
-                  <div className="text-[22px] font-semibold tracking-tight">
+                <div className="bg-gradient-to-br from-[#C5E1A5] to-[#AED581] rounded-2xl p-4 text-center border-3 border-[#9CCC65] shadow-md">
+                  <div className="text-[24px] font-black tracking-tight text-[#1A1A1A]">
                     {paidCount} / {people.length}
                   </div>
-                  <div className="text-[11px] text-[#7A7570] mt-1">
+                  <div className="text-[11px] text-[#33691E] mt-1 font-bold uppercase">
                     opłacone
                   </div>
                 </div>
@@ -1087,9 +1174,14 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Podział kosztów
+            <div className="relative bg-white border-4 border-[#FFCCBC] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,204,188,0.4)] p-6 mb-5">
+              <div className="absolute -top-3 -left-3">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                  <path d="M8,20 Q20,8 32,20 Q20,32 8,20" stroke="#FF7043" strokeWidth="3" fill="none"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#D84315] mb-4 flex items-center gap-2">
+                💵 Podział kosztów
               </div>
               {[
                 {
@@ -1126,9 +1218,9 @@ export default function App() {
             </div>
 
             {Object.keys(shoppingCosts).length > 0 && (
-              <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-                <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                  Kto zapłacił za zakupy
+              <div className="relative bg-white border-4 border-[#FFE082] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(255,224,130,0.4)] p-6 mb-5">
+                <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#F57C00] mb-4 flex items-center gap-2">
+                  🛍️ Kto zapłacił za zakupy
                 </div>
                 {Object.entries(shoppingCosts).map(([personIdx, cost]) => (
                   <div
@@ -1144,10 +1236,16 @@ export default function App() {
               </div>
             )}
 
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-1">
-                Status wpłat — {perPerson} zł / os. &nbsp;
-                <span className="text-[11px] text-[#B0ABA4] font-normal">
+            <div className="relative bg-white border-4 border-[#C5E1A5] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(197,225,165,0.4)] p-6 mb-5">
+              <div className="absolute -top-3 -right-3">
+                <svg width="45" height="45" viewBox="0 0 45 45">
+                  <circle cx="22" cy="22" r="15" stroke="#9CCC65" strokeWidth="3" fill="none" strokeDasharray="3,3"/>
+                  <path d="M15,22 L20,27 L30,17" stroke="#689F38" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#558B2F] mb-1">
+                💳 Status wpłat — {perPerson} zł / os. &nbsp;
+                <span className="text-[11px] text-[#689F38] font-semibold">
                   (kliknij aby zmienić)
                 </span>
               </div>
@@ -1177,13 +1275,13 @@ export default function App() {
                         )}
                       </div>
                       <span
-                        className={`text-[11px] font-medium px-2.5 py-1 rounded-full border flex-shrink-0 ${
+                        className={`text-[12px] font-bold px-3 py-1.5 rounded-full border-2 flex-shrink-0 shadow-md ${
                           payStatus[i]
-                            ? "bg-[#D8F3DC] text-[#2D6A4F] border-[#B7E4C7]"
-                            : "bg-[#FFF0CC] text-[#7C4A00] border-[#FFE08A]"
+                            ? "bg-gradient-to-r from-[#C5E1A5] to-[#AED581] text-[#33691E] border-[#9CCC65]"
+                            : "bg-gradient-to-r from-[#FFECB3] to-[#FFE082] text-[#F57C00] border-[#FFA000]"
                         }`}
                       >
-                        {payStatus[i] ? "Opłacone" : "Do zapłaty"}
+                        {payStatus[i] ? "✓ Opłacone" : "⏳ Do zapłaty"}
                       </span>
                     </div>
                   );
@@ -1191,9 +1289,16 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Numer do przelewu
+            <div className="relative bg-white border-4 border-[#B2EBF2] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(178,235,242,0.4)] p-6">
+              <div className="absolute -top-3 -left-3">
+                <svg width="45" height="45" viewBox="0 0 45 45">
+                  <rect x="8" y="15" width="30" height="20" rx="3" stroke="#00ACC1" strokeWidth="3" fill="none"/>
+                  <line x1="8" y1="22" x2="38" y2="22" stroke="#00ACC1" strokeWidth="2"/>
+                  <circle cx="15" cy="28" r="2" fill="#00ACC1"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#00838F] mb-4 flex items-center gap-2">
+                🏦 Numer do przelewu
               </div>
               {[
                 {
@@ -1237,9 +1342,16 @@ export default function App() {
         {/* Ustawienia Section */}
         {activeTab === "ustawienia" && (
           <>
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Podstawowe informacje
+            <div className="relative bg-white border-4 border-[#B0BEC5] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(176,190,197,0.4)] p-6 mb-5">
+              <div className="absolute -top-3 -right-3">
+                <svg width="45" height="45" viewBox="0 0 45 45">
+                  <circle cx="22" cy="22" r="12" stroke="#607D8B" strokeWidth="2.5" fill="none"/>
+                  <path d="M22,10 L22,15 M22,29 L22,34 M10,22 L15,22 M29,22 L34,22" stroke="#607D8B" strokeWidth="2.5" strokeLinecap="round"/>
+                  <circle cx="22" cy="22" r="5" fill="#607D8B"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#37474F] mb-4 flex items-center gap-2">
+                ℹ️ Podstawowe informacje
               </div>
               <div className="space-y-3">
                 <div>
@@ -1311,9 +1423,15 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6 mb-4">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Obiekt noclegowy
+            <div className="relative bg-white border-4 border-[#A5D6A7] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(165,214,167,0.4)] p-6 mb-5">
+              <div className="absolute -top-3 -left-3">
+                <svg width="45" height="45" viewBox="0 0 45 45">
+                  <rect x="10" y="18" width="25" height="18" stroke="#66BB6A" strokeWidth="3" fill="none" rx="3"/>
+                  <path d="M13,12 L22.5,7 L32,12" stroke="#66BB6A" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#2E7D32] mb-4 flex items-center gap-2">
+                🏨 Obiekt noclegowy
               </div>
               <div className="space-y-3">
                 <div>
@@ -1367,9 +1485,17 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm border border-[#E2DDD5] rounded-[18px] shadow-md shadow-black/5 p-6">
-              <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#B0ABA4] mb-4">
-                Lista uczestników
+            <div className="relative bg-white border-4 border-[#CE93D8] rounded-[24px] shadow-[6px_6px_0px_0px_rgba(206,147,216,0.4)] p-6">
+              <div className="absolute -top-3 -right-3">
+                <svg width="50" height="50" viewBox="0 0 50 50">
+                  <circle cx="20" cy="15" r="6" stroke="#AB47BC" strokeWidth="2.5" fill="none"/>
+                  <path d="M10,35 Q20,28 30,35" stroke="#AB47BC" strokeWidth="2.5" fill="none"/>
+                  <circle cx="35" cy="20" r="5" stroke="#AB47BC" strokeWidth="2.5" fill="none"/>
+                  <path d="M28,38 Q35,33 42,38" stroke="#AB47BC" strokeWidth="2.5" fill="none"/>
+                </svg>
+              </div>
+              <div className="text-[12px] font-black tracking-[0.08em] uppercase text-[#6A1B9A] mb-4 flex items-center gap-2">
+                👥 Lista uczestników
               </div>
               <div className="space-y-2 mb-4">
                 {people.map((person, i) => (
@@ -1392,9 +1518,9 @@ export default function App() {
                     </div>
                     <button
                       onClick={() => removePerson(i)}
-                      className="text-xs px-3 py-1.5 border border-[#E2DDD5] rounded-lg bg-white text-[#8B3A2A] hover:bg-[#FDDDD7] transition-colors"
+                      className="text-xs font-bold px-3 py-2 border-2 border-[#FF5722] rounded-full bg-gradient-to-r from-[#FFCCBC] to-[#FFAB91] text-[#BF360C] hover:scale-105 transition-transform shadow-md"
                     >
-                      Usuń
+                      ✕ Usuń
                     </button>
                   </div>
                 ))}
@@ -1442,9 +1568,9 @@ export default function App() {
                   </div>
                   <button
                     onClick={addPerson}
-                    className="w-full text-sm font-medium px-4 py-2 border border-[#E2DDD5] rounded-lg bg-[#2D6A4F] text-white hover:opacity-85 transition-opacity"
+                    className="w-full text-sm font-black px-4 py-2.5 border-3 border-[#AB47BC] rounded-2xl bg-gradient-to-r from-[#CE93D8] to-[#BA68C8] text-[#1A1A1A] hover:shadow-lg hover:scale-105 transition-all shadow-[4px_4px_0px_0px_rgba(171,71,188,0.3)]"
                   >
-                    + Dodaj uczestnika
+                    ➕ Dodaj uczestnika
                   </button>
                 </div>
               </div>
