@@ -3,10 +3,18 @@
 Aplikacja do organizacji wyjazdów integracyjnych z funkcjami:
 - 📋 Plan dnia (piątek + sobota)
 - 🚗 Organizacja transportu i kierowców
-- 💸 Zrzutka i podział kosztów
+- 💸 Zrzutka i podział kosztów **z edycją wydatków**
 - 🛒 Lista zakupów
 - 🎒 Checklista rzeczy do spakowania
 - 🏡 Informacje o noclegu
+
+## ✨ Najnowsze funkcje
+
+### Edycja wydatków w Zrzutce
+- ➕ Dodawanie nowych wydatków bezpośrednio w aplikacji
+- ✏️ Edycja nazwy i kwoty istniejących wydatków
+- ✕ Usuwanie wydatków
+- 🔄 Automatyczne przeliczanie sum
 
 ## 🎨 Design
 
@@ -78,6 +86,7 @@ const PEOPLE: Person[] = [
 - **Tailwind CSS v4** - stylowanie
 - **Vite** - build tool
 - **LocalStorage** - przechowywanie danych
+- **Inter Font** - typografia (Google Fonts)
 
 ## 📱 Responsywność
 
@@ -94,10 +103,12 @@ Wszystkie dane są przechowywane lokalnie w przeglądarce (LocalStorage):
 - `wk2_shop` - lista zakupów
 - `wk2_gear` - gry i gadżety
 - `wk2_personal` - checklista osobista
+- `wk2_personal_items` - elementy checklisty
 - `wk2_pay` - statusy wpłat
 - `wk2_drivers` - informacje o kierowcach
+- `wk2_expenses` - **NOWE:** lista wydatków (edytowalna w aplikacji)
 
-**Uwaga:** Dane pozostają w przeglądarce nawet po odświeżeniu strony!
+**Uwaga:** Dane pozostają w przeglądarce nawem po odświeżeniu strony!
 
 ## 🎯 Najczęstsze edycje
 

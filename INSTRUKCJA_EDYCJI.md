@@ -137,22 +137,23 @@ const [drivers, setDrivers] = useState<CarDriver[]>(() => {
 });
 ```
 
-### 7. Budżet i koszty (linia 367-368)
+### 7. Wydatki stałe (linia ~175-184)
 ```tsx
-const totalShoppingCost = Object.values(shoppingCosts).reduce((a, b) => a + b, 0);
-const baseTotal = 820; // ← TUTAJ zmień stałe koszty (nocleg, grill, paliwo)
+const [expenses, setExpenses] = useState<Expense[]>(() => {
+  const saved = localStorage.getItem('wk2_expenses');
+  return saved ? JSON.parse(saved) : [
+    { name: "Nocleg", amount: 480 },
+    { name: "Grill & mięso", amount: 160 },
+    { name: "Alko & napoje", amount: 120 },
+    { name: "Paliwo (2 auta)", amount: 60 },
+  ];
+});
 ```
 
-### 8. Szczegóły kosztów (linia 1094-1101)
-```tsx
-{
-  name: "Nocleg",
-  amount: "480 zł",
-},
-{ name: "Grill & mięso", amount: "160 zł" },
-{ name: "Alko & napoje", amount: "120 zł" },
-{ name: "Paliwo (2 auta)", amount: "60 zł" },
-```
+**UWAGA:** Wydatki można teraz **edytować bezpośrednio w aplikacji** w zakładce "Zrzutka":
+- Kliknij "Edytuj" przy wydatku aby zmienić nazwę lub kwotę
+- Kliknij "✕" aby usunąć wydatek
+- Dodaj nowy wydatek wypełniając formularz na dole listy
 
 ## 🎮 Jak dodać/zmienić emoji?
 
@@ -177,12 +178,20 @@ Edytuj `baseTotal` (linia 368) i rozpiskę (linia 1094-1101)
 2. Dodaj przycisk w nawigacji (linia 441)
 3. Dodaj sekcję z zawartością (wzoruj się na istniejących)
 
+## 🔤 Font
+
+Projekt używa fontu **Inter** (Google Fonts):
+- Plik: `/src/styles/fonts.css`
+- Wagi dostępne: 300, 400, 500, 600, 700, 800, 900
+- Aby zmienić font, edytuj import w `fonts.css`
+
 ## 💡 Wskazówki
 
 - **Zawsze zapisuj plik** po zmianie
 - **Odśwież przeglądarkę** aby zobaczyć zmiany
 - **Kolory zapisuj jako hex** w formacie `[#FF0000]`
 - **Nie usuwaj kluczowych linii** jak `export default function App()`
+- **Wydatki w Zrzutce** można edytować bezpośrednio w aplikacji (nie trzeba edytować kodu!)
 
 ## 🚨 Co może się zepsuć?
 

@@ -169,10 +169,23 @@ className="bg-[#006FFD] rounded-[4px] h-full"
 2. **Zaokrąglone rogi** - `rounded-[12px]` dla kart, `rounded-[8px]` dla małych elementów
 3. **Subtle cienie** - `shadow-sm` zamiast mocnych cieni
 4. **Niebieski jako główny kolor** - `#006FFD` dla wszystkich akcji
-5. **Czysta typografia** - Inter font, `font-semibold` dla przycisków, `font-extrabold` dla nagłówków
+5. **Czysta typografia** - **Inter font** (Google Fonts), `font-semibold` dla przycisków, `font-extrabold` dla nagłówków
 6. **Bordery 1px** - `border` (nie `border-2` czy `border-4`)
 7. **Małe uppercase labele** - `text-[10px] font-semibold tracking-[0.8px] uppercase`
 8. **Konsystentne odstępy** - `gap-3` dla kart, `gap-2` dla mniejszych elementów
+
+## Font - Inter
+
+Projekt używa fontu **Inter** zamiast DM Sans:
+- Import: `@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');`
+- Zastosowanie: `font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;`
+- Wagi dostępne: 300 (Light), 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold), 800 (ExtraBold), 900 (Black)
+
+**Typowe użycie:**
+- Nagłówki: `font-extrabold` (800) lub `font-black` (900)
+- Przyciski: `font-semibold` (600)
+- Tekst podstawowy: `font-normal` (400) lub `font-medium` (500)
+- Labels: `font-semibold` (600)
 
 ---
 

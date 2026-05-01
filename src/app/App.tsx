@@ -27,6 +27,11 @@ interface GearItem {
   done: boolean;
 }
 
+interface Expense {
+  name: string;
+  amount: number;
+}
+
 const PEOPLE: Person[] = [
   { init: "TS", name: "Tomek", av: "av-g" },
   { init: "JW", name: "Justyna", av: "av-p" },
@@ -172,6 +177,20 @@ export default function App() {
 
   const [newPersonalItem, setNewPersonalItem] = useState('');
 
+  const [expenses, setExpenses] = useState<Expense[]>(() => {
+    const saved = localStorage.getItem('wk2_expenses');
+    return saved ? JSON.parse(saved) : [
+      { name: "Nocleg", amount: 480 },
+      { name: "Grill & mięso", amount: 160 },
+      { name: "Alko & napoje", amount: 120 },
+      { name: "Paliwo (2 auta)", amount: 60 },
+    ];
+  });
+
+  const [newExpenseName, setNewExpenseName] = useState('');
+  const [newExpenseAmount, setNewExpenseAmount] = useState('');
+  const [editingExpense, setEditingExpense] = useState<number | null>(null);
+
   useEffect(() => {
     localStorage.setItem(
       "wk2_settings",
@@ -209,6 +228,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('wk2_personal_items', JSON.stringify(personalItems));
   }, [personalItems]);
+
+  useEffect(() => {
+    localStorage.setItem('wk2_expenses', JSON.stringify(expenses));
+  }, [expenses]);
 
   const toggleShop = (index: number) => {
     setShopItems((prev) =>
@@ -351,6 +374,28 @@ export default function App() {
     setPayStatus((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const addExpense = () => {
+    if (!newExpenseName.trim() || !newExpenseAmount) return;
+    setExpenses((prev) => [
+      ...prev,
+      { name: newExpenseName, amount: parseFloat(newExpenseAmount) || 0 },
+    ]);
+    setNewExpenseName('');
+    setNewExpenseAmount('');
+  };
+
+  const updateExpense = (index: number, field: keyof Expense, value: string | number) => {
+    setExpenses(prev =>
+      prev.map((expense, i) =>
+        i === index ? { ...expense, [field]: value } : expense
+      )
+    );
+  };
+
+  const removeExpense = (index: number) => {
+    setExpenses(prev => prev.filter((_, i) => i !== index));
+  };
+
   // Oblicz koszty z zakupów - wszystkie koszty, niezależnie od statusu done
   const shoppingCosts = shopItems.reduce((acc, item) => {
     if (item.cost > 0) {
@@ -363,7 +408,7 @@ export default function App() {
   }, {} as Record<number, number>);
 
   const totalShoppingCost = Object.values(shoppingCosts).reduce((a, b) => a + b, 0);
-  const baseTotal = 820;
+  const baseTotal = expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const total = baseTotal + totalShoppingCost;
   const perPerson = Math.ceil(total / people.length);
   const paidCount = payStatus.filter(Boolean).length;
@@ -585,7 +630,7 @@ export default function App() {
                   <span
                     className={`text-right ${row.bold ? "font-medium" : ""} ${
                       row.mono
-                        ? "font-['DM_Mono',monospace] text-[13px]"
+                        ? "font-['Inter',sans-serif] font-medium text-[13px]"
                         : ""
                     }`}
                   >
@@ -990,7 +1035,7 @@ export default function App() {
                     <div
                       className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-white ${event.dot}`}
                     />
-                    <div className="font-['DM_Mono',monospace] text-[13px] font-medium text-[#71727A] min-w-[44px] pt-0.5">
+                    <div className="font-['Inter',sans-serif] font-medium text-[13px] font-medium text-[#71727A] min-w-[44px] pt-0.5">
                       {event.time}
                     </div>
                     <div>
@@ -1042,7 +1087,7 @@ export default function App() {
                     <div
                       className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-white ${event.dot}`}
                     />
-                    <div className="font-['DM_Mono',monospace] text-[13px] font-medium text-[#71727A] min-w-[44px] pt-0.5">
+                    <div className="font-['Inter',sans-serif] font-medium text-[13px] font-medium text-[#71727A] min-w-[44px] pt-0.5">
                       {event.time}
                     </div>
                     <div>
@@ -1114,38 +1159,94 @@ export default function App() {
               <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 💵 Podział kosztów
               </div>
-              {[
-                {
-                  name: "Nocleg",
-                  amount: "480 zł",
-                },
-                { name: "Grill & mięso", amount: "160 zł" },
-                { name: "Alko & napoje", amount: "120 zł" },
-                { name: "Paliwo (2 auta)", amount: "60 zł" },
-                totalShoppingCost > 0 && {
-                  name: "Zakupy",
-                  amount: `${totalShoppingCost} zł`,
-                },
-                {
-                  name: "Łącznie",
-                  amount: `${total} zł`,
-                  total: true,
-                },
-              ].filter(Boolean).map((row: any, i, arr) => (
-                <div
-                  key={row.name}
-                  className={`flex justify-between items-center py-2.5 text-sm ${
-                    i < arr.length - 1
-                      ? "border-b border-[#E8E9F1]"
-                      : ""
-                  } ${row.total ? "font-semibold" : ""}`}
-                >
-                  <span>{row.name}</span>
-                  <span className="font-['DM_Mono',monospace] text-[13px]">
-                    {row.amount}
-                  </span>
+              <div>
+                {expenses.map((expense, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2 py-2.5 border-b border-[#E8E9F1]"
+                  >
+                    {editingExpense === i ? (
+                      <>
+                        <input
+                          type="text"
+                          value={expense.name}
+                          onChange={(e) => updateExpense(i, 'name', e.target.value)}
+                          className="flex-1 text-sm px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
+                        />
+                        <input
+                          type="number"
+                          value={expense.amount}
+                          onChange={(e) => updateExpense(i, 'amount', parseFloat(e.target.value) || 0)}
+                          className="w-20 text-sm px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
+                        />
+                        <button
+                          onClick={() => setEditingExpense(null)}
+                          className="text-[12px] font-semibold px-3 py-1.5 rounded-[8px] bg-[#006FFD] text-white hover:bg-[#2897FF] transition-colors"
+                        >
+                          Zapisz
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <span className="flex-1 text-sm text-[#1F2024]">{expense.name}</span>
+                        <span className="text-sm font-semibold text-[#1F2024] min-w-[60px] text-right">{expense.amount} zł</span>
+                        <button
+                          onClick={() => setEditingExpense(i)}
+                          className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#71727A] hover:border-[#006FFD] hover:text-[#006FFD] transition-colors"
+                        >
+                          Edytuj
+                        </button>
+                        <button
+                          onClick={() => removeExpense(i)}
+                          className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
+                        >
+                          ✕
+                        </button>
+                      </>
+                    )}
+                  </div>
+                ))}
+
+                {/* Dodaj nowy wydatek */}
+                <div className="flex gap-2 mt-3">
+                  <input
+                    type="text"
+                    value={newExpenseName}
+                    onChange={(e) => setNewExpenseName(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && addExpense()}
+                    placeholder="Nazwa wydatku..."
+                    className="flex-1 text-sm px-3 py-2 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
+                  />
+                  <input
+                    type="number"
+                    value={newExpenseAmount}
+                    onChange={(e) => setNewExpenseAmount(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && addExpense()}
+                    placeholder="Kwota (zł)"
+                    className="w-24 text-sm px-3 py-2 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
+                  />
+                  <button
+                    onClick={addExpense}
+                    className="text-[12px] font-semibold px-4 py-2.5 rounded-[12px] bg-[#006FFD] text-white hover:bg-[#2897FF] transition-colors whitespace-nowrap"
+                  >
+                    Dodaj
+                  </button>
                 </div>
-              ))}
+
+                {/* Zakupy (jeśli są) */}
+                {totalShoppingCost > 0 && (
+                  <div className="flex justify-between items-center py-2.5 border-t border-[#E8E9F1] mt-3">
+                    <span className="text-sm text-[#1F2024]">Zakupy</span>
+                    <span className="text-sm font-semibold text-[#1F2024]">{totalShoppingCost} zł</span>
+                  </div>
+                )}
+
+                {/* Suma całkowita */}
+                <div className="flex justify-between items-center py-3 border-t-2 border-[#1F2024] mt-3">
+                  <span className="text-base font-extrabold text-[#1F2024]">Łącznie</span>
+                  <span className="text-base font-extrabold text-[#1F2024]">{total} zł</span>
+                </div>
+              </div>
             </div>
 
             {Object.keys(shoppingCosts).length > 0 && (
@@ -1159,7 +1260,7 @@ export default function App() {
                     className="flex justify-between items-center py-2.5 border-b border-[#E8E9F1] last:border-b-0 text-sm"
                   >
                     <span>{people[Number(personIdx)]?.name}</span>
-                    <span className="font-['DM_Mono',monospace] text-[13px]">
+                    <span className="font-['Inter',sans-serif] font-medium text-[13px]">
                       {cost} zł
                     </span>
                   </div>
@@ -1245,7 +1346,7 @@ export default function App() {
                   <span
                     className={`text-right ${row.bold ? "font-medium" : ""} ${
                       row.mono
-                        ? "font-['DM_Mono',monospace] text-[13px]"
+                        ? "font-['Inter',sans-serif] font-medium text-[13px]"
                         : ""
                     }`}
                   >
