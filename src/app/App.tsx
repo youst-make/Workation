@@ -7,11 +7,12 @@ interface Person {
   av: string;
 }
 
-interface ShopItem {
+interface CostItem {
   name: string;
   who: string;
-  done: boolean;
   cost: number;
+  category: "transport_zakwaterowanie" | "zakupy";
+  done: boolean; // tylko dla kategorii "zakupy"
 }
 
 interface CarDriver {
@@ -27,11 +28,6 @@ interface GearItem {
   done: boolean;
 }
 
-interface Expense {
-  name: string;
-  amount: number;
-}
-
 const PEOPLE: Person[] = [
   { init: "TS", name: "Tomek", av: "av-g" },
   { init: "JW", name: "Justyna", av: "av-p" },
@@ -41,20 +37,20 @@ const PEOPLE: Person[] = [
   { init: "KW", name: "Krzysztof", av: "av-2" },
 ];
 
-const DEFAULT_SHOP: ShopItem[] = [
-  {
-    name: "Kiełbaski & karkówka",
-    who: "Tomek",
-    done: false,
-    cost: 0,
-  },
-  { name: "Pieczywo & bułki", who: "Iza", done: false, cost: 0 },
-  { name: "Piwo (zgrzewka)", who: "Tomek", done: false, cost: 0 },
-  { name: "Wino & napoje", who: "Justyna", done: false, cost: 0 },
-  { name: "Warzywa & sałatki", who: "Marta", done: false, cost: 0 },
-  { name: "Marshmallows", who: "Iza", done: false, cost: 0 },
-  { name: "Podpałka & węgiel", who: "Marcin", done: false, cost: 0 },
-  { name: "Papier toaletowy", who: "Krzysztof", done: false, cost: 0 },
+const DEFAULT_COSTS: CostItem[] = [
+  // Transport & Zakwaterowanie
+  { name: "Nocleg", who: "Tomek", cost: 480, category: "transport_zakwaterowanie", done: false },
+  { name: "Paliwo (2 auta)", who: "Marcin", cost: 60, category: "transport_zakwaterowanie", done: false },
+
+  // Zakupy
+  { name: "Kiełbaski & karkówka", who: "Tomek", cost: 0, category: "zakupy", done: false },
+  { name: "Pieczywo & bułki", who: "Iza", cost: 0, category: "zakupy", done: false },
+  { name: "Piwo (zgrzewka)", who: "Tomek", cost: 0, category: "zakupy", done: false },
+  { name: "Wino & napoje", who: "Justyna", cost: 0, category: "zakupy", done: false },
+  { name: "Warzywa & sałatki", who: "Marta", cost: 0, category: "zakupy", done: false },
+  { name: "Marshmallows", who: "Iza", cost: 0, category: "zakupy", done: false },
+  { name: "Podpałka & węgiel", who: "Marcin", cost: 0, category: "zakupy", done: false },
+  { name: "Papier toaletowy", who: "Krzysztof", cost: 0, category: "zakupy", done: false },
 ];
 
 const DEFAULT_GEAR: GearItem[] = [
@@ -84,7 +80,7 @@ const PERSONAL_ITEMS = [
 type TabType =
   | "transport"
   | "nocleg"
-  | "zakupy"
+  | "koszty"
   | "rzeczy"
   | "plan"
   | "zrzutka";
@@ -124,9 +120,9 @@ export default function App() {
     return saved ? JSON.parse(saved) : PEOPLE;
   });
 
-  const [shopItems, setShopItems] = useState<ShopItem[]>(() => {
-    const saved = localStorage.getItem("wk2_shop");
-    return saved ? JSON.parse(saved) : DEFAULT_SHOP;
+  const [costItems, setCostItems] = useState<CostItem[]>(() => {
+    const saved = localStorage.getItem("wk2_costs");
+    return saved ? JSON.parse(saved) : DEFAULT_COSTS;
   });
   const [gearItems, setGearItems] = useState<GearItem[]>(() => {
     const saved = localStorage.getItem("wk2_gear");
@@ -145,15 +141,13 @@ export default function App() {
       : [true, true, false, false, false, false];
   });
 
-  const [shopInput, setShopInput] = useState("");
-  const [shopWho, setShopWho] = useState(
-    people[0]?.name || "Tomek",
-  );
-  const [shopCost, setShopCost] = useState("");
+  const [costInput, setCostInput] = useState("");
+  const [costWho, setCostWho] = useState(people[0]?.name || "Tomek");
+  const [costAmount, setCostAmount] = useState("");
+  const [costCategory, setCostCategory] = useState<"transport_zakwaterowanie" | "zakupy">("zakupy");
+
   const [gearInput, setGearInput] = useState("");
-  const [gearWho, setGearWho] = useState(
-    people[0]?.name || "Tomek",
-  );
+  const [gearWho, setGearWho] = useState(people[0]?.name || "Tomek");
 
   const [newPersonName, setNewPersonName] = useState("");
   const [newPersonInit, setNewPersonInit] = useState("");
@@ -162,8 +156,8 @@ export default function App() {
   const [drivers, setDrivers] = useState<CarDriver[]>(() => {
     const saved = localStorage.getItem('wk2_drivers');
     return saved ? JSON.parse(saved) : [
-      { personIndex: 0, departureTime: '09:00', departureLocation: 'z Wawra', passengers: [1, 2] },
-      { personIndex: 3, departureTime: '09:00', departureLocation: 'z Ursynowa', passengers: [4, 5] },
+      { personIndex: 0, departureTime: '09:00', departureLocation: 'Wawer', passengers: [1, 2] },
+      { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
     ];
   });
 
@@ -175,20 +169,7 @@ export default function App() {
   });
 
   const [newPersonalItem, setNewPersonalItem] = useState('');
-
-  const [expenses, setExpenses] = useState<Expense[]>(() => {
-    const saved = localStorage.getItem('wk2_expenses');
-    return saved ? JSON.parse(saved) : [
-      { name: "Nocleg", amount: 480 },
-      { name: "Grill & mięso", amount: 160 },
-      { name: "Alko & napoje", amount: 120 },
-      { name: "Paliwo (2 auta)", amount: 60 },
-    ];
-  });
-
-  const [newExpenseName, setNewExpenseName] = useState('');
-  const [newExpenseAmount, setNewExpenseAmount] = useState('');
-  const [editingExpense, setEditingExpense] = useState<number | null>(null);
+  const [editingCost, setEditingCost] = useState<number | null>(null);
 
   useEffect(() => {
     localStorage.setItem(
@@ -202,8 +183,8 @@ export default function App() {
   }, [people]);
 
   useEffect(() => {
-    localStorage.setItem("wk2_shop", JSON.stringify(shopItems));
-  }, [shopItems]);
+    localStorage.setItem("wk2_costs", JSON.stringify(costItems));
+  }, [costItems]);
 
   useEffect(() => {
     localStorage.setItem("wk2_gear", JSON.stringify(gearItems));
@@ -228,21 +209,31 @@ export default function App() {
     localStorage.setItem('wk2_personal_items', JSON.stringify(personalItems));
   }, [personalItems]);
 
-  useEffect(() => {
-    localStorage.setItem('wk2_expenses', JSON.stringify(expenses));
-  }, [expenses]);
-
-  const toggleShop = (index: number) => {
-    setShopItems((prev) =>
+  const toggleCostDone = (index: number) => {
+    setCostItems((prev) =>
       prev.map((item, i) =>
         i === index ? { ...item, done: !item.done } : item,
       ),
     );
   };
 
-  const updateShopPerson = (index: number, who: string) => {
-    setShopItems(prev =>
+  const updateCostPerson = (index: number, who: string) => {
+    setCostItems(prev =>
       prev.map((item, i) => (i === index ? { ...item, who } : item))
+    );
+  };
+
+  const updateCostAmount = (index: number, cost: number) => {
+    setCostItems(prev =>
+      prev.map((item, i) => (i === index ? { ...item, cost } : item))
+    );
+  };
+
+  const updateCostItem = (index: number, field: keyof CostItem, value: any) => {
+    setCostItems(prev =>
+      prev.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item
+      )
     );
   };
 
@@ -254,20 +245,20 @@ export default function App() {
     );
   };
 
-  const addShopItem = () => {
-    if (!shopInput.trim()) return;
-    setShopItems((prev) => [
+  const addCostItem = () => {
+    if (!costInput.trim()) return;
+    setCostItems((prev) => [
       ...prev,
-      { name: shopInput, who: shopWho, done: false, cost: parseFloat(shopCost) || 0 },
+      {
+        name: costInput,
+        who: costWho,
+        cost: parseFloat(costAmount) || 0,
+        category: costCategory,
+        done: false
+      },
     ]);
-    setShopInput("");
-    setShopCost("");
-  };
-
-  const updateShopCost = (index: number, cost: number) => {
-    setShopItems(prev =>
-      prev.map((item, i) => (i === index ? { ...item, cost } : item))
-    );
+    setCostInput("");
+    setCostAmount("");
   };
 
   const addPassenger = (driverIndex: number, passengerIndex: number) => {
@@ -290,8 +281,8 @@ export default function App() {
     );
   };
 
-  const removeShopItem = (index: number) => {
-    setShopItems(prev => prev.filter((_, i) => i !== index));
+  const removeCostItem = (index: number) => {
+    setCostItems(prev => prev.filter((_, i) => i !== index));
   };
 
   const removeGearItem = (index: number) => {
@@ -373,30 +364,8 @@ export default function App() {
     setPayStatus((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const addExpense = () => {
-    if (!newExpenseName.trim() || !newExpenseAmount) return;
-    setExpenses((prev) => [
-      ...prev,
-      { name: newExpenseName, amount: parseFloat(newExpenseAmount) || 0 },
-    ]);
-    setNewExpenseName('');
-    setNewExpenseAmount('');
-  };
-
-  const updateExpense = (index: number, field: keyof Expense, value: string | number) => {
-    setExpenses(prev =>
-      prev.map((expense, i) =>
-        i === index ? { ...expense, [field]: value } : expense
-      )
-    );
-  };
-
-  const removeExpense = (index: number) => {
-    setExpenses(prev => prev.filter((_, i) => i !== index));
-  };
-
-  // Oblicz koszty z zakupów - wszystkie koszty, niezależnie od statusu done
-  const shoppingCosts = shopItems.reduce((acc, item) => {
+  // Oblicz koszty - kto ile zapłacił
+  const costsByPerson = costItems.reduce((acc, item) => {
     if (item.cost > 0) {
       const personIndex = people.findIndex(p => p.name === item.who);
       if (personIndex >= 0) {
@@ -406,10 +375,8 @@ export default function App() {
     return acc;
   }, {} as Record<number, number>);
 
-  const totalShoppingCost = Object.values(shoppingCosts).reduce((a, b) => a + b, 0);
-  const baseTotal = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-  const total = baseTotal + totalShoppingCost;
-  const perPerson = Math.ceil(total / people.length);
+  const totalCost = costItems.reduce((sum, item) => sum + item.cost, 0);
+  const perPerson = Math.ceil(totalCost / people.length);
   const paidCount = payStatus.filter(Boolean).length;
   const collected = paidCount * perPerson;
 
@@ -463,7 +430,7 @@ export default function App() {
             { id: "plan" as TabType, label: "📋 Plan dnia" },
             { id: "transport" as TabType, label: "🚗 Transport" },
             { id: "zrzutka" as TabType, label: "💸 Zrzutka" },
-            { id: "zakupy" as TabType, label: "🛒 Zakupy" },
+            { id: "koszty" as TabType, label: "💰 Koszty" },
             { id: "rzeczy" as TabType, label: "🎒 Co zabrać" },
             { id: "nocleg" as TabType, label: "🏡 Nocleg" },
           ].map((tab) => (
@@ -698,51 +665,62 @@ export default function App() {
           </>
         )}
 
-        {/* Zakupy Section */}
-        {activeTab === "zakupy" && (
+        {/* Koszty Section */}
+        {activeTab === "koszty" && (
           <>
+            {/* Transport & Zakwaterowanie */}
             <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
               <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
-                🛒 Do kupienia
+                🚗🏡 Transport & Zakwaterowanie
               </div>
               <div>
-                {shopItems.filter(item => !item.done).map((item, originalIndex) => {
-                  const actualIndex = shopItems.findIndex(x => x === item);
+                {costItems.filter(item => item.category === "transport_zakwaterowanie").map((item, idx) => {
+                  const actualIndex = costItems.findIndex(x => x === item);
                   return (
                     <div
                       key={actualIndex}
                       className="flex items-center gap-2.5 py-2.5 border-b border-[#E8E9F1] last:border-b-0"
                     >
-                      <input
-                        type="checkbox"
-                        checked={false}
-                        onChange={() => toggleShop(actualIndex)}
-                        className="w-4 h-4 cursor-pointer accent-[#2D6A4F] flex-shrink-0"
-                      />
                       <div className="flex-1">
-                        <div className="text-sm">{item.name}</div>
-                        {item.cost > 0 && (
-                          <div className="text-xs text-[#71727A] mt-0.5">{item.cost} zł</div>
+                        {editingCost === actualIndex ? (
+                          <input
+                            type="text"
+                            value={item.name}
+                            onChange={(e) => updateCostItem(actualIndex, 'name', e.target.value)}
+                            className="text-sm px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white w-full"
+                          />
+                        ) : (
+                          <div className="text-sm">{item.name}</div>
                         )}
                       </div>
                       <select
                         value={item.who}
-                        onChange={(e) => updateShopPerson(actualIndex, e.target.value)}
+                        onChange={(e) => updateCostPerson(actualIndex, e.target.value)}
                         className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-[#F8F9FE] text-[#71727A] flex-shrink-0"
                       >
                         {people.map((p) => (
                           <option key={p.name}>{p.name}</option>
                         ))}
                       </select>
-                      <input
-                        type="number"
-                        value={item.cost || ''}
-                        onChange={(e) => updateShopCost(actualIndex, parseFloat(e.target.value) || 0)}
-                        placeholder="Koszt"
-                        className="w-20 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
-                      />
+                      {editingCost === actualIndex ? (
+                        <input
+                          type="number"
+                          value={item.cost || ''}
+                          onChange={(e) => updateCostAmount(actualIndex, parseFloat(e.target.value) || 0)}
+                          placeholder="Koszt"
+                          className="w-20 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
+                        />
+                      ) : (
+                        <div className="w-20 text-xs px-2 py-1 text-right font-medium">{item.cost} zł</div>
+                      )}
                       <button
-                        onClick={() => removeShopItem(actualIndex)}
+                        onClick={() => setEditingCost(editingCost === actualIndex ? null : actualIndex)}
+                        className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#71727A] hover:border-[#006FFD] hover:text-[#006FFD] transition-colors"
+                      >
+                        {editingCost === actualIndex ? 'Zapisz' : 'Edytuj'}
+                      </button>
+                      <button
+                        onClick={() => removeCostItem(actualIndex)}
                         className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                       >
                         ✕
@@ -754,35 +732,43 @@ export default function App() {
               <div className="flex gap-2 mt-4 flex-wrap">
                 <input
                   type="text"
-                  value={shopInput}
-                  onChange={(e) => setShopInput(e.target.value)}
+                  value={costInput}
+                  onChange={(e) => setCostInput(e.target.value)}
                   onKeyPress={(e) =>
-                    e.key === "Enter" && addShopItem()
+                    e.key === "Enter" && addCostItem()
                   }
-                  placeholder="Dodaj produkt..."
+                  placeholder="Dodaj koszt..."
                   className="flex-1 min-w-[120px] text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
                 />
                 <input
                   type="number"
-                  value={shopCost}
-                  onChange={(e) => setShopCost(e.target.value)}
+                  value={costAmount}
+                  onChange={(e) => setCostAmount(e.target.value)}
                   onKeyPress={(e) =>
-                    e.key === "Enter" && addShopItem()
+                    e.key === "Enter" && addCostItem()
                   }
-                  placeholder="Koszt (zł)"
+                  placeholder="Kwota (zł)"
                   className="w-24 text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
                 />
                 <select
-                  value={shopWho}
-                  onChange={(e) => setShopWho(e.target.value)}
+                  value={costWho}
+                  onChange={(e) => setCostWho(e.target.value)}
                   className="text-[13px] px-2.5 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] cursor-pointer hover:border-[#006FFD] transition-all"
                 >
                   {people.map((p) => (
                     <option key={p.name}>{p.name}</option>
                   ))}
                 </select>
+                <select
+                  value={costCategory}
+                  onChange={(e) => setCostCategory(e.target.value as "transport_zakwaterowanie" | "zakupy")}
+                  className="text-[13px] px-2.5 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] cursor-pointer hover:border-[#006FFD] transition-all"
+                >
+                  <option value="transport_zakwaterowanie">Transport & Zakwaterowanie</option>
+                  <option value="zakupy">Zakupy</option>
+                </select>
                 <button
-                  onClick={addShopItem}
+                  onClick={addCostItem}
                   className="text-[12px] font-semibold px-4 py-2.5 rounded-[12px] bg-[#006FFD] text-white cursor-pointer hover:bg-[#2897FF] transition-colors whitespace-nowrap"
                 >
                   Dodaj
@@ -790,14 +776,84 @@ export default function App() {
               </div>
             </div>
 
-            {shopItems.filter(item => item.done).length > 0 && (
+            {/* Zakupy - Do kupienia */}
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
+                🛒 Zakupy — Do kupienia
+              </div>
+              <div>
+                {costItems.filter(item => item.category === "zakupy" && !item.done).map((item) => {
+                  const actualIndex = costItems.findIndex(x => x === item);
+                  return (
+                    <div
+                      key={actualIndex}
+                      className="flex items-center gap-2.5 py-2.5 border-b border-[#E8E9F1] last:border-b-0"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={false}
+                        onChange={() => toggleCostDone(actualIndex)}
+                        className="w-4 h-4 cursor-pointer accent-[#2D6A4F] flex-shrink-0"
+                      />
+                      <div className="flex-1">
+                        {editingCost === actualIndex ? (
+                          <input
+                            type="text"
+                            value={item.name}
+                            onChange={(e) => updateCostItem(actualIndex, 'name', e.target.value)}
+                            className="text-sm px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white w-full"
+                          />
+                        ) : (
+                          <div className="text-sm">{item.name}</div>
+                        )}
+                      </div>
+                      <select
+                        value={item.who}
+                        onChange={(e) => updateCostPerson(actualIndex, e.target.value)}
+                        className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-[#F8F9FE] text-[#71727A] flex-shrink-0"
+                      >
+                        {people.map((p) => (
+                          <option key={p.name}>{p.name}</option>
+                        ))}
+                      </select>
+                      {editingCost === actualIndex ? (
+                        <input
+                          type="number"
+                          value={item.cost || ''}
+                          onChange={(e) => updateCostAmount(actualIndex, parseFloat(e.target.value) || 0)}
+                          placeholder="Koszt"
+                          className="w-20 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
+                        />
+                      ) : (
+                        <div className="w-20 text-xs px-2 py-1 text-right font-medium">{item.cost} zł</div>
+                      )}
+                      <button
+                        onClick={() => setEditingCost(editingCost === actualIndex ? null : actualIndex)}
+                        className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#71727A] hover:border-[#006FFD] hover:text-[#006FFD] transition-colors"
+                      >
+                        {editingCost === actualIndex ? 'Zapisz' : 'Edytuj'}
+                      </button>
+                      <button
+                        onClick={() => removeCostItem(actualIndex)}
+                        className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Zakupy - Kupione */}
+            {costItems.filter(item => item.category === "zakupy" && item.done).length > 0 && (
               <div className="bg-white rounded-[12px] shadow-sm p-5">
                 <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
-                  ✓ Kupione
+                  ✓ Zakupy — Kupione
                 </div>
                 <div>
-                  {shopItems.filter(item => item.done).map((item, originalIndex) => {
-                    const actualIndex = shopItems.findIndex(x => x === item);
+                  {costItems.filter(item => item.category === "zakupy" && item.done).map((item) => {
+                    const actualIndex = costItems.findIndex(x => x === item);
                     return (
                       <div
                         key={actualIndex}
@@ -806,33 +862,24 @@ export default function App() {
                         <input
                           type="checkbox"
                           checked={true}
-                          onChange={() => toggleShop(actualIndex)}
+                          onChange={() => toggleCostDone(actualIndex)}
                           className="w-4 h-4 cursor-pointer accent-[#2D6A4F] flex-shrink-0"
                         />
                         <div className="flex-1">
                           <div className="text-sm line-through text-[#B0ABA4]">{item.name}</div>
-                          {item.cost > 0 && (
-                            <div className="text-xs text-[#B0ABA4] mt-0.5">{item.cost} zł</div>
-                          )}
                         </div>
                         <select
                           value={item.who}
-                          onChange={(e) => updateShopPerson(actualIndex, e.target.value)}
+                          onChange={(e) => updateCostPerson(actualIndex, e.target.value)}
                           className="text-xs px-2 py-1 border border-[#E8E9F1] rounded bg-[#F8F9FE] text-[#B0ABA4] flex-shrink-0"
                         >
                           {people.map((p) => (
                             <option key={p.name}>{p.name}</option>
                           ))}
                         </select>
-                        <input
-                          type="number"
-                          value={item.cost || ''}
-                          onChange={(e) => updateShopCost(actualIndex, parseFloat(e.target.value) || 0)}
-                          placeholder="Koszt"
-                          className="w-20 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#B0ABA4]"
-                        />
+                        <div className="w-20 text-xs px-2 py-1 text-right text-[#B0ABA4]">{item.cost} zł</div>
                         <button
-                          onClick={() => removeShopItem(actualIndex)}
+                          onClick={() => removeCostItem(actualIndex)}
                           className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                         >
                           ✕
@@ -1010,7 +1057,7 @@ export default function App() {
                   },
                   {
                     time: "18:00",
-                    name: "Gry planszowe / Gry terenowe",
+                    name: "Gry planszowe / Gry terenowe / Spacery",
                     desc: "Aktywności integracyjne",
                     dot: "bg-[#6FBAFF]",
                   },
@@ -1023,7 +1070,7 @@ export default function App() {
                   {
                     time: "22:00",
                     name: "Opowieści o duchach",
-                    desc: "Strassszne historie",
+                    desc: "Straszne historie",
                     dot: "bg-[#71727A]",
                   },
                 ].map((event) => (
@@ -1113,7 +1160,7 @@ export default function App() {
               <div className="grid grid-cols-3 gap-3 mb-4">
                 <div className="bg-[#EAF2FF] rounded-[12px] p-4 text-center border border-[#B4DBFF]">
                   <div className="text-[20px] font-extrabold tracking-[0.2px] text-[#1F2024]">
-                    {total}
+                    {totalCost}
                   </div>
                   <div className="text-[10px] text-[#71727A] mt-1 font-semibold tracking-[0.8px] uppercase">
                     zł łącznie
@@ -1144,116 +1191,23 @@ export default function App() {
                   <div
                     className="h-full bg-[#006FFD] rounded-[4px] transition-all duration-400"
                     style={{
-                      width: `${Math.round((collected / total) * 100)}%`,
+                      width: `${Math.round((collected / totalCost) * 100)}%`,
                     }}
                   />
                 </div>
                 <div className="text-[12px] text-[#71727A] mt-2 font-normal">
-                  {collected} / {total} zł
+                  {collected} / {totalCost} zł
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
-              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
-                💵 Podział kosztów
-              </div>
-              <div>
-                {expenses.map((expense, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-2 py-2.5 border-b border-[#E8E9F1]"
-                  >
-                    {editingExpense === i ? (
-                      <>
-                        <input
-                          type="text"
-                          value={expense.name}
-                          onChange={(e) => updateExpense(i, 'name', e.target.value)}
-                          className="flex-1 text-sm px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
-                        />
-                        <input
-                          type="number"
-                          value={expense.amount}
-                          onChange={(e) => updateExpense(i, 'amount', parseFloat(e.target.value) || 0)}
-                          className="w-20 text-sm px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
-                        />
-                        <button
-                          onClick={() => setEditingExpense(null)}
-                          className="text-[12px] font-semibold px-3 py-1.5 rounded-[8px] bg-[#006FFD] text-white hover:bg-[#2897FF] transition-colors"
-                        >
-                          Zapisz
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <span className="flex-1 text-sm text-[#1F2024]">{expense.name}</span>
-                        <span className="text-sm font-semibold text-[#1F2024] min-w-[60px] text-right">{expense.amount} zł</span>
-                        <button
-                          onClick={() => setEditingExpense(i)}
-                          className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#71727A] hover:border-[#006FFD] hover:text-[#006FFD] transition-colors"
-                        >
-                          Edytuj
-                        </button>
-                        <button
-                          onClick={() => removeExpense(i)}
-                          className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
-                        >
-                          ✕
-                        </button>
-                      </>
-                    )}
-                  </div>
-                ))}
-
-                {/* Dodaj nowy wydatek */}
-                <div className="flex gap-2 mt-3">
-                  <input
-                    type="text"
-                    value={newExpenseName}
-                    onChange={(e) => setNewExpenseName(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && addExpense()}
-                    placeholder="Nazwa wydatku..."
-                    className="flex-1 text-sm px-3 py-2 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
-                  />
-                  <input
-                    type="number"
-                    value={newExpenseAmount}
-                    onChange={(e) => setNewExpenseAmount(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && addExpense()}
-                    placeholder="Kwota (zł)"
-                    className="w-24 text-sm px-3 py-2 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
-                  />
-                  <button
-                    onClick={addExpense}
-                    className="text-[12px] font-semibold px-4 py-2.5 rounded-[12px] bg-[#006FFD] text-white hover:bg-[#2897FF] transition-colors whitespace-nowrap"
-                  >
-                    Dodaj
-                  </button>
-                </div>
-
-                {/* Zakupy (jeśli są) */}
-                {totalShoppingCost > 0 && (
-                  <div className="flex justify-between items-center py-2.5 border-t border-[#E8E9F1] mt-3">
-                    <span className="text-sm text-[#1F2024]">Zakupy</span>
-                    <span className="text-sm font-semibold text-[#1F2024]">{totalShoppingCost} zł</span>
-                  </div>
-                )}
-
-                {/* Suma całkowita */}
-                <div className="flex justify-between items-center py-3 border-t-2 border-[#1F2024] mt-3">
-                  <span className="text-base font-extrabold text-[#1F2024]">Łącznie</span>
-                  <span className="text-base font-extrabold text-[#1F2024]">{total} zł</span>
-                </div>
-              </div>
-            </div>
-
-            {Object.keys(shoppingCosts).length > 0 && (
+            {/* Kto ile zapłacił */}
+            {Object.keys(costsByPerson).length > 0 && (
               <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
                 <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
-                  🛍️ Kto zapłacił za zakupy
+                  💰 Kto zapłacił za koszty
                 </div>
-                {Object.entries(shoppingCosts).map(([personIdx, cost]) => (
+                {Object.entries(costsByPerson).map(([personIdx, cost]) => (
                   <div
                     key={personIdx}
                     className="flex justify-between items-center py-2.5 border-b border-[#E8E9F1] last:border-b-0 text-sm"
@@ -1276,7 +1230,7 @@ export default function App() {
               </div>
               <div className="mt-4">
                 {people.map((person, i) => {
-                  const personPaid = shoppingCosts[i] || 0;
+                  const personPaid = costsByPerson[i] || 0;
                   const shouldPay = perPerson - personPaid;
                   return (
                     <div
@@ -1295,7 +1249,7 @@ export default function App() {
                         </div>
                         {personPaid > 0 && (
                           <div className="text-xs text-[#71727A] mt-0.5">
-                            Zapłacono: {personPaid} zł · Do wpłaty: {shouldPay} zł
+                            Zapłacono: {personPaid} zł · Do wpłaty: {shouldPay > 0 ? shouldPay : 0} zł
                           </div>
                         )}
                       </div>
