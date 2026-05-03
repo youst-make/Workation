@@ -1010,7 +1010,7 @@ export default function App() {
                   },
                   {
                     time: "18:00",
-                    name: "Gry planszowe / Gry terenowe / Spacery",
+                    name: "Gry planszowe / Gry terenowe",
                     desc: "Aktywności integracyjne",
                     dot: "bg-[#6FBAFF]",
                   },
