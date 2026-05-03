@@ -1023,7 +1023,7 @@ export default function App() {
                   {
                     time: "22:00",
                     name: "Opowieści o duchach",
-                    desc: "Wieczór przy ognisku",
+                    desc: "Strassszne historie",
                     dot: "bg-[#71727A]",
                   },
                 ].map((event) => (
