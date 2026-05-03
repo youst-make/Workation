@@ -162,8 +162,8 @@ export default function App() {
   const [drivers, setDrivers] = useState<CarDriver[]>(() => {
     const saved = localStorage.getItem('wk2_drivers');
     return saved ? JSON.parse(saved) : [
-      { personIndex: 0, departureTime: '09:00', departureLocation: 'Wawer', passengers: [1, 2] },
-      { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
+      { personIndex: 0, departureTime: '09:00', departureLocation: 'z Wawra', passengers: [1, 2] },
+      { personIndex: 3, departureTime: '09:00', departureLocation: 'z Ursynowa', passengers: [4, 5] },
     ];
   });
 
