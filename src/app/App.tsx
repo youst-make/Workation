@@ -1127,6 +1127,12 @@ export default function App() {
                     desc: "Powrót do Warszawy",
                     dot: "bg-[#006FFD]",
                   },
+                 {
+                    time: "13:00",
+                    name: "Warszawa",
+                    desc: "Powitanie cywilizacji",
+                    dot: "bg-[#71727A]",
+                  },
                 ].map((event) => (
                   <div
                     key={event.time}
