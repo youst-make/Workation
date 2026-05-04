@@ -1,4 +1,4 @@
-# 🏕️ Workation — Żulin
+# 🏕️ Workation - Żulin
 
 Aplikacja do organizacji wyjazdów integracyjnych z funkcjami:
 - 📋 Plan dnia (piątek + sobota)
