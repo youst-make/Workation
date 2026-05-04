@@ -1247,7 +1247,7 @@ export default function App() {
                         <div className="text-sm font-medium">
                           {person.name}
                         </div>
-                        {{personPaid > 0 && (
+                        {personPaid > 0 && (
                           <div className="text-xs text-[#71727A] mt-0.5">
                            Zapłacono: {personPaid} zł
                           {shouldPay > 0
