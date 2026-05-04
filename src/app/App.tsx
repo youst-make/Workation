@@ -1052,7 +1052,7 @@ export default function App() {
                     dot: "bg-[#3AC0A0]",
                   },
                   {
-                    time: "16:15",
+                    time: "16:30",
                     name: "Obiad",
                     desc: "Wspólny posiłek",
                     dot: "bg-[#FFB37C]",
