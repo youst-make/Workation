@@ -54,16 +54,12 @@ const DEFAULT_COSTS: CostItem[] = [
 ];
 
 const DEFAULT_GEAR: GearItem[] = [
-  { name: "Catan", who: "Iza", done: false },
-  { name: "Wsiąść do pociągu", who: "Piotrek T.", done: false },
-  { name: "Codenames", who: "Kasia L.", done: false },
-  { name: "Głośnik bluetooth", who: "Bartek N.", done: false },
-  { name: "Przedłużacz", who: "Marek K.", done: false },
-  {
-    name: "Kijki do marshmallows",
-    who: "Julia W.",
-    done: false,
-  },
+  { name: "Kubki", who: "Iza", done: false },
+  { name: "Karty", who: "Tomek", done: false },
+  { name: "Codenames", who: "Marcin", done: false },
+  { name: "Głośnik bluetooth", who: "Krzysztof", done: false },
+  { name: "Przedłużacz", who: "Justyna", done: false },
+  { name: "Balony", who: "Marta", done: false },
 ];
 
 const PERSONAL_ITEMS = [
@@ -1042,6 +1038,12 @@ export default function App() {
                     name: "Praca zdalna",
                     desc: "Skupienie i produktywność",
                     dot: "bg-[#2897FF]",
+                  },
+                  {
+                    time: "13:00",
+                    name: "Warsztaty Empowering",
+                    desc: "Co nas nie zabije, to nas wzmocni albo i nie",
+                    dot: "bg-[#31B0CF]",
                   },
                   {
                     time: "16:00",
