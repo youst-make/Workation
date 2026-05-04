@@ -1247,11 +1247,16 @@ export default function App() {
                         <div className="text-sm font-medium">
                           {person.name}
                         </div>
-                        {personPaid > 0 && (
+                        {{personPaid > 0 && (
                           <div className="text-xs text-[#71727A] mt-0.5">
-                            Zapłacono: {personPaid} zł · Do wpłaty: {shouldPay > 0 ? shouldPay : 0} zł
-                          </div>
-                        )}
+                           Zapłacono: {personPaid} zł
+                          {shouldPay > 0
+                            ? ` · Do wpłaty: ${shouldPay} zł`
+                            : shouldPay < 0
+                              ? ` · Do zwrotu: ${Math.abs(shouldPay)} zł`
+                              : ` · Wyrównane ✓`}
+                        </div>
+                      )}
                       </div>
                       <span
                         className={`text-[12px] font-medium px-3 py-1.5 rounded-[8px] flex-shrink-0 ${
