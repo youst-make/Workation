@@ -18,37 +18,12 @@ Aplikacja do organizacji wyjazdów integracyjnych z funkcjami:
 
 ## 🎨 Design
 
-Projekt wykorzystuje **czysty, minimalistyczny design Travel App** z:
+Projekt wykorzystuje **czysty, minimalistyczny design** z:
 - Paletą niebieską (#006FFD jako główny kolor)
 - Białymi kartami z subtelnymi cieniami
 - Zaokrąglonymi rogami (12px)
 - Czystą typografią Inter
 - Dużą ilością białej przestrzeni
-
-## 📚 Dokumentacja
-
-### Dla osób edytujących zawartość
-📖 **[INSTRUKCJA_EDYCJI.md](./INSTRUKCJA_EDYCJI.md)**
-- Jak zmienić tytuł, datę, lokalizację
-- Jak dodać/usunąć uczestników
-- Jak edytować plan dnia
-- Jak zmieniać koszty i budżet
-- Jak zmieniać kolory i style
-
-### Dla osób pracujących z Figma
-📖 **[INSTRUKCJA_FIGMA.md](./INSTRUKCJA_FIGMA.md)**
-- Jak importować design z Figmy do projektu
-- Jak eksportować projekt do Figmy
-- Workflow Figma ↔ Kod
-- Mapowanie stylów Figma → Tailwind CSS
-
-### Paleta kolorów
-🎨 **[PALETA_TRAVEL_APP.md](./PALETA_TRAVEL_APP.md)**
-- Wszystkie kolory z szablonu Travel App
-- Kody hex dla wszystkich odcieni
-- Przykłady zastosowania w kodzie
-- Zasady projektowe Travel App
-- Tabela migracji ze starych kolorów
 
 ## 🚀 Szybki start
 
@@ -110,27 +85,9 @@ Wszystkie dane są przechowywane lokalnie w przeglądarce (LocalStorage):
 
 **Uwaga:** Dane pozostają w przeglądarce nawem po odświeżeniu strony!
 
-## 🎯 Najczęstsze edycje
-
-### Zmiana kolorów
-Zobacz: [PALETA_TRAVEL_APP.md](./PALETA_TRAVEL_APP.md)
-
-### Zmiana planu dnia
-Zobacz: [INSTRUKCJA_EDYCJI.md](./INSTRUKCJA_EDYCJI.md#5-plan-dnia---piątek-linia-973-1017)
-
-### Zmiana budżetu
-Zobacz: [INSTRUKCJA_EDYCJI.md](./INSTRUKCJA_EDYCJI.md#7-budżet-i-koszty-linia-367-368)
-
-### Import z Figmy
-Zobacz: [INSTRUKCJA_FIGMA.md](./INSTRUKCJA_FIGMA.md#-import-designu-z-figma-do-projektu)
-
 ## ❓ Pomoc
 
 1. Sprawdź odpowiednią instrukcję powyżej
 2. Szukaj komentarzy w kodzie: `{/* Transport Section */}`
 3. Sprawdź PALETA_KOLOROW.md dla kodów kolorów
 4. Testuj zmiany w przeglądarce po każdej edycji
-
----
-
-**Stworzone z ❤️ przy użyciu Figma Make**
