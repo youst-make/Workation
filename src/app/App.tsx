@@ -378,7 +378,7 @@ export default function App() {
   const totalCost = costItems.reduce((sum, item) => sum + item.cost, 0);
   const perPerson = Math.ceil(totalCost / people.length);
   const paidCount = payStatus.filter(Boolean).length;
-  const collected = paidCount * perPerson;
+  const collected = Math.min(paidCount * perPerson, totalCost);
 
   const getAvatarClass = (av: string) => {
     const map: Record<string, string> = {
@@ -1191,7 +1191,7 @@ export default function App() {
                   <div
                     className="h-full bg-[#006FFD] rounded-[4px] transition-all duration-400"
                     style={{
-                      width: `${Math.round((collected / totalCost) * 100)}%`,
+                      width: `${totalCost > 0 ? Math.min(100, Math.round((collected / totalCost) * 100)) : 0}%`,
                     }}
                   />
                 </div>
