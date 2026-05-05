@@ -29,6 +29,16 @@ interface GearItem {
   done: boolean;
 }
 
+interface PlaylistItem {
+  id: string;
+  url: string;
+  title: string;
+  thumbnail: string | null;
+  platform: "youtube" | "spotify" | "other";
+  who: string;
+  addedAt: number;
+}
+
 const PEOPLE: Person[] = [
   { init: "TS", name: "Tomek", av: "av-g" },
   { init: "JW", name: "Justyna", av: "av-p" },
@@ -80,7 +90,8 @@ type TabType =
   | "koszty"
   | "rzeczy"
   | "plan"
-  | "zrzutka";
+  | "zrzutka"
+  | "muzyka";
 
 interface EventSettings {
   title: string;
@@ -116,6 +127,7 @@ export default function App() {
     { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
   ]);
   const [personalItems, setPersonalItems] = useState<string[]>(PERSONAL_ITEMS);
+  const [playlistItems, setPlaylistItems] = useState<PlaylistItem[]>([]);
  
   // Flaga — czy dane zostały już załadowane z Supabase
   const loaded = useRef(false);
@@ -123,9 +135,9 @@ export default function App() {
   // Załaduj dane przy starcie (Supabase → localStorage fallback)
   useEffect(() => {
     const load = async () => {
-      const [
-        s, p, c, g, pd, ps, d, pi
-      ] = await Promise.all([
+    const [
+      s, p, c, g, pd, ps, d, pi, pl
+    ] = await Promise.all([
         storageGet("wk2_settings", DEFAULT_SETTINGS),
         storageGet("wk2_people", PEOPLE),
         storageGet("wk2_costs", DEFAULT_COSTS),
@@ -137,6 +149,7 @@ export default function App() {
           { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
         ] as CarDriver[]),
         storageGet("wk2_personal_items", PERSONAL_ITEMS),
+        storageGet("wk2_playlist", [] as PlaylistItem[]),
       ]);
       setSettings(s);
       setPeople(p);
@@ -146,6 +159,7 @@ export default function App() {
       setPayStatus(ps);
       setDrivers(d);
       setPersonalItems(pi);
+      setPlaylistItems(pl);
       loaded.current = true;
     };
     load();
@@ -160,6 +174,7 @@ export default function App() {
   useEffect(() => { if (loaded.current) storageSet("wk2_pay", payStatus); }, [payStatus]);
   useEffect(() => { if (loaded.current) storageSet("wk2_drivers", drivers); }, [drivers]);
   useEffect(() => { if (loaded.current) storageSet("wk2_personal_items", personalItems); }, [personalItems]);
+  useEffect(() => { if (loaded.current) storageSet("wk2_playlist", playlistItems); }, [playlistItems]);
  
   // Stan UI (nie synchronizowany)
   const [costInput, setCostInput] = useState("");
@@ -397,6 +412,7 @@ export default function App() {
             { id: "zrzutka" as TabType, label: "💸 Zrzutka" },
             { id: "koszty" as TabType, label: "💰 Koszty" },
             { id: "rzeczy" as TabType, label: "🎒 Co zabrać" },
+            { id: "muzyka" as TabType, label: "🎵 Muzyka" },
             { id: "nocleg" as TabType, label: "🏡 Nocleg" },
           ].map((tab) => (
             <button
