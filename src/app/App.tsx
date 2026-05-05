@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { storageGet, storageSet } from "./storage";
 
 // Types
 interface Person {
@@ -103,108 +104,76 @@ const DEFAULT_SETTINGS: EventSettings = {
 export default function App() {
   const [activeTab, setActiveTab] =
     useState<TabType>("plan");
-
-  const [settings, setSettings] = useState<EventSettings>(
-    () => {
-      const saved = localStorage.getItem("wk2_settings");
-      return saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
-    },
-  );
-
-  const [people, setPeople] = useState<Person[]>(() => {
-    const saved = localStorage.getItem("wk2_people");
-    return saved ? JSON.parse(saved) : PEOPLE;
-  });
-
-  const [costItems, setCostItems] = useState<CostItem[]>(() => {
-    const saved = localStorage.getItem("wk2_costs");
-    return saved ? JSON.parse(saved) : DEFAULT_COSTS;
-  });
-  const [gearItems, setGearItems] = useState<GearItem[]>(() => {
-    const saved = localStorage.getItem("wk2_gear");
-    return saved ? JSON.parse(saved) : DEFAULT_GEAR;
-  });
-  const [personalDone, setPersonalDone] = useState<
-    Record<number, boolean>
-  >(() => {
-    const saved = localStorage.getItem("wk2_personal");
-    return saved ? JSON.parse(saved) : {};
-  });
-  const [payStatus, setPayStatus] = useState<boolean[]>(() => {
-    const saved = localStorage.getItem("wk2_pay");
-    return saved
-      ? JSON.parse(saved)
-      : [true, true, false, false, false, false];
-  });
-
+ 
+  const [settings, setSettings] = useState<EventSettings>(DEFAULT_SETTINGS);
+  const [people, setPeople] = useState<Person[]>(PEOPLE);
+  const [costItems, setCostItems] = useState<CostItem[]>(DEFAULT_COSTS);
+  const [gearItems, setGearItems] = useState<GearItem[]>(DEFAULT_GEAR);
+  const [personalDone, setPersonalDone] = useState<Record<number, boolean>>({});
+  const [payStatus, setPayStatus] = useState<boolean[]>([true, true, false, false, false, false]);
+  const [drivers, setDrivers] = useState<CarDriver[]>([
+    { personIndex: 0, departureTime: '09:00', departureLocation: 'Wawer', passengers: [1, 2] },
+    { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
+  ]);
+  const [personalItems, setPersonalItems] = useState<string[]>(PERSONAL_ITEMS);
+ 
+  // Flaga — czy dane zostały już załadowane z Supabase
+  const loaded = useRef(false);
+ 
+  // Załaduj dane przy starcie (Supabase → localStorage fallback)
+  useEffect(() => {
+    const load = async () => {
+      const [
+        s, p, c, g, pd, ps, d, pi
+      ] = await Promise.all([
+        storageGet("wk2_settings", DEFAULT_SETTINGS),
+        storageGet("wk2_people", PEOPLE),
+        storageGet("wk2_costs", DEFAULT_COSTS),
+        storageGet("wk2_gear", DEFAULT_GEAR),
+        storageGet("wk2_personal", {} as Record<number, boolean>),
+        storageGet("wk2_pay", [true, true, false, false, false, false] as boolean[]),
+        storageGet("wk2_drivers", [
+          { personIndex: 0, departureTime: '09:00', departureLocation: 'Wawer', passengers: [1, 2] },
+          { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
+        ] as CarDriver[]),
+        storageGet("wk2_personal_items", PERSONAL_ITEMS),
+      ]);
+      setSettings(s);
+      setPeople(p);
+      setCostItems(c);
+      setGearItems(g);
+      setPersonalDone(pd);
+      setPayStatus(ps);
+      setDrivers(d);
+      setPersonalItems(pi);
+      loaded.current = true;
+    };
+    load();
+  }, []);
+ 
+  // Zapisz zmiany do Supabase (pomijaj pierwsze renderowanie przed załadowaniem)
+  useEffect(() => { if (loaded.current) storageSet("wk2_settings", settings); }, [settings]);
+  useEffect(() => { if (loaded.current) storageSet("wk2_people", people); }, [people]);
+  useEffect(() => { if (loaded.current) storageSet("wk2_costs", costItems); }, [costItems]);
+  useEffect(() => { if (loaded.current) storageSet("wk2_gear", gearItems); }, [gearItems]);
+  useEffect(() => { if (loaded.current) storageSet("wk2_personal", personalDone); }, [personalDone]);
+  useEffect(() => { if (loaded.current) storageSet("wk2_pay", payStatus); }, [payStatus]);
+  useEffect(() => { if (loaded.current) storageSet("wk2_drivers", drivers); }, [drivers]);
+  useEffect(() => { if (loaded.current) storageSet("wk2_personal_items", personalItems); }, [personalItems]);
+ 
+  // Stan UI (nie synchronizowany)
   const [costInput, setCostInput] = useState("");
   const [costWho, setCostWho] = useState(people[0]?.name || "Tomek");
   const [costAmount, setCostAmount] = useState("");
   const [costCategory, setCostCategory] = useState<"transport_zakwaterowanie" | "zakupy">("zakupy");
-
   const [gearInput, setGearInput] = useState("");
   const [gearWho, setGearWho] = useState(people[0]?.name || "Tomek");
-
   const [newPersonName, setNewPersonName] = useState("");
   const [newPersonInit, setNewPersonInit] = useState("");
   const [newPersonColor, setNewPersonColor] = useState("av-g");
-
-  const [drivers, setDrivers] = useState<CarDriver[]>(() => {
-    const saved = localStorage.getItem('wk2_drivers');
-    return saved ? JSON.parse(saved) : [
-      { personIndex: 0, departureTime: '09:00', departureLocation: 'Wawer', passengers: [1, 2] },
-      { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
-    ];
-  });
-
   const [editingDriver, setEditingDriver] = useState<number | null>(null);
-
-  const [personalItems, setPersonalItems] = useState<string[]>(() => {
-    const saved = localStorage.getItem('wk2_personal_items');
-    return saved ? JSON.parse(saved) : PERSONAL_ITEMS;
-  });
-
   const [newPersonalItem, setNewPersonalItem] = useState('');
   const [editingCost, setEditingCost] = useState<number | null>(null);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "wk2_settings",
-      JSON.stringify(settings),
-    );
-  }, [settings]);
-
-  useEffect(() => {
-    localStorage.setItem("wk2_people", JSON.stringify(people));
-  }, [people]);
-
-  useEffect(() => {
-    localStorage.setItem("wk2_costs", JSON.stringify(costItems));
-  }, [costItems]);
-
-  useEffect(() => {
-    localStorage.setItem("wk2_gear", JSON.stringify(gearItems));
-  }, [gearItems]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "wk2_personal",
-      JSON.stringify(personalDone),
-    );
-  }, [personalDone]);
-
-  useEffect(() => {
-    localStorage.setItem("wk2_pay", JSON.stringify(payStatus));
-  }, [payStatus]);
-
-  useEffect(() => {
-    localStorage.setItem('wk2_drivers', JSON.stringify(drivers));
-  }, [drivers]);
-
-  useEffect(() => {
-    localStorage.setItem('wk2_personal_items', JSON.stringify(personalItems));
-  }, [personalItems]);
-
   const toggleCostDone = (index: number) => {
     setCostItems((prev) =>
       prev.map((item, i) =>
@@ -1255,16 +1224,16 @@ export default function App() {
                         <div className="text-sm font-medium">
                           {person.name}
                         </div>
-                        {personPaid > 0 && (
-                          <div className="text-xs text-[#71727A] mt-0.5">
-                           Zapłacono: {personPaid} zł
+                      {personPaid > 0 && (
+                        <div className="text-xs text-[#71727A] mt-0.5">
+                          Zapłacono: {personPaid} zł
                           {shouldPay > 0
                             ? ` · Do wpłaty: ${shouldPay} zł`
                             : shouldPay < 0
                               ? ` · Do zwrotu: ${Math.abs(shouldPay)} zł`
                               : ` · Wyrównane ✓`}
-                        </div>
-                      )}
+                      </div>
+                    )}
                       </div>
                       <span
                         className={`text-[12px] font-medium px-3 py-1.5 rounded-[8px] flex-shrink-0 ${
