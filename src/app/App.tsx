@@ -190,6 +190,87 @@ export default function App() {
   const [editingDriver, setEditingDriver] = useState<number | null>(null);
   const [newPersonalItem, setNewPersonalItem] = useState('');
   const [editingCost, setEditingCost] = useState<number | null>(null);
+
+  // Playlista — stan UI
+  const [playlistUrl, setPlaylistUrl] = useState("");
+  const [playlistTitle, setPlaylistTitle] = useState("");
+  const [playlistWho, setPlaylistWho] = useState(people[0]?.name || "Tomek");
+  const [playlistFetching, setPlaylistFetching] = useState(false);
+  const [playlistError, setPlaylistError] = useState("");
+
+  // Playlista — funkcje
+  const detectPlatform = (url: string): PlaylistItem["platform"] => {
+    if (/youtu\.be|youtube\.com/i.test(url)) return "youtube";
+    if (/open\.spotify\.com/i.test(url)) return "spotify";
+    return "other";
+  };
+
+  const extractYouTubeId = (url: string): string | null => {
+    const m = url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  };
+
+  const fetchTrackMeta = async (url: string): Promise<{ title: string; thumbnail: string | null }> => {
+    const platform = detectPlatform(url);
+    if (platform === "youtube") {
+      try {
+        const res = await fetch(`https://noembed.com/embed?url=${encodeURIComponent(url)}`);
+        const data = await res.json();
+        const ytId = extractYouTubeId(url);
+        return {
+          title: data.title || url,
+          thumbnail: ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : null,
+        };
+      } catch {
+        return { title: url, thumbnail: null };
+      }
+    }
+    if (platform === "spotify") {
+      const m = url.match(/spotify\.com\/(track|album|playlist)\/[^?]+/);
+      const label = m ? m[0].replace("spotify.com/", "").replace(/\//g, " › ") : url;
+      return { title: label, thumbnail: null };
+    }
+    return { title: url, thumbnail: null };
+  };
+
+  const addPlaylistItem = async () => {
+    if (!playlistUrl.trim()) return;
+    setPlaylistFetching(true);
+    setPlaylistError("");
+    try {
+      const platform = detectPlatform(playlistUrl);
+      const ytId = extractYouTubeId(playlistUrl);
+      const meta = playlistTitle.trim()
+        ? {
+            title: playlistTitle.trim(),
+            thumbnail: platform === "youtube" && ytId
+              ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`
+              : null,
+          }
+        : await fetchTrackMeta(playlistUrl);
+      const newItem: PlaylistItem = {
+        id: Date.now().toString(),
+        url: playlistUrl.trim(),
+        title: meta.title,
+        thumbnail: meta.thumbnail,
+        platform,
+        who: playlistWho,
+        addedAt: Date.now(),
+      };
+      setPlaylistItems(prev => [newItem, ...prev]);
+      setPlaylistUrl("");
+      setPlaylistTitle("");
+    } catch {
+      setPlaylistError("Mordeczko nic z tego. Nie udało się porać informacji o utworze");
+    } finally {
+      setPlaylistFetching(false);
+    }
+  };
+
+  const removePlaylistItem = (id: string) => {
+    setPlaylistItems(prev => prev.filter(item => item.id !== id));
+  };
+  
   const toggleCostDone = (index: number) => {
     setCostItems((prev) =>
       prev.map((item, i) =>
