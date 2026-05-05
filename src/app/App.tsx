@@ -110,6 +110,7 @@ const DEFAULT_SETTINGS: EventSettings = {
   location: "Żulin",
   venue: "",
   venueAddress: "Żulin 1",
+  venuePhone: "",
 };
 
 export default function App() {
@@ -394,11 +395,11 @@ export default function App() {
               { emoji: "👥", text: `${people.length} osób` },
             ].filter(Boolean).map((chip) => (
               <div
-                key={chip.text}
+                key={chip!.text}
                 className="text-[12px] font-medium bg-[#F8F9FE] border border-[#E8E9F1] rounded-[8px] px-3 py-1.5 text-[#1F2024]"
               >
-                <span className="mr-1.5">{chip.emoji}</span>
-                {chip.text}
+                <span className="mr-1.5">{chip!.emoji}</span>
+                {chip!.text}
               </div>
             ))}
           </div>
@@ -576,7 +577,7 @@ export default function App() {
                   </span>
                   <span
                     className={`text-right ${row.bold ? "font-medium" : ""} ${
-                      row.mono
+                      (row as any).mono
                         ? "font-['Inter',sans-serif] font-medium text-[13px]"
                         : ""
                     }`}
