@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { storageGet, storageSet } from "./storage";
 
 // Types
@@ -9,11 +9,12 @@ interface Person {
 }
 
 interface CostItem {
+  id: string; // FIX #6: stabilne id zamiast indeksu
   name: string;
   who: string;
   cost: number;
   category: "transport_zakwaterowanie" | "zakupy";
-  done: boolean; // tylko dla kategorii "zakupy"
+  done: boolean;
 }
 
 interface CarDriver {
@@ -50,18 +51,18 @@ const PEOPLE: Person[] = [
 
 const DEFAULT_COSTS: CostItem[] = [
   // Transport & Zakwaterowanie
-  { name: "Nocleg", who: "Tomek", cost: 480, category: "transport_zakwaterowanie", done: false },
-  { name: "Paliwo (2 auta)", who: "Marcin", cost: 60, category: "transport_zakwaterowanie", done: false },
+  { id: "c1", name: "Nocleg", who: "Tomek", cost: 480, category: "transport_zakwaterowanie", done: false },
+  { id: "c2", name: "Paliwo (2 auta)", who: "Marcin", cost: 60, category: "transport_zakwaterowanie", done: false },
 
   // Zakupy
-  { name: "Kiełbaski & karkówka", who: "Tomek", cost: 0, category: "zakupy", done: false },
-  { name: "Pieczywo & bułki", who: "Iza", cost: 0, category: "zakupy", done: false },
-  { name: "Piwo (zgrzewka)", who: "Tomek", cost: 0, category: "zakupy", done: false },
-  { name: "Wino & napoje", who: "Justyna", cost: 0, category: "zakupy", done: false },
-  { name: "Warzywa & sałatki", who: "Marta", cost: 0, category: "zakupy", done: false },
-  { name: "Marshmallows", who: "Iza", cost: 0, category: "zakupy", done: false },
-  { name: "Podpałka & węgiel", who: "Marcin", cost: 0, category: "zakupy", done: false },
-  { name: "Papier toaletowy", who: "Krzysztof", cost: 0, category: "zakupy", done: false },
+  { id: "c3", name: "Kiełbaski & karkówka", who: "Tomek", cost: 0, category: "zakupy", done: false },
+  { id: "c4", name: "Pieczywo & bułki", who: "Iza", cost: 0, category: "zakupy", done: false },
+  { id: "c5", name: "Piwo (zgrzewka)", who: "Tomek", cost: 0, category: "zakupy", done: false },
+  { id: "c6", name: "Wino & napoje", who: "Justyna", cost: 0, category: "zakupy", done: false },
+  { id: "c7", name: "Warzywa & sałatki", who: "Marta", cost: 0, category: "zakupy", done: false },
+  { id: "c8", name: "Marshmallows", who: "Iza", cost: 0, category: "zakupy", done: false },
+  { id: "c9", name: "Podpałka & węgiel", who: "Marcin", cost: 0, category: "zakupy", done: false },
+  { id: "c10", name: "Papier toaletowy", who: "Krzysztof", cost: 0, category: "zakupy", done: false },
 ];
 
 const DEFAULT_GEAR: GearItem[] = [
@@ -114,9 +115,8 @@ const DEFAULT_SETTINGS: EventSettings = {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] =
-    useState<TabType>("plan");
- 
+  const [activeTab, setActiveTab] = useState<TabType>("plan");
+
   const [settings, setSettings] = useState<EventSettings>(DEFAULT_SETTINGS);
   const [people, setPeople] = useState<Person[]>(PEOPLE);
   const [costItems, setCostItems] = useState<CostItem[]>(DEFAULT_COSTS);
@@ -124,31 +124,36 @@ export default function App() {
   const [personalDone, setPersonalDone] = useState<Record<number, boolean>>({});
   const [payStatus, setPayStatus] = useState<boolean[]>([true, true, false, false, false, false]);
   const [drivers, setDrivers] = useState<CarDriver[]>([
-    { personIndex: 0, departureTime: '09:00', departureLocation: 'Wawer', passengers: [1, 2] },
-    { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
+    { personIndex: 0, departureTime: "09:00", departureLocation: "Wawer", passengers: [1, 2] },
+    { personIndex: 3, departureTime: "09:00", departureLocation: "Ursynów", passengers: [4, 5] },
   ]);
   const [personalItems, setPersonalItems] = useState<string[]>(PERSONAL_ITEMS);
   const [playlistItems, setPlaylistItems] = useState<PlaylistItem[]>([]);
- 
-  // Flaga — czy dane zostały już załadowane z Supabase
-  const loaded = useRef(false);
- 
-  // Załaduj dane przy starcie (Supabase → localStorage fallback)
+
+  // FIX #2: useState zamiast useRef dla flagi loaded — eliminuje race condition
+  const [loaded, setLoaded] = useState(false);
+  const loadStarted = useRef(false);
+
+  // Załaduj dane przy starcie
   useEffect(() => {
+    if (loadStarted.current) return;
+    loadStarted.current = true;
+
     const load = async () => {
-    const [
-      s, p, c, g, pd, ps, d, pi, pl
-    ] = await Promise.all([
+      const [s, p, c, g, pd, ps, d, pi, pl] = await Promise.all([
         storageGet("wk2_settings", DEFAULT_SETTINGS),
         storageGet("wk2_people", PEOPLE),
         storageGet("wk2_costs", DEFAULT_COSTS),
         storageGet("wk2_gear", DEFAULT_GEAR),
         storageGet("wk2_personal", {} as Record<number, boolean>),
         storageGet("wk2_pay", [true, true, false, false, false, false] as boolean[]),
-        storageGet("wk2_drivers", [
-          { personIndex: 0, departureTime: '09:00', departureLocation: 'Wawer', passengers: [1, 2] },
-          { personIndex: 3, departureTime: '09:00', departureLocation: 'Ursynów', passengers: [4, 5] },
-        ] as CarDriver[]),
+        storageGet(
+          "wk2_drivers",
+          [
+            { personIndex: 0, departureTime: "09:00", departureLocation: "Wawer", passengers: [1, 2] },
+            { personIndex: 3, departureTime: "09:00", departureLocation: "Ursynów", passengers: [4, 5] },
+          ] as CarDriver[]
+        ),
         storageGet("wk2_personal_items", PERSONAL_ITEMS),
         storageGet("wk2_playlist", [] as PlaylistItem[]),
       ]);
@@ -161,22 +166,22 @@ export default function App() {
       setDrivers(d);
       setPersonalItems(pi);
       setPlaylistItems(pl);
-      loaded.current = true;
+      setLoaded(true); // FIX #2: setState zamiast ref.current = true
     };
     load();
   }, []);
- 
-  // Zapisz zmiany do Supabase (pomijaj pierwsze renderowanie przed załadowaniem)
-  useEffect(() => { if (loaded.current) storageSet("wk2_settings", settings); }, [settings]);
-  useEffect(() => { if (loaded.current) storageSet("wk2_people", people); }, [people]);
-  useEffect(() => { if (loaded.current) storageSet("wk2_costs", costItems); }, [costItems]);
-  useEffect(() => { if (loaded.current) storageSet("wk2_gear", gearItems); }, [gearItems]);
-  useEffect(() => { if (loaded.current) storageSet("wk2_personal", personalDone); }, [personalDone]);
-  useEffect(() => { if (loaded.current) storageSet("wk2_pay", payStatus); }, [payStatus]);
-  useEffect(() => { if (loaded.current) storageSet("wk2_drivers", drivers); }, [drivers]);
-  useEffect(() => { if (loaded.current) storageSet("wk2_personal_items", personalItems); }, [personalItems]);
-  useEffect(() => { if (loaded.current) storageSet("wk2_playlist", playlistItems); }, [playlistItems]);
- 
+
+  // FIX #2: loaded jako dependency — zapis do storage tylko po załadowaniu
+  useEffect(() => { if (loaded) storageSet("wk2_settings", settings); }, [settings, loaded]);
+  useEffect(() => { if (loaded) storageSet("wk2_people", people); }, [people, loaded]);
+  useEffect(() => { if (loaded) storageSet("wk2_costs", costItems); }, [costItems, loaded]);
+  useEffect(() => { if (loaded) storageSet("wk2_gear", gearItems); }, [gearItems, loaded]);
+  useEffect(() => { if (loaded) storageSet("wk2_personal", personalDone); }, [personalDone, loaded]);
+  useEffect(() => { if (loaded) storageSet("wk2_pay", payStatus); }, [payStatus, loaded]);
+  useEffect(() => { if (loaded) storageSet("wk2_drivers", drivers); }, [drivers, loaded]);
+  useEffect(() => { if (loaded) storageSet("wk2_personal_items", personalItems); }, [personalItems, loaded]);
+  useEffect(() => { if (loaded) storageSet("wk2_playlist", playlistItems); }, [playlistItems, loaded]);
+
   // Stan UI (nie synchronizowany)
   const [costInput, setCostInput] = useState("");
   const [costWho, setCostWho] = useState(people[0]?.name || "Tomek");
@@ -188,8 +193,8 @@ export default function App() {
   const [newPersonInit, setNewPersonInit] = useState("");
   const [newPersonColor, setNewPersonColor] = useState("av-g");
   const [editingDriver, setEditingDriver] = useState<number | null>(null);
-  const [newPersonalItem, setNewPersonalItem] = useState('');
-  const [editingCost, setEditingCost] = useState<number | null>(null);
+  const [newPersonalItem, setNewPersonalItem] = useState("");
+  const [editingCostId, setEditingCostId] = useState<string | null>(null); // FIX #6: id zamiast indeksu
 
   // Playlista — stan UI
   const [playlistUrl, setPlaylistUrl] = useState("");
@@ -243,9 +248,10 @@ export default function App() {
       const meta = playlistTitle.trim()
         ? {
             title: playlistTitle.trim(),
-            thumbnail: platform === "youtube" && ytId
-              ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`
-              : null,
+            thumbnail:
+              platform === "youtube" && ytId
+                ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`
+                : null,
           }
         : await fetchTrackMeta(playlistUrl);
       const newItem: PlaylistItem = {
@@ -257,50 +263,46 @@ export default function App() {
         who: playlistWho,
         addedAt: Date.now(),
       };
-      setPlaylistItems(prev => [newItem, ...prev]);
+      setPlaylistItems((prev) => [newItem, ...prev]);
       setPlaylistUrl("");
       setPlaylistTitle("");
     } catch {
-      setPlaylistError("Mordeczko nic z tego. Nie udało się porać informacji o utworze");
+      setPlaylistError("Mordeczko nic z tego. Nie udało się pobrać informacji o utworze");
     } finally {
       setPlaylistFetching(false);
     }
   };
 
   const removePlaylistItem = (id: string) => {
-    setPlaylistItems(prev => prev.filter(item => item.id !== id));
+    setPlaylistItems((prev) => prev.filter((item) => item.id !== id));
   };
-  
-  const toggleCostDone = (index: number) => {
+
+  const toggleCostDone = (id: string) => {
     setCostItems((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, done: !item.done } : item,
-      ),
+      prev.map((item) => (item.id === id ? { ...item, done: !item.done } : item))
     );
   };
 
-  const updateCostPerson = (index: number, who: string) => {
-    setCostItems(prev =>
-      prev.map((item, i) => (i === index ? { ...item, who } : item))
+  const updateCostPerson = (id: string, who: string) => {
+    setCostItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, who } : item))
     );
   };
 
-  const updateCostAmount = (index: number, cost: number) => {
-    setCostItems(prev =>
-      prev.map((item, i) => (i === index ? { ...item, cost } : item))
+  const updateCostAmount = (id: string, cost: number) => {
+    setCostItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, cost } : item))
     );
   };
 
-  const updateCostItem = (index: number, field: keyof CostItem, value: any) => {
-    setCostItems(prev =>
-      prev.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      )
+  const updateCostName = (id: string, name: string) => {
+    setCostItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, name } : item))
     );
   };
 
   const updateDriver = (driverIndex: number, field: keyof CarDriver, value: any) => {
-    setDrivers(prev =>
+    setDrivers((prev) =>
       prev.map((driver, i) =>
         i === driverIndex ? { ...driver, [field]: value } : driver
       )
@@ -312,11 +314,12 @@ export default function App() {
     setCostItems((prev) => [
       ...prev,
       {
+        id: Date.now().toString(), // FIX #6: generuj unikalne id
         name: costInput,
         who: costWho,
         cost: parseFloat(costAmount) || 0,
         category: costCategory,
-        done: false
+        done: false,
       },
     ]);
     setCostInput("");
@@ -324,7 +327,7 @@ export default function App() {
   };
 
   const addPassenger = (driverIndex: number, passengerIndex: number) => {
-    setDrivers(prev =>
+    setDrivers((prev) =>
       prev.map((driver, i) =>
         i === driverIndex
           ? { ...driver, passengers: [...driver.passengers, passengerIndex] }
@@ -334,37 +337,36 @@ export default function App() {
   };
 
   const removePassenger = (driverIndex: number, passengerIndex: number) => {
-    setDrivers(prev =>
+    setDrivers((prev) =>
       prev.map((driver, i) =>
         i === driverIndex
-          ? { ...driver, passengers: driver.passengers.filter(p => p !== passengerIndex) }
+          ? { ...driver, passengers: driver.passengers.filter((p) => p !== passengerIndex) }
           : driver
       )
     );
   };
 
-  const removeCostItem = (index: number) => {
-    setCostItems(prev => prev.filter((_, i) => i !== index));
+  const removeCostItem = (id: string) => {
+    setCostItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   const removeGearItem = (index: number) => {
-    setGearItems(prev => prev.filter((_, i) => i !== index));
+    setGearItems((prev) => prev.filter((_, i) => i !== index));
   };
 
   const addPersonalItem = () => {
     if (!newPersonalItem.trim()) return;
-    setPersonalItems(prev => [...prev, newPersonalItem]);
-    setNewPersonalItem('');
+    setPersonalItems((prev) => [...prev, newPersonalItem]);
+    setNewPersonalItem("");
   };
 
   const removePersonalItem = (index: number) => {
-    setPersonalItems(prev => prev.filter((_, i) => i !== index));
-    setPersonalDone(prev => {
+    setPersonalItems((prev) => prev.filter((_, i) => i !== index));
+    setPersonalDone((prev) => {
       const updated = { ...prev };
       delete updated[index];
-      // Przesunięcie indeksów
       const newDone: Record<number, boolean> = {};
-      Object.keys(updated).forEach(key => {
+      Object.keys(updated).forEach((key) => {
         const k = parseInt(key);
         if (k > index) {
           newDone[k - 1] = updated[k];
@@ -378,44 +380,27 @@ export default function App() {
 
   const toggleGear = (index: number) => {
     setGearItems((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, done: !item.done } : item,
-      ),
+      prev.map((item, i) => (i === index ? { ...item, done: !item.done } : item))
     );
   };
 
   const addGear = () => {
     if (!gearInput.trim()) return;
-    setGearItems((prev) => [
-      ...prev,
-      { name: gearInput, who: gearWho, done: false },
-    ]);
+    setGearItems((prev) => [...prev, { name: gearInput, who: gearWho, done: false }]);
     setGearInput("");
   };
 
   const togglePersonal = (index: number) => {
-    setPersonalDone((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+    setPersonalDone((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
   const togglePay = (index: number) => {
-    setPayStatus((prev) =>
-      prev.map((status, i) => (i === index ? !status : status)),
-    );
+    setPayStatus((prev) => prev.map((status, i) => (i === index ? !status : status)));
   };
 
   const addPerson = () => {
     if (!newPersonName.trim() || !newPersonInit.trim()) return;
-    setPeople((prev) => [
-      ...prev,
-      {
-        name: newPersonName,
-        init: newPersonInit,
-        av: newPersonColor,
-      },
-    ]);
+    setPeople((prev) => [...prev, { name: newPersonName, init: newPersonInit, av: newPersonColor }]);
     setPayStatus((prev) => [...prev, false]);
     setNewPersonName("");
     setNewPersonInit("");
@@ -426,19 +411,25 @@ export default function App() {
     setPayStatus((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Oblicz koszty - kto ile zapłacił
-  const costsByPerson = costItems.reduce((acc, item) => {
-    if (item.cost > 0) {
-      const personIndex = people.findIndex(p => p.name === item.who);
-      if (personIndex >= 0) {
-        acc[personIndex] = (acc[personIndex] || 0) + item.cost;
+  // FIX #5: useMemo na kalkulacjach kosztów
+  const { costsByPerson, totalCost } = useMemo(() => {
+    const byPerson: Record<number, number> = {};
+    let total = 0;
+    for (const item of costItems) {
+      if (item.cost > 0) {
+        const idx = people.findIndex((p) => p.name === item.who);
+        if (idx >= 0) byPerson[idx] = (byPerson[idx] || 0) + item.cost;
+        total += item.cost;
       }
     }
-    return acc;
-  }, {} as Record<number, number>);
+    return { costsByPerson: byPerson, totalCost: total };
+  }, [costItems, people]);
 
-  const totalCost = costItems.reduce((sum, item) => sum + item.cost, 0);
-  const perPerson = Math.ceil(totalCost / people.length);
+  // FIX #4: Math.round zamiast Math.ceil — poprawne saldo shouldPay
+  const perPerson = people.length > 0
+    ? Math.round((totalCost / people.length) * 100) / 100
+    : 0;
+
   const paidCount = payStatus.filter(Boolean).length;
   const collected = Math.min(paidCount * perPerson, totalCost);
 
@@ -474,15 +465,17 @@ export default function App() {
               { emoji: "📍", text: settings.location },
               settings.venue ? { emoji: "🏡", text: settings.venue } : null,
               { emoji: "👥", text: `${people.length} osób` },
-            ].filter(Boolean).map((chip) => (
-              <div
-                key={chip!.text}
-                className="text-[12px] font-medium bg-[#F8F9FE] border border-[#E8E9F1] rounded-[8px] px-3 py-1.5 text-[#1F2024]"
-              >
-                <span className="mr-1.5">{chip!.emoji}</span>
-                {chip!.text}
-              </div>
-            ))}
+            ]
+              .filter(Boolean)
+              .map((chip) => (
+                <div
+                  key={chip!.text}
+                  className="text-[12px] font-medium bg-[#F8F9FE] border border-[#E8E9F1] rounded-[8px] px-3 py-1.5 text-[#1F2024]"
+                >
+                  <span className="mr-1.5">{chip!.emoji}</span>
+                  {chip!.text}
+                </div>
+              ))}
           </div>
         </div>
 
@@ -525,34 +518,42 @@ export default function App() {
 
                   <div className="flex items-center gap-3 py-2.5 border-b border-[#E8E9F1]">
                     <div
-                      className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass(people[driver.personIndex]?.av || 'av-2')}`}
+                      className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass(people[driver.personIndex]?.av || "av-2")}`}
                     >
-                      {people[driver.personIndex]?.init || '?'}
+                      {people[driver.personIndex]?.init || "?"}
                     </div>
                     <div className="flex-1 min-w-0">
                       {editingDriver === driverIdx ? (
                         <div className="space-y-1">
                           <select
                             value={driver.personIndex}
-                            onChange={(e) => updateDriver(driverIdx, 'personIndex', Number(e.target.value))}
+                            onChange={(e) =>
+                              updateDriver(driverIdx, "personIndex", Number(e.target.value))
+                            }
                             className="text-sm px-2 py-1 border border-[#E8E9F1] rounded bg-white"
                           >
                             {people.map((p, i) => (
-                              <option key={i} value={i}>{p.name}</option>
+                              <option key={i} value={i}>
+                                {p.name}
+                              </option>
                             ))}
                           </select>
                           <div className="flex gap-2">
                             <input
                               type="text"
                               value={driver.departureLocation}
-                              onChange={(e) => updateDriver(driverIdx, 'departureLocation', e.target.value)}
+                              onChange={(e) =>
+                                updateDriver(driverIdx, "departureLocation", e.target.value)
+                              }
                               placeholder="Miejsce wyjazdu"
                               className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white flex-1"
                             />
                             <input
                               type="text"
                               value={driver.departureTime}
-                              onChange={(e) => updateDriver(driverIdx, 'departureTime', e.target.value)}
+                              onChange={(e) =>
+                                updateDriver(driverIdx, "departureTime", e.target.value)
+                              }
                               placeholder="Godz."
                               className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white w-16"
                             />
@@ -561,7 +562,7 @@ export default function App() {
                       ) : (
                         <>
                           <div className="text-sm font-medium">
-                            {people[driver.personIndex]?.name || 'Nieznany'}
+                            {people[driver.personIndex]?.name || "Nieznany"}
                           </div>
                           <div className="text-xs text-[#71727A] mt-0.5">
                             wyjazd {driver.departureLocation} {driver.departureTime}
@@ -570,26 +571,32 @@ export default function App() {
                       )}
                     </div>
                     <button
-                      onClick={() => setEditingDriver(editingDriver === driverIdx ? null : driverIdx)}
+                      onClick={() =>
+                        setEditingDriver(editingDriver === driverIdx ? null : driverIdx)
+                      }
                       className="text-[12px] font-semibold px-3 py-2 rounded-[8px] bg-[#006FFD] text-white flex-shrink-0 hover:bg-[#2897FF] transition-colors"
                     >
-                      {editingDriver === driverIdx ? 'Zapisz' : 'Edytuj'}
+                      {editingDriver === driverIdx ? "Zapisz" : "Edytuj"}
                     </button>
                   </div>
 
                   {driver.passengers.map((passengerIdx, i) => (
-                    <div key={i} className={`flex items-center gap-3 py-2.5 pl-[46px] border-b border-[#E8E9F1]`}>
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 py-2.5 pl-[46px] border-b border-[#E8E9F1]"
+                    >
                       <div
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass(people[passengerIdx]?.av || 'av-2')}`}
+                        className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight flex-shrink-0 ${getAvatarClass(people[passengerIdx]?.av || "av-2")}`}
                       >
-                        {people[passengerIdx]?.init || '?'}
+                        {people[passengerIdx]?.init || "?"}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-medium">
-                          {people[passengerIdx]?.name || 'Nieznany'}
+                          {people[passengerIdx]?.name || "Nieznany"}
                         </div>
                         <div className="text-xs text-[#71727A] mt-0.5">
-                          Pasażer → auto {people[driver.personIndex]?.name?.split(' ')[0] || 'kierowcy'}
+                          Pasażer → auto{" "}
+                          {people[driver.personIndex]?.name?.split(" ")[0] || "kierowcy"}
                         </div>
                       </div>
                       <button
@@ -606,21 +613,35 @@ export default function App() {
                     <select
                       onChange={(e) => {
                         const passengerIdx = Number(e.target.value);
-                        if (passengerIdx >= 0 && !driver.passengers.includes(passengerIdx) && passengerIdx !== driver.personIndex) {
+                        if (
+                          passengerIdx >= 0 &&
+                          !driver.passengers.includes(passengerIdx) &&
+                          passengerIdx !== driver.personIndex
+                        ) {
                           addPassenger(driverIdx, passengerIdx);
-                          e.target.value = '';
+                          e.target.value = "";
                         }
                       }}
                       className="flex-1 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-[#F8F9FE]"
                       defaultValue=""
                     >
-                      <option value="" disabled>+ Dodaj pasażera</option>
+                      <option value="" disabled>
+                        + Dodaj pasażera
+                      </option>
                       {people.map((p, i) => {
                         const isDriver = i === driver.personIndex;
                         const isPassenger = driver.passengers.includes(i);
-                        const isInOtherCar = drivers.some((d, di) => di !== driverIdx && (d.personIndex === i || d.passengers.includes(i)));
+                        const isInOtherCar = drivers.some(
+                          (d, di) =>
+                            di !== driverIdx &&
+                            (d.personIndex === i || d.passengers.includes(i))
+                        );
                         if (isDriver || isPassenger || isInOtherCar) return null;
-                        return <option key={i} value={i}>{p.name}</option>;
+                        return (
+                          <option key={i} value={i}>
+                            {p.name}
+                          </option>
+                        );
                       })}
                     </select>
                   </div>
@@ -639,30 +660,16 @@ export default function App() {
                 },
                 { label: "Cel", value: settings.location },
                 { label: "Czas jazdy", value: "~65 min" },
-                {
-                  label: "Szacowany przyjazd",
-                  value: "ok. 09:00 - 09:30",
-                  bold: true,
-                },
+                { label: "Szacowany przyjazd", value: "ok. 09:00 - 09:30", bold: true },
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
                   className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
-                    i < arr.length - 1
-                      ? "border-b border-[#E8E9F1]"
-                      : ""
+                    i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
                   }`}
                 >
-                  <span className="text-[#71727A] text-[13px] flex-shrink-0">
-                    {row.label}
-                  </span>
-                  <span
-                    className={`text-right ${row.bold ? "font-medium" : ""} ${
-                      (row as any).mono
-                        ? "font-['Inter',sans-serif] font-medium text-[13px]"
-                        : ""
-                    }`}
-                  >
+                  <span className="text-[#71727A] text-[13px] flex-shrink-0">{row.label}</span>
+                  <span className={`text-right ${row.bold ? "font-medium" : ""}`}>
                     {row.value}
                   </span>
                 </div>
@@ -680,25 +687,16 @@ export default function App() {
               </div>
               {[
                 { label: "Check-in", value: "od 16:00 (sobota)" },
-                {
-                  label: "Check-out",
-                  value: "do 12:00 (niedziela)",
-                },
+                { label: "Check-out", value: "do 12:00 (niedziela)" },
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
                   className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
-                    i < arr.length - 1
-                      ? "border-b border-[#E8E9F1]"
-                      : ""
+                    i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
                   }`}
                 >
-                  <span className="text-[#71727A] text-[13px] flex-shrink-0">
-                    {row.label}
-                  </span>
-                  <span className="text-right">
-                    {row.value}
-                  </span>
+                  <span className="text-[#71727A] text-[13px] flex-shrink-0">{row.label}</span>
+                  <span className="text-right">{row.value}</span>
                 </div>
               ))}
             </div>
@@ -737,19 +735,20 @@ export default function App() {
                 🚗🏡 Transport & Zakwaterowanie
               </div>
               <div>
-                {costItems.filter(item => item.category === "transport_zakwaterowanie").map((item, idx) => {
-                  const actualIndex = costItems.findIndex(x => x === item);
-                  return (
+                {costItems
+                  .filter((item) => item.category === "transport_zakwaterowanie")
+                  .map((item) => (
+                    // FIX #6: key={item.id} — stabilny klucz
                     <div
-                      key={actualIndex}
+                      key={item.id}
                       className="flex items-center gap-2.5 py-2.5 border-b border-[#E8E9F1] last:border-b-0"
                     >
                       <div className="flex-1">
-                        {editingCost === actualIndex ? (
+                        {editingCostId === item.id ? (
                           <input
                             type="text"
                             value={item.name}
-                            onChange={(e) => updateCostItem(actualIndex, 'name', e.target.value)}
+                            onChange={(e) => updateCostName(item.id, e.target.value)}
                             className="text-sm px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white w-full"
                           />
                         ) : (
@@ -758,48 +757,51 @@ export default function App() {
                       </div>
                       <select
                         value={item.who}
-                        onChange={(e) => updateCostPerson(actualIndex, e.target.value)}
+                        onChange={(e) => updateCostPerson(item.id, e.target.value)}
                         className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-[#F8F9FE] text-[#71727A] flex-shrink-0"
                       >
                         {people.map((p) => (
                           <option key={p.name}>{p.name}</option>
                         ))}
                       </select>
-                      {editingCost === actualIndex ? (
+                      {editingCostId === item.id ? (
                         <input
                           type="number"
-                          value={item.cost || ''}
-                          onChange={(e) => updateCostAmount(actualIndex, parseFloat(e.target.value) || 0)}
+                          value={item.cost || ""}
+                          onChange={(e) =>
+                            updateCostAmount(item.id, parseFloat(e.target.value) || 0)
+                          }
                           placeholder="Koszt"
                           className="w-20 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
                         />
                       ) : (
-                        <div className="w-20 text-xs px-2 py-1 text-right font-medium">{item.cost} zł</div>
+                        <div className="w-20 text-xs px-2 py-1 text-right font-medium">
+                          {item.cost} zł
+                        </div>
                       )}
                       <button
-                        onClick={() => setEditingCost(editingCost === actualIndex ? null : actualIndex)}
+                        onClick={() =>
+                          setEditingCostId(editingCostId === item.id ? null : item.id)
+                        }
                         className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#71727A] hover:border-[#006FFD] hover:text-[#006FFD] transition-colors"
                       >
-                        {editingCost === actualIndex ? 'Zapisz' : 'Edytuj'}
+                        {editingCostId === item.id ? "Zapisz" : "Edytuj"}
                       </button>
                       <button
-                        onClick={() => removeCostItem(actualIndex)}
+                        onClick={() => removeCostItem(item.id)}
                         className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                       >
                         ✕
                       </button>
                     </div>
-                  );
-                })}
+                  ))}
               </div>
               <div className="flex gap-2 mt-4 flex-wrap">
                 <input
                   type="text"
                   value={costInput}
                   onChange={(e) => setCostInput(e.target.value)}
-                  onKeyPress={(e) =>
-                    e.key === "Enter" && addCostItem()
-                  }
+                  onKeyPress={(e) => e.key === "Enter" && addCostItem()}
                   placeholder="Dodaj koszt..."
                   className="flex-1 min-w-[120px] text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
                 />
@@ -807,9 +809,7 @@ export default function App() {
                   type="number"
                   value={costAmount}
                   onChange={(e) => setCostAmount(e.target.value)}
-                  onKeyPress={(e) =>
-                    e.key === "Enter" && addCostItem()
-                  }
+                  onKeyPress={(e) => e.key === "Enter" && addCostItem()}
                   placeholder="Kwota (zł)"
                   className="w-24 text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
                 />
@@ -824,7 +824,11 @@ export default function App() {
                 </select>
                 <select
                   value={costCategory}
-                  onChange={(e) => setCostCategory(e.target.value as "transport_zakwaterowanie" | "zakupy")}
+                  onChange={(e) =>
+                    setCostCategory(
+                      e.target.value as "transport_zakwaterowanie" | "zakupy"
+                    )
+                  }
                   className="text-[13px] px-2.5 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] cursor-pointer hover:border-[#006FFD] transition-all"
                 >
                   <option value="transport_zakwaterowanie">Transport & Zakwaterowanie</option>
@@ -845,25 +849,26 @@ export default function App() {
                 🛒 Zakupy — Do kupienia
               </div>
               <div>
-                {costItems.filter(item => item.category === "zakupy" && !item.done).map((item) => {
-                  const actualIndex = costItems.findIndex(x => x === item);
-                  return (
+                {costItems
+                  .filter((item) => item.category === "zakupy" && !item.done)
+                  .map((item) => (
+                    // FIX #6: key={item.id}
                     <div
-                      key={actualIndex}
+                      key={item.id}
                       className="flex items-center gap-2.5 py-2.5 border-b border-[#E8E9F1] last:border-b-0"
                     >
                       <input
                         type="checkbox"
                         checked={false}
-                        onChange={() => toggleCostDone(actualIndex)}
+                        onChange={() => toggleCostDone(item.id)}
                         className="w-4 h-4 cursor-pointer accent-[#2D6A4F] flex-shrink-0"
                       />
                       <div className="flex-1">
-                        {editingCost === actualIndex ? (
+                        {editingCostId === item.id ? (
                           <input
                             type="text"
                             value={item.name}
-                            onChange={(e) => updateCostItem(actualIndex, 'name', e.target.value)}
+                            onChange={(e) => updateCostName(item.id, e.target.value)}
                             className="text-sm px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white w-full"
                           />
                         ) : (
@@ -872,60 +877,66 @@ export default function App() {
                       </div>
                       <select
                         value={item.who}
-                        onChange={(e) => updateCostPerson(actualIndex, e.target.value)}
+                        onChange={(e) => updateCostPerson(item.id, e.target.value)}
                         className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-[#F8F9FE] text-[#71727A] flex-shrink-0"
                       >
                         {people.map((p) => (
                           <option key={p.name}>{p.name}</option>
                         ))}
                       </select>
-                      {editingCost === actualIndex ? (
+                      {editingCostId === item.id ? (
                         <input
                           type="number"
-                          value={item.cost || ''}
-                          onChange={(e) => updateCostAmount(actualIndex, parseFloat(e.target.value) || 0)}
+                          value={item.cost || ""}
+                          onChange={(e) =>
+                            updateCostAmount(item.id, parseFloat(e.target.value) || 0)
+                          }
                           placeholder="Koszt"
                           className="w-20 text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#1F2024]"
                         />
                       ) : (
-                        <div className="w-20 text-xs px-2 py-1 text-right font-medium">{item.cost} zł</div>
+                        <div className="w-20 text-xs px-2 py-1 text-right font-medium">
+                          {item.cost} zł
+                        </div>
                       )}
                       <button
-                        onClick={() => setEditingCost(editingCost === actualIndex ? null : actualIndex)}
+                        onClick={() =>
+                          setEditingCostId(editingCostId === item.id ? null : item.id)
+                        }
                         className="text-xs px-2 py-1 border border-[#C5C6CC] rounded-[8px] bg-white text-[#71727A] hover:border-[#006FFD] hover:text-[#006FFD] transition-colors"
                       >
-                        {editingCost === actualIndex ? 'Zapisz' : 'Edytuj'}
+                        {editingCostId === item.id ? "Zapisz" : "Edytuj"}
                       </button>
                       <button
-                        onClick={() => removeCostItem(actualIndex)}
+                        onClick={() => removeCostItem(item.id)}
                         className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                       >
                         ✕
                       </button>
                     </div>
-                  );
-                })}
+                  ))}
               </div>
             </div>
 
             {/* Zakupy - Kupione */}
-            {costItems.filter(item => item.category === "zakupy" && item.done).length > 0 && (
+            {costItems.filter((item) => item.category === "zakupy" && item.done).length > 0 && (
               <div className="bg-white rounded-[12px] shadow-sm p-5">
                 <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                   ✓ Zakupy — Kupione
                 </div>
                 <div>
-                  {costItems.filter(item => item.category === "zakupy" && item.done).map((item) => {
-                    const actualIndex = costItems.findIndex(x => x === item);
-                    return (
+                  {costItems
+                    .filter((item) => item.category === "zakupy" && item.done)
+                    .map((item) => (
+                      // FIX #6: key={item.id}
                       <div
-                        key={actualIndex}
+                        key={item.id}
                         className="flex items-center gap-2.5 py-2.5 border-b border-[#E8E9F1] last:border-b-0"
                       >
                         <input
                           type="checkbox"
                           checked={true}
-                          onChange={() => toggleCostDone(actualIndex)}
+                          onChange={() => toggleCostDone(item.id)}
                           className="w-4 h-4 cursor-pointer accent-[#2D6A4F] flex-shrink-0"
                         />
                         <div className="flex-1">
@@ -933,23 +944,24 @@ export default function App() {
                         </div>
                         <select
                           value={item.who}
-                          onChange={(e) => updateCostPerson(actualIndex, e.target.value)}
+                          onChange={(e) => updateCostPerson(item.id, e.target.value)}
                           className="text-xs px-2 py-1 border border-[#E8E9F1] rounded bg-[#F8F9FE] text-[#B0ABA4] flex-shrink-0"
                         >
                           {people.map((p) => (
                             <option key={p.name}>{p.name}</option>
                           ))}
                         </select>
-                        <div className="w-20 text-xs px-2 py-1 text-right text-[#B0ABA4]">{item.cost} zł</div>
+                        <div className="w-20 text-xs px-2 py-1 text-right text-[#B0ABA4]">
+                          {item.cost} zł
+                        </div>
                         <button
-                          onClick={() => removeCostItem(actualIndex)}
+                          onClick={() => removeCostItem(item.id)}
                           className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
                         >
                           ✕
                         </button>
                       </div>
-                    );
-                  })}
+                    ))}
                 </div>
               </div>
             )}
@@ -968,9 +980,7 @@ export default function App() {
                   <div
                     key={i}
                     className={`flex items-center gap-2.5 py-2.5 ${
-                      i < gearItems.length - 1
-                        ? "border-b border-[#E8E9F1]"
-                        : ""
+                      i < gearItems.length - 1 ? "border-b border-[#E8E9F1]" : ""
                     }`}
                   >
                     <input
@@ -985,9 +995,7 @@ export default function App() {
                       >
                         {item.name}
                       </div>
-                      <div className="text-[11px] text-[#B0ABA4] mt-0.5">
-                        {item.who}
-                      </div>
+                      <div className="text-[11px] text-[#B0ABA4] mt-0.5">{item.who}</div>
                     </div>
                     <button
                       onClick={() => removeGearItem(i)}
@@ -1003,9 +1011,7 @@ export default function App() {
                   type="text"
                   value={gearInput}
                   onChange={(e) => setGearInput(e.target.value)}
-                  onKeyPress={(e) =>
-                    e.key === "Enter" && addGear()
-                  }
+                  onKeyPress={(e) => e.key === "Enter" && addGear()}
                   placeholder="Dodaj item..."
                   className="text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
                 />
@@ -1038,9 +1044,7 @@ export default function App() {
                   <div
                     key={i}
                     className={`flex items-center gap-2.5 py-2.5 ${
-                      i < personalItems.length - 1
-                        ? "border-b border-[#E8E9F1]"
-                        : ""
+                      i < personalItems.length - 1 ? "border-b border-[#E8E9F1]" : ""
                     }`}
                   >
                     <input
@@ -1050,7 +1054,9 @@ export default function App() {
                       className="w-4 h-4 cursor-pointer accent-[#2D6A4F] flex-shrink-0"
                     />
                     <span
-                      className={`text-sm flex-1 ${personalDone[i] ? "line-through text-[#B0ABA4]" : ""}`}
+                      className={`text-sm flex-1 ${
+                        personalDone[i] ? "line-through text-[#B0ABA4]" : ""
+                      }`}
                     >
                       {item}
                     </span>
@@ -1068,7 +1074,7 @@ export default function App() {
                   type="text"
                   value={newPersonalItem}
                   onChange={(e) => setNewPersonalItem(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && addPersonalItem()}
+                  onKeyPress={(e) => e.key === "Enter" && addPersonalItem()}
                   placeholder="Dodaj item..."
                   className="w-full text-sm px-3 py-2 border border-[#C5C6CC] rounded-[12px] bg-[#F8F9FE] text-[#1F2024] outline-none focus:border-[#006FFD] transition-colors mb-2"
                 />
@@ -1094,73 +1100,26 @@ export default function App() {
               <div className="relative pl-5">
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#E2DDD5]"></div>
                 {[
-                  {
-                    time: "08:30",
-                    name: "Zbiórka i wyjazd",
-                    desc: "Wyjazd z Warszawy",
-                    dot: "bg-[#006FFD]",
-                  },
-                  {
-                    time: "10:00",
-                    name: "Praca zdalna",
-                    desc: "Skupienie i produktywność",
-                    dot: "bg-[#2897FF]",
-                  },
-                  {
-                    time: "13:00",
-                    name: "Warsztaty Empowering",
-                    desc: "Co nas nie zabije, to nas wzmocni albo i nie",
-                    dot: "bg-[#31B0CF]",
-                  },
-                  {
-                    time: "16:00",
-                    name: "Koniec pracy",
-                    desc: "Czas na relaks",
-                    dot: "bg-[#3AC0A0]",
-                  },
-                  {
-                    time: "16:30",
-                    name: "Obiad",
-                    desc: "Wspólny posiłek",
-                    dot: "bg-[#FFB37C]",
-                  },
-                  {
-                    time: "18:00",
-                    name: "Gry planszowe / Gry terenowe / Spacery",
-                    desc: "Aktywności integracyjne",
-                    dot: "bg-[#6FBAFF]",
-                  },
-                  {
-                    time: "20:00",
-                    name: "Ognisko / Grill",
-                    desc: "Kolacja przy ognisku",
-                    dot: "bg-[#FF616D]",
-                  },
-                  {
-                    time: "22:00",
-                    name: "Opowieści o duchach",
-                    desc: "Straszne historie",
-                    dot: "bg-[#71727A]",
-                  },
+                  { time: "08:30", name: "Zbiórka i wyjazd", desc: "Wyjazd z Warszawy", dot: "bg-[#006FFD]" },
+                  { time: "10:00", name: "Praca zdalna", desc: "Skupienie i produktywność", dot: "bg-[#2897FF]" },
+                  { time: "13:00", name: "Warsztaty Empowering", desc: "Co nas nie zabije, to nas wzmocni albo i nie", dot: "bg-[#31B0CF]" },
+                  { time: "16:00", name: "Koniec pracy", desc: "Czas na relaks", dot: "bg-[#3AC0A0]" },
+                  { time: "16:30", name: "Obiad", desc: "Wspólny posiłek", dot: "bg-[#FFB37C]" },
+                  { time: "18:00", name: "Gry planszowe / Gry terenowe / Spacery", desc: "Aktywności integracyjne", dot: "bg-[#6FBAFF]" },
+                  { time: "20:00", name: "Ognisko / Grill", desc: "Kolacja przy ognisku", dot: "bg-[#FF616D]" },
+                  { time: "22:00", name: "Opowieści o duchach", desc: "Straszne historie", dot: "bg-[#71727A]" },
                 ].map((event) => (
-                  <div
-                    key={event.time}
-                    className="flex gap-4 py-2.5 relative"
-                  >
+                  <div key={event.time} className="flex gap-4 py-2.5 relative">
                     <div
                       className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-white ${event.dot}`}
                     />
-                    <div className="font-['Inter',sans-serif] font-medium text-[13px] font-medium text-[#71727A] min-w-[44px] pt-0.5">
+                    <div className="font-['Inter',sans-serif] font-medium text-[13px] text-[#71727A] min-w-[44px] pt-0.5">
                       {event.time}
                     </div>
                     <div>
-                      <div className="text-sm font-medium">
-                        {event.name}
-                      </div>
+                      <div className="text-sm font-medium">{event.name}</div>
                       {event.desc && (
-                        <div className="text-xs text-[#71727A] mt-0.5">
-                          {event.desc}
-                        </div>
+                        <div className="text-xs text-[#71727A] mt-0.5">{event.desc}</div>
                       )}
                     </div>
                   </div>
@@ -1176,49 +1135,22 @@ export default function App() {
               <div className="relative pl-5">
                 <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#E2DDD5]"></div>
                 {[
-                  {
-                    time: "09:00",
-                    name: "Śniadanie",
-                    desc: "Wspólny posiłek",
-                    dot: "bg-[#FFB37C]",
-                  },
-                  {
-                    time: "10:00",
-                    name: "Spacer",
-                    desc: "Zwiedzanie okolicy",
-                    dot: "bg-[#3AC0A0]",
-                  },
-                  {
-                    time: "12:00",
-                    name: "Wyjazd",
-                    desc: "Powrót do Warszawy",
-                    dot: "bg-[#006FFD]",
-                  },
-                 {
-                    time: "13:00",
-                    name: "Warszawa",
-                    desc: "Powitanie cywilizacji",
-                    dot: "bg-[#71727A]",
-                  },
+                  { time: "09:00", name: "Śniadanie", desc: "Wspólny posiłek", dot: "bg-[#FFB37C]" },
+                  { time: "10:00", name: "Spacer", desc: "Zwiedzanie okolicy", dot: "bg-[#3AC0A0]" },
+                  { time: "12:00", name: "Wyjazd", desc: "Powrót do Warszawy", dot: "bg-[#006FFD]" },
+                  { time: "13:00", name: "Warszawa", desc: "Powitanie cywilizacji", dot: "bg-[#71727A]" },
                 ].map((event) => (
-                  <div
-                    key={event.time}
-                    className="flex gap-4 py-2.5 relative"
-                  >
+                  <div key={event.time} className="flex gap-4 py-2.5 relative">
                     <div
                       className={`absolute -left-5 top-[15px] w-2.5 h-2.5 rounded-full border-2 border-white ${event.dot}`}
                     />
-                    <div className="font-['Inter',sans-serif] font-medium text-[13px] font-medium text-[#71727A] min-w-[44px] pt-0.5">
+                    <div className="font-['Inter',sans-serif] font-medium text-[13px] text-[#71727A] min-w-[44px] pt-0.5">
                       {event.time}
                     </div>
                     <div>
-                      <div className="text-sm font-medium">
-                        {event.name}
-                      </div>
+                      <div className="text-sm font-medium">{event.name}</div>
                       {event.desc && (
-                        <div className="text-xs text-[#71727A] mt-0.5">
-                          {event.desc}
-                        </div>
+                        <div className="text-xs text-[#71727A] mt-0.5">{event.desc}</div>
                       )}
                     </div>
                   </div>
@@ -1226,6 +1158,156 @@ export default function App() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Muzyka Section */}
+        {activeTab === "muzyka" && (
+          <>
+            {/* Formularz dodawania */}
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+              <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
+                🎵 Zgłoś utwór do playlisty
+              </div>
+              <div className="flex flex-col gap-2">
+                <input
+                  type="url"
+                  value={playlistUrl}
+                  onChange={(e) => setPlaylistUrl(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && addPlaylistItem()}
+                  placeholder="Wklej link YouTube lub Spotify..."
+                  className="w-full text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
+                />
+                <input
+                  type="text"
+                  value={playlistTitle}
+                  onChange={(e) => setPlaylistTitle(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && addPlaylistItem()}
+                  placeholder="Tytuł (opcjonalnie — pobierzemy automatycznie)"
+                  className="w-full text-sm px-3 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] outline-none focus:border-[#006FFD] transition-all"
+                />
+                <div className="flex gap-2">
+                  <select
+                    value={playlistWho}
+                    onChange={(e) => setPlaylistWho(e.target.value)}
+                    className="flex-1 text-[13px] px-2.5 py-2.5 border border-[#C5C6CC] rounded-[12px] bg-white text-[#1F2024] cursor-pointer hover:border-[#006FFD] transition-all"
+                  >
+                    {people.map((p) => (
+                      <option key={p.name}>{p.name}</option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={addPlaylistItem}
+                    disabled={playlistFetching || !playlistUrl.trim()}
+                    className="text-[12px] font-semibold px-5 py-2.5 rounded-[12px] bg-[#006FFD] text-white hover:bg-[#2897FF] transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                  >
+                    {playlistFetching ? "Pobieranie..." : "Dodaj"}
+                  </button>
+                </div>
+                {playlistError && (
+                  <div className="text-xs text-[#FF616D] mt-1">{playlistError}</div>
+                )}
+              </div>
+            </div>
+
+            {/* Lista utworów */}
+            {playlistItems.length === 0 ? (
+              <div className="bg-white rounded-[12px] shadow-sm p-8 text-center">
+                <div className="text-4xl mb-3">🎶</div>
+                <div className="text-sm font-medium text-[#1F2024] mb-1">Playlista jest pusta</div>
+                <div className="text-xs text-[#71727A]">
+                  Wklej link do ulubionego utworu i zacznij listę na wieczór!
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-[12px] shadow-sm p-5">
+                <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
+                  🎧 Playlista —{" "}
+                  {playlistItems.length}{" "}
+                  {playlistItems.length === 1
+                    ? "utwór"
+                    : playlistItems.length < 5
+                    ? "utwory"
+                    : "utworów"}
+                </div>
+                <div className="flex flex-col gap-3">
+                  {playlistItems.map((item) => {
+                    const platformColor =
+                      item.platform === "youtube"
+                        ? { bg: "bg-[#FFE2E5]", text: "text-[#FF616D]", border: "border-[#FF616D]", label: "YT" }
+                        : item.platform === "spotify"
+                        ? { bg: "bg-[#E7F4E8]", text: "text-[#3AC0A0]", border: "border-[#3AC0A0]", label: "SP" }
+                        : { bg: "bg-[#F8F9FE]", text: "text-[#71727A]", border: "border-[#C5C6CC]", label: "🔗" };
+                    const person = people.find((p) => p.name === item.who);
+                    return (
+                      <div
+                        key={item.id}
+                        className="flex gap-3 p-3 rounded-[12px] border border-[#E8E9F1] bg-[#FAFBFF]"
+                      >
+                        {/* Thumbnail */}
+                        {item.thumbnail ? (
+                          <img
+                            src={item.thumbnail}
+                            alt=""
+                            className="w-16 h-12 rounded-[8px] object-cover flex-shrink-0 bg-[#E8E9F1]"
+                          />
+                        ) : (
+                          <div
+                            className={`w-16 h-12 rounded-[8px] flex-shrink-0 flex items-center justify-center text-xl ${platformColor.bg} border ${platformColor.border}`}
+                          >
+                            {item.platform === "spotify"
+                              ? "🎧"
+                              : item.platform === "youtube"
+                              ? "▶"
+                              : "🎵"}
+                          </div>
+                        )}
+                        {/* Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start gap-2 mb-1">
+                            <span
+                              className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-[4px] flex-shrink-0 border ${platformColor.bg} ${platformColor.text} ${platformColor.border}`}
+                            >
+                              {platformColor.label}
+                            </span>
+                            <div className="text-sm font-medium text-[#1F2024] leading-snug line-clamp-2 min-w-0">
+                              {item.title}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 mt-1.5">
+                            {person && (
+                              <div
+                                className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-semibold flex-shrink-0 ${getAvatarClass(person.av)}`}
+                              >
+                                {person.init}
+                              </div>
+                            )}
+                            <span className="text-[11px] text-[#71727A]">{item.who}</span>
+                          </div>
+                        </div>
+                        {/* FIX #1: Przywrócony poprawny tag <a> */}
+                        <div className="flex flex-col gap-1.5 flex-shrink-0 items-end">
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[12px] font-semibold px-3 py-1.5 rounded-[8px] bg-[#006FFD] text-white hover:bg-[#2897FF] transition-colors whitespace-nowrap"
+                          >
+                            ▶ Otwórz
+                          </a>
+                          <button
+                            onClick={() => removePlaylistItem(item.id)}
+                            className="text-[11px] text-[#B0ABA4] hover:text-[#FF616D] transition-colors"
+                          >
+                            usuń
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         {/* Zrzutka Section */}
@@ -1259,14 +1341,16 @@ export default function App() {
                 </div>
               </div>
               <div className="mb-1">
-                <div className="text-[12px] text-[#71727A] mb-2 font-normal">
-                  Zebrano środki
-                </div>
+                <div className="text-[12px] text-[#71727A] mb-2 font-normal">Zebrano środki</div>
                 <div className="h-[8px] bg-[#E8E9F1] rounded-[4px] overflow-hidden">
                   <div
                     className="h-full bg-[#006FFD] rounded-[4px] transition-all duration-400"
                     style={{
-                      width: `${totalCost > 0 ? Math.min(100, Math.round((collected / totalCost) * 100)) : 0}%`,
+                      width: `${
+                        totalCost > 0
+                          ? Math.min(100, Math.round((collected / totalCost) * 100))
+                          : 0
+                      }%`,
                     }}
                   />
                 </div>
@@ -1300,13 +1384,12 @@ export default function App() {
               <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-1">
                 💳 Status wpłat — {perPerson} zł / os.
               </div>
-              <div className="text-[12px] text-[#71727A] mb-3">
-                (kliknij aby zmienić)
-              </div>
+              <div className="text-[12px] text-[#71727A] mb-3">(kliknij aby zmienić)</div>
               <div className="mt-4">
                 {people.map((person, i) => {
                   const personPaid = costsByPerson[i] || 0;
-                  const shouldPay = perPerson - personPaid;
+                  // FIX #4: poprawne saldo z Math.round
+                  const shouldPay = Math.round((perPerson - personPaid) * 100) / 100;
                   return (
                     <div
                       key={person.name}
@@ -1319,19 +1402,17 @@ export default function App() {
                         {person.init}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium">
-                          {person.name}
-                        </div>
-                      {personPaid > 0 && (
-                        <div className="text-xs text-[#71727A] mt-0.5">
-                          Zapłacono: {personPaid} zł
-                          {shouldPay > 0
-                            ? ` · Do wpłaty: ${shouldPay} zł`
-                            : shouldPay < 0
+                        <div className="text-sm font-medium">{person.name}</div>
+                        {personPaid > 0 && (
+                          <div className="text-xs text-[#71727A] mt-0.5">
+                            Zapłacono: {personPaid} zł
+                            {shouldPay > 0
+                              ? ` · Do wpłaty: ${shouldPay} zł`
+                              : shouldPay < 0
                               ? ` · Do zwrotu: ${Math.abs(shouldPay)} zł`
                               : ` · Wyrównane ✓`}
-                      </div>
-                    )}
+                          </div>
+                        )}
                       </div>
                       <span
                         className={`text-[12px] font-medium px-3 py-1.5 rounded-[8px] flex-shrink-0 ${
@@ -1353,34 +1434,20 @@ export default function App() {
                 🏦 Numer do przelewu
               </div>
               {[
-                {
-                  label: "Zbiera",
-                  value: people[0]?.name || "Tomek",
-                  bold: true,
-                },
-                {
-                  label: "Konto",
-                  value: "PL 12 3456 7890 1234 5678 9012 3456",
-                  mono: true,
-                },
+                { label: "Zbiera", value: people[0]?.name || "Tomek", bold: true },
+                { label: "Konto", value: "PL 12 3456 7890 1234 5678 9012 3456", mono: true },
                 { label: "Tytuł", value: "Workation Żulin 2026" },
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
                   className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
-                    i < arr.length - 1
-                      ? "border-b border-[#E8E9F1]"
-                      : ""
+                    i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
                   }`}
                 >
-                  <span className="text-[#71727A] text-[13px] flex-shrink-0">
-                    {row.label}
-                  </span>
+                  <span className="text-[#71727A] text-[13px] flex-shrink-0">{row.label}</span>
                   <span
                     className={`text-right ${row.bold ? "font-medium" : ""} ${
-                      row.mono
-                        ? "font-['Inter',sans-serif] font-medium text-[13px]"
-                        : ""
+                      row.mono ? "font-['Inter',sans-serif] font-medium text-[13px]" : ""
                     }`}
                   >
                     {row.value}
@@ -1390,7 +1457,6 @@ export default function App() {
             </div>
           </>
         )}
-
       </div>
     </div>
   );
