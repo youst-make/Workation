@@ -247,12 +247,12 @@ export default function App() {
       const ytId = extractYouTubeId(playlistUrl);
       const meta = playlistTitle.trim()
         ? {
-            title: playlistTitle.trim(),
-            thumbnail:
-              platform === "youtube" && ytId
-                ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`
-                : null,
-          }
+          title: playlistTitle.trim(),
+          thumbnail:
+            platform === "youtube" && ytId
+              ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`
+              : null,
+        }
         : await fetchTrackMeta(playlistUrl);
       const newItem: PlaylistItem = {
         id: Date.now().toString(),
@@ -493,11 +493,10 @@ export default function App() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`text-[12px] font-semibold px-4 py-2.5 rounded-[12px] transition-all whitespace-nowrap ${
-                activeTab === tab.id
-                  ? "bg-[#006FFD] text-white shadow-sm"
-                  : "bg-white text-[#71727A] border border-[#E8E9F1] hover:border-[#006FFD] hover:text-[#006FFD]"
-              }`}
+              className={`text-[12px] font-semibold px-4 py-2.5 rounded-[12px] transition-all whitespace-nowrap ${activeTab === tab.id
+                ? "bg-[#006FFD] text-white shadow-sm"
+                : "bg-white text-[#71727A] border border-[#E8E9F1] hover:border-[#006FFD] hover:text-[#006FFD]"
+                }`}
             >
               {tab.label}
             </button>
@@ -664,9 +663,8 @@ export default function App() {
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
-                  className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
-                    i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
-                  }`}
+                  className={`flex justify-between items-center py-2.5 gap-3 text-sm ${i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
+                    }`}
                 >
                   <span className="text-[#71727A] text-[13px] flex-shrink-0">{row.label}</span>
                   <span className={`text-right ${row.bold ? "font-medium" : ""}`}>
@@ -691,9 +689,8 @@ export default function App() {
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
-                  className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
-                    i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
-                  }`}
+                  className={`flex justify-between items-center py-2.5 gap-3 text-sm ${i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
+                    }`}
                 >
                   <span className="text-[#71727A] text-[13px] flex-shrink-0">{row.label}</span>
                   <span className="text-right">{row.value}</span>
@@ -979,9 +976,8 @@ export default function App() {
                 {gearItems.map((item, i) => (
                   <div
                     key={i}
-                    className={`flex items-center gap-2.5 py-2.5 ${
-                      i < gearItems.length - 1 ? "border-b border-[#E8E9F1]" : ""
-                    }`}
+                    className={`flex items-center gap-2.5 py-2.5 ${i < gearItems.length - 1 ? "border-b border-[#E8E9F1]" : ""
+                      }`}
                   >
                     <input
                       type="checkbox"
@@ -1043,9 +1039,8 @@ export default function App() {
                 {personalItems.map((item, i) => (
                   <div
                     key={i}
-                    className={`flex items-center gap-2.5 py-2.5 ${
-                      i < personalItems.length - 1 ? "border-b border-[#E8E9F1]" : ""
-                    }`}
+                    className={`flex items-center gap-2.5 py-2.5 ${i < personalItems.length - 1 ? "border-b border-[#E8E9F1]" : ""
+                      }`}
                   >
                     <input
                       type="checkbox"
@@ -1054,9 +1049,8 @@ export default function App() {
                       className="w-4 h-4 cursor-pointer accent-[#2D6A4F] flex-shrink-0"
                     />
                     <span
-                      className={`text-sm flex-1 ${
-                        personalDone[i] ? "line-through text-[#B0ABA4]" : ""
-                      }`}
+                      className={`text-sm flex-1 ${personalDone[i] ? "line-through text-[#B0ABA4]" : ""
+                        }`}
                     >
                       {item}
                     </span>
@@ -1226,8 +1220,8 @@ export default function App() {
                   {playlistItems.length === 1
                     ? "utwór"
                     : playlistItems.length < 5
-                    ? "utwory"
-                    : "utworów"}
+                      ? "utwory"
+                      : "utworów"}
                 </div>
                 <div className="flex flex-col gap-3">
                   {playlistItems.map((item) => {
@@ -1235,8 +1229,8 @@ export default function App() {
                       item.platform === "youtube"
                         ? { bg: "bg-[#FFE2E5]", text: "text-[#FF616D]", border: "border-[#FF616D]", label: "YT" }
                         : item.platform === "spotify"
-                        ? { bg: "bg-[#E7F4E8]", text: "text-[#3AC0A0]", border: "border-[#3AC0A0]", label: "SP" }
-                        : { bg: "bg-[#F8F9FE]", text: "text-[#71727A]", border: "border-[#C5C6CC]", label: "🔗" };
+                          ? { bg: "bg-[#E7F4E8]", text: "text-[#3AC0A0]", border: "border-[#3AC0A0]", label: "SP" }
+                          : { bg: "bg-[#F8F9FE]", text: "text-[#71727A]", border: "border-[#C5C6CC]", label: "🔗" };
                     const person = people.find((p) => p.name === item.who);
                     return (
                       <div
@@ -1257,8 +1251,8 @@ export default function App() {
                             {item.platform === "spotify"
                               ? "🎧"
                               : item.platform === "youtube"
-                              ? "▶"
-                              : "🎵"}
+                                ? "▶"
+                                : "🎵"}
                           </div>
                         )}
                         {/* Info */}
@@ -1294,10 +1288,10 @@ export default function App() {
                           >
                             ▶ Otwórz
                           </a>
-                            <button
+                          <button
                             onClick={() => removePlaylistItem(item.id)}
                             className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
-                            >
+                          >
                             ✕
                           </button>
                         </div>
@@ -1346,11 +1340,10 @@ export default function App() {
                   <div
                     className="h-full bg-[#006FFD] rounded-[4px] transition-all duration-400"
                     style={{
-                      width: `${
-                        totalCost > 0
-                          ? Math.min(100, Math.round((collected / totalCost) * 100))
-                          : 0
-                      }%`,
+                      width: `${totalCost > 0
+                        ? Math.min(100, Math.round((collected / totalCost) * 100))
+                        : 0
+                        }%`,
                     }}
                   />
                 </div>
@@ -1409,17 +1402,16 @@ export default function App() {
                             {shouldPay > 0
                               ? ` · Do wpłaty: ${shouldPay} zł`
                               : shouldPay < 0
-                              ? ` · Do zwrotu: ${Math.abs(shouldPay)} zł`
-                              : ` · Wyrównane ✓`}
+                                ? ` · Do zwrotu: ${Math.abs(shouldPay)} zł`
+                                : ` · Wyrównane ✓`}
                           </div>
                         )}
                       </div>
                       <span
-                        className={`text-[12px] font-medium px-3 py-1.5 rounded-[8px] flex-shrink-0 ${
-                          payStatus[i]
-                            ? "bg-[#E7F4E8] text-[#3AC0A0] border border-[#3AC0A0]"
-                            : "bg-[#FFF4E4] text-[#FFB37C] border border-[#FFB37C]"
-                        }`}
+                        className={`text-[12px] font-medium px-3 py-1.5 rounded-[8px] flex-shrink-0 ${payStatus[i]
+                          ? "bg-[#E7F4E8] text-[#3AC0A0] border border-[#3AC0A0]"
+                          : "bg-[#FFF4E4] text-[#FFB37C] border border-[#FFB37C]"
+                          }`}
                       >
                         {payStatus[i] ? "Opłacone" : "Do zapłaty"}
                       </span>
@@ -1440,15 +1432,13 @@ export default function App() {
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
-                  className={`flex justify-between items-center py-2.5 gap-3 text-sm ${
-                    i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
-                  }`}
+                  className={`flex justify-between items-center py-2.5 gap-3 text-sm ${i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
+                    }`}
                 >
                   <span className="text-[#71727A] text-[13px] flex-shrink-0">{row.label}</span>
                   <span
-                    className={`text-right ${row.bold ? "font-medium" : ""} ${
-                      row.mono ? "font-['Inter',sans-serif] font-medium text-[13px]" : ""
-                    }`}
+                    className={`text-right ${row.bold ? "font-medium" : ""} ${row.mono ? "font-['Inter',sans-serif] font-medium text-[13px]" : ""
+                      }`}
                   >
                     {row.value}
                   </span>
