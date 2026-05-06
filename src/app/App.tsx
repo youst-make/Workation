@@ -1294,12 +1294,12 @@ export default function App() {
                           >
                             ▶ Otwórz
                           </a>
-                        <button
-                        onClick={() => removePassenger(driverIdx, passengerIdx)}
-                        className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
-                      >
-                        ✕
-                      </button>
+                            <button
+                            onClick={() => removePlaylistItem(item.id)}
+                            className="text-lg text-[#FF0000] hover:text-[#CC0000] hover:scale-125 transition-all"
+                            >
+                            ✕
+                          </button>
                         </div>
                       </div>
                     );
