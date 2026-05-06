@@ -129,7 +129,7 @@ function StartSection() {
 
       <h2>Co nas czeka?</h2>
       <p>
-        <li>● wspólna podróż i luźny start dnia</li>
+        ● wspólna podróż i luźny start dnia
         <li>● czas na pracę w spokojnym, inspirującym otoczeniu</li>
         <li>● przerwy na kawę, jedzenie i rozmowy bez Slacka</li>
         <li>● przestrzeń na pomysły, które nie mieszczą się w biurze</li>
