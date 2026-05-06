@@ -107,7 +107,7 @@ interface EventSettings {
 
 const DEFAULT_SETTINGS: EventSettings = {
   title: "Workation — Żulin",
-  subtitle: "Wypad integracyjny: piątek–sobota",
+  subtitle: "Wyjazd integracyjny: piątek–sobota",
   date: "10 lipca 2026",
   location: "Żulin",
   venue: "",
@@ -120,9 +120,9 @@ function StartSection() {
 
   useEffect(() => {
     setContent(`
-      <h1>Workation 🌿</h1>
-      <h2>Podstawowe informacje</h2>
-      <p>Wyjazd w piątek rano, wracamy w niedzielę.</p>
+      <h1>Workation 🌿</h1><br>
+      <h2>Podstawowe informacje</h2><br>
+      <p>Wyjazd w piątek rano, wracamy wg preferencji.</p><br>
 
       <h3>Dojazd</h3>
       <p>Podział na auta ustalimy wcześniej.</p>
@@ -132,7 +132,7 @@ function StartSection() {
   return (
     <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
       <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
-        🏡 Workation
+        🌿 Workation
       </div>
 
       <div
