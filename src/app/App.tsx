@@ -725,6 +725,32 @@ export default function App() {
           </>
         )}
 
+        {/* Start Section */}
+{activeTab === "start" && (
+  <>
+    <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
+      <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
+        🏡 Workation
+      </div>
+
+      {[
+        { label: "Check-in", value: "12:00" },
+        { label: "Check-out", value: "10:00" },
+      ].map((row, index) => (
+        <div
+          key={index}
+          className="flex justify-between items-center py-2 border-b last:border-b-0"
+        >
+          <span className="text-[#71727A] text-[13px] flex-shrink-0">
+            {row.label}
+          </span>
+          <span className="text-right">{row.value}</span>
+        </div>
+      ))}
+    </div>
+  </>
+)}
+        
         {/* Koszty Section */}
         {activeTab === "koszty" && (
           <>
