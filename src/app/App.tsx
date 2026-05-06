@@ -1442,7 +1442,7 @@ function StartSection() {
               {[
                 { label: "Zbiera", value: people[0]?.name || "Tomek", bold: true },
                 { label: "Konto", value: "PL 12 3456 7890 1234 5678 9012 3456", mono: true },
-                { label: "Tytuł", value: "Workation Żulin 2026" },
+                { label: "Tytuł", value: "Workation - Żulin 2026" },
               ].map((row, i, arr) => (
                 <div
                   key={row.label}
