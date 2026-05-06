@@ -122,10 +122,18 @@ function StartSection() {
     setContent(`
       <h1>Workation 🌿</h1><br>
       <h2>Podstawowe informacje</h2>
-      <p>Wyjazd w piątek rano, wracamy wg preferencji.</p><br>
+      <p>Wyjazd w piątek rano, wracamy wg preferencji.
+         Jedziemy na jeden dzień poza biuro — do miejsca, gdzie pracuje się lepiej, oddycha głębiej i myśli jaśniej :D
+         Wyruszamy na jednodniowe workation do Stodoły Artystów — przestrzeni stworzonej do kreatywnej pracy, rozmów i złapania nowej perspektywy.
+         To nie tylko wyjazd integracyjny. To dzień, w którym łączymy pracę, współpracę i reset w jednym miejscu.</p><br>
 
-      <h3>Dojazd</h3>
-      <p>Podział na auta ustalimy wcześniej.</p>
+      <h3>Co nas czeka?</h3>
+      <p><ul>Co nas czeka?
+        <li>wspólna podróż i luźny start dnia</li>
+        <li>czas na pracę w spokojnym, inspirującym otoczeniu</li>
+        <li>przerwy na kawę, jedzenie i rozmowy bez Slacka</li>
+        <li>przestrzeń na pomysły, które nie mieszczą się w biurze</li>
+        <li>trochę chaosu, trochę śmiechu i dużo świeżego powietrza</li></ul></p>
     `);
   }, []);
 
