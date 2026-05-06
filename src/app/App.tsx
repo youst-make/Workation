@@ -727,28 +727,35 @@ export default function App() {
 
         {/* Start Section */}
 {activeTab === "start" && (
-  <>
+  import { useEffect, useState } from "react";
+
+function StartSection() {
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    // NA RAZIE NA SZTYWNO (żeby sprawdzić czy działa UI)
+    setContent(`
+      <h1>Workation 🌿</h1>
+      <h2>Podstawowe informacje</h2>
+      <p>Wyjazd w piątek rano</p>
+      <h3>Dojazd</h3>
+      <p>Podział na auta ustalimy później</p>
+    `);
+  }, []);
+
+  return (
     <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
       <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
         🏡 Workation
       </div>
 
-      {[
-        { label: "Check-in", value: "12:00" },
-        { label: "Check-out", value: "10:00" },
-      ].map((row, index) => (
-        <div
-          key={index}
-          className="flex justify-between items-center py-2 border-b last:border-b-0"
-        >
-          <span className="text-[#71727A] text-[13px] flex-shrink-0">
-            {row.label}
-          </span>
-          <span className="text-right">{row.value}</span>
-        </div>
-      ))}
+      <div
+        className="prose max-w-none"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </div>
-  </>
+  );
+}
 )}
         
         {/* Koszty Section */}
