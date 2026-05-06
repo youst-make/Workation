@@ -489,8 +489,8 @@ export default function App() {
             { id: "zrzutka" as TabType, label: "💸 Zrzutka" },
             { id: "koszty" as TabType, label: "💰 Koszty" },
             { id: "rzeczy" as TabType, label: "🎒 Co zabrać" },
-            { id: "muzyka" as TabType, label: "🎵 Muzyka" },
             { id: "nocleg" as TabType, label: "🏡 Nocleg" },
+            { id: "muzyka" as TabType, label: "🎵 Muzyka" },
           ].map((tab) => (
             <button
               key={tab.id}
