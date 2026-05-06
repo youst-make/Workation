@@ -129,11 +129,11 @@ function StartSection() {
 
       <h2>Co nas czeka?</h2>
       <p><ul>
-        ● wspólna podróż i luźny start dnia
-        ● czas na pracę w spokojnym, inspirującym otoczeniu
-        ● przerwy na kawę, spacery i rozmowy bez teamsów
-        ● przestrzeń na pomysły, które nie mieszczą się w biurze
-        ● trochę chaosu, trochę słońca i dużo świeżego powietrza</ul></p>
+        <li>● wspólna podróż i luźny start dnia</li>
+        <li>● czas na pracę w spokojnym, inspirującym otoczeniu</li>
+        <li>● przerwy na kawę, spacery i rozmowy bez teamsów</li>
+        <li>● przestrzeń na pomysły, które nie mieszczą się w biurze</li>
+        <li>● trochę chaosu, trochę słońca i dużo świeżego powietrza</li></ul></p>
     `);
   }, []);
 
