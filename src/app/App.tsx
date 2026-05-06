@@ -121,7 +121,7 @@ function StartSection() {
   useEffect(() => {
     setContent(`
       <h1>Workation 🌿</h1><br>
-      <h2>Podstawowe informacje</h2><br>
+      <h2>Podstawowe informacje</h2>
       <p>Wyjazd w piątek rano, wracamy wg preferencji.</p><br>
 
       <h3>Dojazd</h3>
