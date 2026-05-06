@@ -533,6 +533,8 @@ export default function App() {
           ))}
         </div>
 
+        {activeTab === "start" && <StartSection />}
+        
         {/* Transport Section */}
         {activeTab === "transport" && (
           <>
