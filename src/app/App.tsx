@@ -730,33 +730,12 @@ export default function App() {
   import { useEffect, useState } from "react";
 
 function StartSection() {
-  const [content, setContent] = useState("");
-
-  useEffect(() => {
-    // NA RAZIE NA SZTYWNO (żeby sprawdzić czy działa UI)
-    setContent(`
-      <h1>Workation 🌿</h1>
-      <h2>Podstawowe informacje</h2>
-      <p>Wyjazd w piątek rano</p>
-      <h3>Dojazd</h3>
-      <p>Podział na auta ustalimy później</p>
-    `);
-  }, []);
-
   return (
-    <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
-      <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
-        🏡 Workation
-      </div>
-
-      <div
-        className="prose max-w-none"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+    <div style={{ background: "red", padding: "20px" }}>
+      TEST DZIAŁA
     </div>
   );
 }
-)}
         
         {/* Koszty Section */}
         {activeTab === "koszty" && (
