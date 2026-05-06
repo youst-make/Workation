@@ -752,9 +752,6 @@ export default function App() {
             </div>
           </>
         )}
-
-{/* Start Section */}
-{activeTab === "start" && <StartSection />}
         
         {/* Koszty Section */}
         {activeTab === "koszty" && (
