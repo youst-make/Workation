@@ -114,7 +114,13 @@ const DEFAULT_SETTINGS: EventSettings = {
   venueAddress: "Żulin 1",
   venuePhone: "",
 };
-
+function StartSection() {
+  return (
+    <div style={{ background: "red", padding: "20px" }}>
+      TEST DZIAŁA
+    </div>
+  );
+}
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>("start");
 
@@ -725,17 +731,8 @@ export default function App() {
           </>
         )}
 
-        {/* Start Section */}
-{activeTab === "start" && (
-  import { useEffect, useState } from "react";
-
-function StartSection() {
-  return (
-    <div style={{ background: "red", padding: "20px" }}>
-      TEST DZIAŁA
-    </div>
-  );
-}
+{/* Start Section */}
+{activeTab === "start" && <StartSection />}
         
         {/* Koszty Section */}
         {activeTab === "koszty" && (
