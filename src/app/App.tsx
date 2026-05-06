@@ -122,7 +122,6 @@ function StartSection() {
     setContent(`
       <h1>Workation 🌿</h1><br>
       <h2>Podstawowe informacje</h2>
-      <br>
       <p>
          Jedziemy na jeden dzień poza biuro — do miejsca, gdzie pracuje się lepiej, oddycha głębiej i myśli jaśniej.<br>
          Wyruszamy na jednodniowe workation do Stodoły Artystów — przestrzeni stworzonej do kreatywnej pracy, rozmów i złapania nowej perspektywy.<br>
