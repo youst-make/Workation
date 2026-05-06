@@ -116,7 +116,7 @@ const DEFAULT_SETTINGS: EventSettings = {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<TabType>("plan");
+  const [activeTab, setActiveTab] = useState<TabType>("start");
 
   const [settings, setSettings] = useState<EventSettings>(DEFAULT_SETTINGS);
   const [people, setPeople] = useState<Person[]>(PEOPLE);
