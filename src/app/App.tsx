@@ -92,6 +92,7 @@ type TabType =
   | "rzeczy"
   | "plan"
   | "zrzutka"
+  | "start"
   | "muzyka";
 
 interface EventSettings {
@@ -482,6 +483,7 @@ export default function App() {
         {/* Navigation */}
         <div className="flex gap-2 flex-wrap mb-4">
           {[
+            { id: "start" as TabType, label: "📋 Start" },
             { id: "plan" as TabType, label: "📋 Plan dnia" },
             { id: "transport" as TabType, label: "🚗 Transport" },
             { id: "zrzutka" as TabType, label: "💸 Zrzutka" },
