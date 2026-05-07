@@ -137,9 +137,9 @@ function StartSection() {
         <li>• przestrzeń na pomysły, które nie mieszczą się w biurze</li>
         <li>• trochę chaosu, trochę słońca i dużo świeżego powietrza</li></ul></p>
 
-<div className="w-full flex justify-center my-10">
-  <div className="w-full max-w-4xl h-px bg-white/10" />
-</div>
+      <div className="my-10 w-full">
+        <hr className="w-full border-0 border-t border-white/20" />
+      </div>
 
       <br>
       <h2>Garść informacji pratycznych od Piotra</h2>
