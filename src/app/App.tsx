@@ -136,6 +136,28 @@ function StartSection() {
         <li>• przerwy na kawę, spacery i rozmowy bez teamsów</li>
         <li>• przestrzeń na pomysły, które nie mieszczą się w biurze</li>
         <li>• trochę chaosu, trochę słońca i dużo świeżego powietrza</li></ul></p>
+
+      <br>
+      <h2>Garść informacji pratycznych od Piotra</h2>
+      <p>
+* Noclegi będą w formule „integracyjnej” — część osób może spać na jednej pryczy, więc warto wcześniej ustalić to ze swoimi partnerami życiowymi 😉<br>
+* Dojazd rekomendowany głównie autem.<br>
+* Istnieją pojedyncze autokary z Wileńskiego, ale logistycznie może być ciężko.<br>
+* Powrót w trakcie imprezy raczej nieprzewidziany — obowiązuje opcja „do rana”.<br>
+* Najbliższy sensowny pociąg w Łochowie, więc i tak potrzebny byłby transport autem.<br>
+* Alternatywna forma powrotu: pieszo Drogą św. Jakuba do Santiago de Compostela (szacowany czas marszu: 3,5–4 miesiące), więc warto zawczasu zaplanować urlopy.<br>
+* Wyżywienie we własnym zakresie — zalecane kosze piknikowe i suchy prowiant, bo przemysłowej lodówki od lat brak.<br>
+* Po negocjacjach organizator dopuścił luksusy w postaci czajnika i mikrofalówki.<br>
+* Status papieru toaletowego pozostaje niepotwierdzony.<br>
+* Ogólny klimat wyjazdu określono roboczo jako: „ruja i poróbstwo”, ale w granicach budżetu administracji publicznej.<br>
+
+<h3>Najważniejsze punkty organizacyjne:</h3>
+1. Auto praktycznie obowiązkowe.<br>
+2. Zabrać własne jedzenie i napoje.<br>
+3. Nie planować wcześniejszego powrotu.<br>
+4. Ustalić kwestie noclegowe. Mieć pisemne pozwolenie.<br>
+5. Humor organizatorów pozostaje stabilnie niebezpieczny.<br>
+</p>
     `);
   }, []);
 
@@ -1208,7 +1230,7 @@ export default function App() {
             {/* Formularz dodawania */}
             <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
               <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
-                🎵 Zgłoś utwór do playlisty
+                🎵 Zaproponuj utwór do playlisty
               </div>
               <div className="flex flex-col gap-2">
                 <input
