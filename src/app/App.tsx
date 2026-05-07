@@ -136,7 +136,7 @@ function StartSection() {
         <li>• przerwy na kawę, spacery i rozmowy bez teamsów</li>
         <li>• przestrzeń na pomysły, które nie mieszczą się w biurze</li>
         <li>• trochę chaosu, trochę słońca i dużo świeżego powietrza</li></ul></p>
-
+<br>
       <div className="my-10 w-full">
         <hr className="w-full border-0 border-t border-white/20" />
       </div>
