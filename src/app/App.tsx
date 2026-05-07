@@ -139,19 +139,19 @@ function StartSection() {
 
       <br>
       <h2>Garść informacji pratycznych od Piotra</h2>
-      <p>
-* Noclegi będą w formule „integracyjnej” — część osób może spać na jednej pryczy, więc warto wcześniej ustalić to ze swoimi partnerami życiowymi 😉<br>
-* Dojazd rekomendowany głównie autem.<br>
-* Istnieją pojedyncze autokary z Wileńskiego, ale logistycznie może być ciężko.<br>
-* Powrót w trakcie imprezy raczej nieprzewidziany — obowiązuje opcja „do rana”.<br>
-* Najbliższy sensowny pociąg w Łochowie, więc i tak potrzebny byłby transport autem.<br>
-* Alternatywna forma powrotu: pieszo Drogą św. Jakuba do Santiago de Compostela (szacowany czas marszu: 3,5–4 miesiące), więc warto zawczasu zaplanować urlopy.<br>
-* Wyżywienie we własnym zakresie — zalecane kosze piknikowe i suchy prowiant, bo przemysłowej lodówki od lat brak.<br>
-* Po negocjacjach organizator dopuścił luksusy w postaci czajnika i mikrofalówki.<br>
-* Status papieru toaletowego pozostaje niepotwierdzony.<br>
-* Ogólny klimat wyjazdu określono roboczo jako: „ruja i poróbstwo”, ale w granicach budżetu administracji publicznej.<br>
-
-<h3>Najważniejsze punkty organizacyjne:</h3>
+      <p><ul>
+      <li>• Noclegi będą w formule „integracyjnej” — część osób może spać na jednej pryczy, więc warto wcześniej ustalić to ze swoimi partnerami życiowymi 😉<br>
+      <li>• Dojazd rekomendowany głównie autem.<br>
+      <li>• Istnieją pojedyncze autokary z Wileńskiego, ale logistycznie może być ciężko.<br>
+      <li>• Powrót w trakcie imprezy raczej nieprzewidziany — obowiązuje opcja „do rana”.<br>
+      <li>• Najbliższy sensowny pociąg w Łochowie, więc i tak potrzebny byłby transport autem.<br>
+      <li>• Alternatywna forma powrotu: pieszo Drogą św. Jakuba do Santiago de Compostela (szacowany czas marszu: 3,5–4 miesiące), więc warto zawczasu zaplanować urlopy.<br>
+      <li>• Wyżywienie we własnym zakresie — zalecane kosze piknikowe i suchy prowiant, bo przemysłowej lodówki od lat brak.<br>
+      <li>• Po negocjacjach organizator dopuścił luksusy w postaci czajnika i mikrofalówki.<br>
+      <li>• Status papieru toaletowego pozostaje niepotwierdzony.<br>
+      <li>• Ogólny klimat wyjazdu określono roboczo jako: „ruja i poróbstwo”, ale w granicach budżetu administracji publicznej.<br></ul>  
+<br>
+<p><h3>Najważniejsze punkty organizacyjne:</h3>
 1. Auto praktycznie obowiązkowe.<br>
 2. Zabrać własne jedzenie i napoje.<br>
 3. Nie planować wcześniejszego powrotu.<br>
