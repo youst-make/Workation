@@ -140,12 +140,19 @@ function StartSection() {
       <br>
       <h2>Garść informacji pratycznych od Piotra</h2>
       <p><ul>
-      <li>• Noclegi będą w formule „integracyjnej” — część osób może spać na jednej pryczy, więc warto wcześniej ustalić to ze swoimi partnerami życiowymi 😉<br>
+      <br>
+      <h3>Noclegi</h3>
+      <li>• Noclegi będą raczej w formule „integracyjnej”.
+      <li>• Część osób może spać na jednej pryczy, więc warto wcześniej ustalić to ze swoimi partnerami życiowymi 😉<br>
+      <br>
+      <h3>Dojazd</h3>
       <li>• Dojazd rekomendowany głównie autem.<br>
       <li>• Istnieją pojedyncze autokary z Wileńskiego, ale logistycznie może być ciężko.<br>
       <li>• Powrót w trakcie imprezy raczej nieprzewidziany — obowiązuje opcja „do rana”.<br>
       <li>• Najbliższy sensowny pociąg w Łochowie, więc i tak potrzebny byłby transport autem.<br>
       <li>• Alternatywna forma powrotu: pieszo Drogą św. Jakuba do Santiago de Compostela (szacowany czas marszu: 3,5–4 miesiące), więc warto zawczasu zaplanować urlopy.<br>
+      <br>
+      <h3>Wyżywienie</h3>
       <li>• Wyżywienie we własnym zakresie — zalecane kosze piknikowe i suchy prowiant, bo przemysłowej lodówki od lat brak.<br>
       <li>• Po negocjacjach organizator dopuścił luksusy w postaci czajnika i mikrofalówki.<br>
       <li>• Status papieru toaletowego pozostaje niepotwierdzony.<br>
