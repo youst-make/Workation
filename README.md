@@ -36,7 +36,7 @@ Projekt wykorzystuje **czysty, minimalistyczny design** z:
 ```tsx
 const DEFAULT_SETTINGS: EventSettings = {
   title: "Workation — Żulin",
-  subtitle: "Wypad integracyjny: piątek–sobota",
+  subtitle: "Wyjazd integracyjny: piątek–sobota",
   date: "9 maja 2025",
   location: "Żulin",
   venue: "",
