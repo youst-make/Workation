@@ -136,7 +136,7 @@ function StartSection() {
         <li>• przerwy na kawę, spacery i rozmowy bez teamsów</li>
         <li>• przestrzeń na pomysły, które nie mieszczą się w biurze</li>
         <li>• trochę chaosu, trochę słońca i dużo świeżego powietrza</li></ul></p>
-
+<div className="h-px bg-gradient-to-r from-transparent via-[#E8E9F1] to-transparent my-4" />
       <br>
       <h2>Garść informacji pratycznych od Piotra</h2>
       <p><ul>
