@@ -196,9 +196,15 @@ export default function App() {
         storageGet("wk2_personal_items", PERSONAL_ITEMS),
         storageGet("wk2_playlist", [] as PlaylistItem[]),
       ]);
+
+      // MIGRACJA: stare dane ze storage mogą nie mieć pola id
+      const migratedCosts = (c as CostItem[]).map((item, idx) =>
+        item.id ? item : { ...item, id: `migrated_${idx}_${Date.now()}` }
+      );
+      
       setSettings(s);
       setPeople(p);
-      setCostItems(c);
+      setCostItems(migratedCosts);
       setGearItems(g);
       setPersonalDone(pd);
       setPayStatus(ps);
