@@ -803,7 +803,99 @@ export default function App() {
             </div>
           </>
         )}
-        
+        <section class="py-12 bg-gray-50 font-sans" id="rejestr-noclegow">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 bg-slate-50">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <span class="text-3xl">📋</span> Szczegółowy Rejestr Ofert: Żulin i Okolice
+                </h2>
+                <p class="text-slate-500 mt-1 text-sm italic">
+                    Analiza na termin 10-11 lipca 2026 (8 osób, budżet max 200 zł)
+                </p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                            <th class="p-4 bg-slate-50/50">Obiekt & Lokalizacja</th>
+                            <th class="p-4 bg-slate-50/50">Typ Zakwaterowania</th>
+                            <th class="p-4 bg-slate-50/50">Odległość</th>
+                            <th class="p-4 bg-slate-50/50">Koszt (8 os.)</th>
+                            <th class="p-4 bg-slate-50/50 text-right">Akcja</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-slate-50">
+                        <tr class="hover:bg-indigo-50/30 transition-colors">
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900">Agroturystyka U Sołtysa</div>
+                                <div class="text-xs text-slate-400 flex items-center gap-1">📍 Żulin</div>
+                            </td>
+                            <td class="p-4 text-slate-600 font-medium">Poddasze wieloosobowe</td>
+                            <td class="p-4 text-slate-500">1.5 km</td>
+                            <td class="p-4 font-bold text-indigo-600">180 zł</td>
+                            <td class="p-4 text-right">
+                                <a href="https://www.olx.pl/oferty/q-agroturystyka-zulin/" target="_blank" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition-all shadow-sm">Sprawdź</a>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-indigo-50/30 transition-colors">
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900">Pole Namiotowe Nad Wieprzem</div>
+                                <div class="text-xs text-slate-400 flex items-center gap-1">📍 Krupe</div>
+                            </td>
+                            <td class="p-4 text-slate-600 font-medium">Kemping / Własne namioty</td>
+                            <td class="p-4 text-slate-500">8.2 km</td>
+                            <td class="p-4 font-bold text-indigo-600">120 zł</td>
+                            <td class="p-4 text-right">
+                                <a href="https://meteor-turystyka.pl/noclegi,krupe,0.html" target="_blank" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition-all shadow-sm">Sprawdź</a>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-indigo-50/30 transition-colors">
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900">Schronisko PTSM Rejowiec</div>
+                                <div class="text-xs text-slate-400 flex items-center gap-1">📍 Rejowiec Fabryczny</div>
+                            </td>
+                            <td class="p-4 text-slate-600 font-medium">Sale wieloosobowe</td>
+                            <td class="p-4 text-slate-500">14.5 km</td>
+                            <td class="p-4 font-bold text-indigo-600">160 zł</td>
+                            <td class="p-4 text-right">
+                                <a href="https://www.nocowanie.pl/noclegi/rejowiec_fabryczny/" target="_blank" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition-all shadow-sm">Sprawdź</a>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-indigo-50/30 transition-colors">
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900">Stodoła U Sąsiada</div>
+                                <div class="text-xs text-slate-400 flex items-center gap-1">📍 Żulin</div>
+                            </td>
+                            <td class="p-4 text-slate-600 font-medium">Materace / Prywatnie</td>
+                            <td class="p-4 text-slate-500">2.0 km</td>
+                            <td class="p-4 font-bold text-indigo-600">150 zł</td>
+                            <td class="p-4 text-right">
+                                <a href="https://www.airbnb.pl/s/Żulin--Polska/" target="_blank" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition-all shadow-sm">Sprawdź</a>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-indigo-50/30 transition-colors">
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900">Kwatera Pod Klonem</div>
+                                <div class="text-xs text-slate-400 flex items-center gap-1">📍 Krasnystaw</div>
+                            </td>
+                            <td class="p-4 text-slate-600 font-medium">Pokoje Gościnne (Tanie)</td>
+                            <td class="p-4 text-slate-500">11.0 km</td>
+                            <td class="p-4 font-bold text-indigo-600">200 zł</td>
+                            <td class="p-4 text-right">
+                                <a href="https://www.booking.com/searchresults.pl.html?ss=Krasnystaw" target="_blank" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition-all shadow-sm">Sprawdź</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4 bg-slate-50 text-[10px] text-slate-400 italic text-center border-t border-slate-100">
+                * Ceny i dostępność wymagają potwierdzenia bezpośrednio u gospodarzy na noc z 10 na 11 lipca 2026.
+            </div>
+        </div>
+    </div>
+</section>
         {/* Koszty Section */}
         {activeTab === "koszty" && (
           <>
