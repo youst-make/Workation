@@ -804,8 +804,8 @@ export default function App() {
           </>
         )}
         <section class="py-16 bg-gray-50 font-sans" id="rejestr-noclegow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+       <div className="max-w-[900px] mx-auto">
+      <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
             <!-- Nagłówek Tabeli -->
             <div class="p-8 border-b border-slate-100 bg-slate-50/50">
                 <h2 class="text-3xl font-extrabold text-slate-900 flex items-center gap-3">
