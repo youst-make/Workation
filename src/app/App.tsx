@@ -809,7 +809,6 @@ export default function App() {
                 ✨ Oferty z okolicy
               </div>
               <div className="flex flex-wrap gap-2">
-            <!-- Nagłówek Tabeli -->
             <div class="p-8 border-b border-slate-100 bg-slate-50/50">
                 <h2 class="text-3xl font-extrabold text-slate-900 flex items-center gap-3">
                     <span class="text-4xl text-[#016FFD]">&#128203;</span> Szczegółowy Rejestr Ofert: Żulin i Okolice
