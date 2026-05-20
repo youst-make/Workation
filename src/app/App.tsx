@@ -801,14 +801,23 @@ export default function App() {
                 ))}
               </div>
 
-                {/* Oferty z okolicy */}
-         <div className="bg-white rounded-[12px] shadow-sm p-5">
+           <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
               <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
-                ✨ Oferty z okolicy
+                🏡 Obiekt
               </div>
-              <div className="flex flex-wrap gap-2">
-              </div>
-            </div>
+              {[
+                { label: "Check-in", value: "od 16:00 (sobota)" },
+                { label: "Check-out", value: "do 12:00 (niedziela)" },
+              ].map((row, i, arr) => (
+                <div
+                  key={row.label}
+                  className={`flex justify-between items-center py-2.5 gap-3 text-sm ${i < arr.length - 1 ? "border-b border-[#E8E9F1]" : ""
+                    }`}
+                >
+                  <span className="text-[#71727A] text-[13px] flex-shrink-0">{row.label}</span>
+                  <span className="text-right">{row.value}</span>
+                </div>
+              ))}
             </div>
           </>
         )}
