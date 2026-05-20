@@ -800,17 +800,19 @@ export default function App() {
                   </span>
                 ))}
               </div>
-            </div>
-          </>
-        )}
-        
+
+                {/* Oferty z okolicy */}
          <div className="bg-white rounded-[12px] shadow-sm p-5">
               <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 ✨ Oferty z okolicy
               </div>
-              
               <div className="flex flex-wrap gap-2">
               </div>
+            </div>
+            </div>
+          </>
+        )}
+
         
         {/* Koszty Section */}
         {activeTab === "koszty" && (
