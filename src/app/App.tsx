@@ -779,7 +779,7 @@ export default function App() {
               ))}
             </div>
 
-            <div className="bg-white rounded-[12px] shadow-sm p-5">
+            <div className="bg-white rounded-[12px] shadow-sm p-5 mb-3">
               <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-4">
                 ✨ Udogodnienia
               </div>
@@ -800,6 +800,107 @@ export default function App() {
                   </span>
                 ))}
               </div>
+            </div>
+
+            <div className="bg-white rounded-[12px] shadow-sm overflow-hidden" id="rejestr-noclegow">
+              <div className="p-5 border-b border-[#E8E9F1] bg-[#F8F9FE]">
+                <div className="text-[10px] font-semibold tracking-[0.8px] uppercase text-[#8F9098] mb-2">
+                  📋 Rejestr ofert
+                </div>
+                <h2 className="text-lg font-bold text-[#1F2024]">
+                  Szczegółowy rejestr: Żulin i okolice
+                </h2>
+                <p className="text-[#71727A] mt-1 text-[13px] italic">
+                  Analiza na termin 10–11 lipca 2026 (8 osób, budżet max 200 zł)
+                </p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-[640px]">
+                  <thead>
+                    <tr className="text-[10px] font-semibold text-[#8F9098] uppercase tracking-[0.8px] border-b border-[#E8E9F1]">
+                      <th className="p-4 bg-[#F8F9FE]">Obiekt & lokalizacja</th>
+                      <th className="p-4 bg-[#F8F9FE]">Typ zakwaterowania</th>
+                      <th className="p-4 bg-[#F8F9FE]">Odległość</th>
+                      <th className="p-4 bg-[#F8F9FE]">Koszt (8 os.)</th>
+                      <th className="p-4 bg-[#F8F9FE] text-right">Akcja</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-sm divide-y divide-[#F8F9FE]">
+                    {[
+                      {
+                        name: "Agroturystyka U Sołtysa",
+                        location: "Żulin",
+                        type: "Poddasze wieloosobowe",
+                        distance: "1.5 km",
+                        cost: "180 zł",
+                        url: "https://www.olx.pl/oferty/q-agroturystyka-zulin/",
+                      },
+                      {
+                        name: "Pole Namiotowe Nad Wieprzem",
+                        location: "Krupe",
+                        type: "Kemping / Własne namioty",
+                        distance: "8.2 km",
+                        cost: "120 zł",
+                        url: "https://meteor-turystyka.pl/noclegi,krupe,0.html",
+                      },
+                      {
+                        name: "Schronisko PTSM Rejowiec",
+                        location: "Rejowiec Fabryczny",
+                        type: "Sale wieloosobowe",
+                        distance: "14.5 km",
+                        cost: "160 zł",
+                        url: "https://www.nocowanie.pl/noclegi/rejowiec_fabryczny/",
+                      },
+                      {
+                        name: "Stodoła U Sąsiada",
+                        location: "Żulin",
+                        type: "Materace / Prywatnie",
+                        distance: "2.0 km",
+                        cost: "150 zł",
+                        url: "https://www.airbnb.pl/s/Żulin--Polska/",
+                      },
+                      {
+                        name: "Kwatera Pod Klonem",
+                        location: "Krasnystaw",
+                        type: "Pokoje gościnne (tanie)",
+                        distance: "11.0 km",
+                        cost: "200 zł",
+                        url: "https://www.booking.com/searchresults.pl.html?ss=Krasnystaw",
+                      },
+                    ].map((offer) => (
+                      <tr
+                        key={offer.name}
+                        className="hover:bg-[#EAF2FF]/40 transition-colors"
+                      >
+                        <td className="p-4">
+                          <div className="font-medium text-[#1F2024]">{offer.name}</div>
+                          <div className="text-xs text-[#71727A] flex items-center gap-1">
+                            📍 {offer.location}
+                          </div>
+                        </td>
+                        <td className="p-4 text-[#71727A]">{offer.type}</td>
+                        <td className="p-4 text-[#71727A]">{offer.distance}</td>
+                        <td className="p-4 font-semibold text-[#006FFD]">{offer.cost}</td>
+                        <td className="p-4 text-right">
+                          <a
+                            href={offer.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block px-4 py-2 bg-[#006FFD] text-white rounded-[8px] text-xs font-semibold hover:bg-[#0056CC] transition-all shadow-sm"
+                          >
+                            Sprawdź
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="p-4 bg-[#F8F9FE] text-[10px] text-[#8F9098] italic text-center border-t border-[#E8E9F1]">
+                * Ceny i dostępność wymagają potwierdzenia bezpośrednio u gospodarzy na noc z 10 na 11 lipca 2026.
+              </div>
+            </div>
           </>
         )}
 
