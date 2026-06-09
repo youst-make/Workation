@@ -47,6 +47,8 @@ const PEOPLE: Person[] = [
   { init: "ISB", name: "Iza", av: "av-c" },
   { init: "MA", name: "Marcin", av: "av-a" },
   { init: "KW", name: "Krzysztof", av: "av-2" },
+  { init: "PM", name: "Piotr", av: "av-3" },
+  { init: "BK", name: "Bartek", av: "av-4" },
 ];
 
 const DEFAULT_COSTS: CostItem[] = [
