@@ -117,6 +117,11 @@ const DEFAULT_SETTINGS: EventSettings = {
   venuePhone: "",
 };
 
+const mergePeople = (saved: Person[], defaults: Person[]) => {
+  const savedNames = new Set(saved.map((person) => person.name));
+  return [...saved, ...defaults.filter((person) => !savedNames.has(person.name))];
+};
+
 function StartSection() {
   const [content, setContent] = useState("");
 
@@ -237,12 +242,17 @@ export default function App() {
         item.id ? item : { ...item, id: `migrated_${idx}_${Date.now()}` }
       );
       
+      const mergedPeople = mergePeople(p as Person[], PEOPLE);
+      const normalizedPayStatus = ((ps as boolean[]).slice(0, mergedPeople.length) ?? []).concat(
+        Array(Math.max(0, mergedPeople.length - (ps as boolean[]).length)).fill(false)
+      );
+      
       setSettings(s);
-      setPeople(p);
+      setPeople(mergedPeople);
       setCostItems(migratedCosts);
       setGearItems(g);
       setPersonalDone(pd);
-      setPayStatus(ps);
+      setPayStatus(normalizedPayStatus);
       setDrivers(d);
       setPersonalItems(pi);
       setPlaylistItems(pl);
