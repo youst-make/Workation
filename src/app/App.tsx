@@ -149,7 +149,7 @@ function StartSection() {
       </div>
 
       <br>
-      <h2>Garść informacji pratycznych od Piotra</h2>
+      <h2>Garść pratycznych informacji od Piotra</h2>
       <p><ul>
       <br>
       <h3>Noclegi</h3>
@@ -823,7 +823,7 @@ export default function App() {
                   Szczegółowy rejestr: Żulin i okolice
                 </h2>
                 <p className="text-[#71727A] mt-1 text-[13px] italic">
-                  Analiza na termin 10–11 lipca 2026 (8 osób, budżet max 200 zł)
+                  Analiza na termin 10–11 lipca 2026 (8 osób, budżet max 200 zł/osoba)
                 </p>
               </div>
 
