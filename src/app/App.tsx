@@ -108,7 +108,7 @@ interface EventSettings {
 }
 
 const DEFAULT_SETTINGS: EventSettings = {
-  title: "Workation — Żulin",
+  title: "Workation - Żulin",
   subtitle: "Wyjazd integracyjny: piątek–sobota",
   date: "10 lipca 2026",
   location: "Żulin",
