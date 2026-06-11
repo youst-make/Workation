@@ -1295,7 +1295,7 @@ export default function App() {
                   { time: "16:30", name: "Obiad", desc: "Wspólny posiłek", dot: "bg-[#FFB37C]" },
                   { time: "18:00", name: "Gry planszowe / Gry terenowe / Spacery", desc: "Aktywności integracyjne", dot: "bg-[#6FBAFF]" },
                   { time: "20:00", name: "Ognisko / Grill", desc: "Kolacja przy ognisku", dot: "bg-[#FF616D]" },
-                  { time: "22:00", name: "Opowieści o duchach", desc: "Straszne historie", dot: "bg-[#71727A]" },
+                  { time: "22:00", name: "Opowieści o duchach i palenie stodoły", desc: "Straszne historie", dot: "bg-[#71727A]" },
                 ].map((event) => (
                   <div key={event.time} className="flex gap-4 py-2.5 relative">
                     <div
